@@ -1,0 +1,22 @@
+.background
+{
+    background-image: url("http://img.alicdn.com/tfs/TB15xKMfDtYBeNjy1XdXXXXyVXa-720-120.jpg");
+    width: 720px;
+    height: 120px;
+    margin-left: 230px;
+}
+.label
+{
+    font-family:cursive;
+    color:white;
+    font-size: 20px;
+    margin-left: 165px; 
+    
+   
+}
+.textbox
+{
+    width: 100px;
+    
+}
+

@@ -1,0 +1,53 @@
+.bgLogin
+{
+    /*background-image: url("../../assets/cute.jpg");*/
+    margin-top: 100px;
+    width: 70%;
+    height: 420px;
+    border: 10px;
+    margin-bottom: 100px;
+	background-color: brown;
+     
+}
+.TextLogin
+{
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 200px;
+    color: black;
+    padding-top: 24px;
+}
+.login 
+{
+    width: 45%;
+    margin-left: 200px;
+    margin-top: 30px;
+}
+.pass
+{
+    width: 45%;
+    margin-left: 200px;
+    margin-top: 30px;
+}
+.check
+{
+    color: black;
+    margin-left: 200px;
+    margin-top: 17px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+}
+.btnlogin
+{
+    margin-top: 10px;
+    margin-left: 300px;
+    font-family: 'Times New Roman', Times, serif;
+  
+}
+.href
+{
+    color: black;
+    margin-left: 300px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+}
+

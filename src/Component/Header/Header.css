@@ -1,0 +1,187 @@
+
+.header-layout {
+    position: relative;
+  }
+  .logo-store {
+    position: relative;
+  }
+  .logo-store a {
+    vertical-align: left;
+  }
+  .img-responsive {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+  }
+  .logo-store a img {
+    width: 400px;
+    height: 100px;
+  }
+  .header-top {
+    background:#A52A2A;
+    font-size: 11px;
+    color: #FFFFFF;
+  
+    margin-top: 1px;
+  }
+  .header-bottom {
+    margin-top: 1px;
+  }
+  .header-top .row {
+    padding: 10px 0;
+  }
+  .header-top .input-group {
+    margin-top: 20px;
+    width: 100%;
+  }
+  .search {
+    width: 90%;
+  
+  }
+  .btn-sign-group .btn-account {
+    margin-top: 15px;
+    color: black;
+  }
+  .btn-sign-group .list-inline li {
+    margin-top: 15px;
+    display:inline-block;
+    color: white;
+  }
+  .btn-sign-group #list-inline li button {
+    font-weight: bold;
+  }
+  .btn-sign-hidden {
+    padding-top: 10px;
+  }
+  .btn-sign-hidden ul li a span {
+    color: #000000;
+    font-size: 25px;
+  }
+  ul.dropdown-cart{
+    min-width:250px;
+  }
+  ul.dropdown-cart li .item{
+    display:block;
+    padding:3px 10px;
+    margin: 3px 0;
+  }
+  ul.dropdown-cart li .item .item-info {
+    color: #000000;
+  }
+  ul.dropdown-cart li .item:hover{
+    background-color:#f3f3f3;
+  }
+  ul.dropdown-cart li .item:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+  ul.dropdown-cart li .item-left{
+    float:left;
+  }
+  ul.dropdown-cart li .item-left img {
+    width: 50px;
+    height: 50px;
+  }
+  ul.dropdown-cart li .item-left img,
+  ul.dropdown-cart li .item-left span.item-info{
+    float:left;
+  }
+  ul.dropdown-cart li .item-left span.item-info{
+    margin-left:10px;
+  }
+  ul.dropdown-cart li .item-left span.item-info span{
+    display:block;
+  }
+  ul.dropdown-cart li .item-right{
+    float:right;
+  }
+  ul.dropdown-cart li .item-right button{
+    margin-top:14px;
+  }
+  /* For Menu navigation bar */
+
+.header-bottom {
+    margin-top: 1px;
+  }
+  .navbar-custom {
+      background-color:#A52A2A;
+  }
+  .navbar-custom .navbar-brand {
+    font-family: "Dosis-Regular";
+    font-size: 20px;
+    font-weight: 100;
+    padding: 15px 30px;
+    text-decoration: none;
+    display: inline-block;
+    border-right: 1px solid #eee;
+    color: white;
+  }
+  .navbar-nav > li {
+    font-family: "Dosis-Regular";
+    float: left;
+    font-weight: 600;
+    
+  }
+  .navbar-nav > li > a {
+    color: white;
+  }
+  .navbar-nav > li > a:hover,
+  .navbar-nav > li > a:focus {
+    color: #000000;
+    background-color:white;
+  }
+  .dropdown-large {
+    position: static !important;
+  }
+  .dropdown-menu-large {
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 20px 0px;
+  }
+  .dropdown-menu-large > li > ul {
+    padding: 0;
+    margin: 0;
+  }
+  .dropdown-menu-large > li > ul > li {
+    list-style: none;
+  }
+  .dropdown-menu-large > li > ul > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    white-space: normal;
+  }
+  .dropdown-menu-large > li ul > li > a:hover,
+  .dropdown-menu-large > li ul > li > a:focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #C7E9C7;
+  }
+  .dropdown-menu-large .dropdown-header {
+    color: #428bca;
+    font-size: 18px;
+  }
+  @media (max-width: 768px) {
+    .dropdown-menu-large {
+      margin-left: 0 ;
+      margin-right: 0 ;
+    }
+    .dropdown-menu-large > li {
+      margin-bottom: 30px;
+    }
+    .dropdown-menu-large > li:last-child {
+      margin-bottom: 0;
+    }
+    .dropdown-menu-large .dropdown-header {
+      padding: 3px 15px !important;
+    }
+  }
+  
+  
+  

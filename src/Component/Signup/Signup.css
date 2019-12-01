@@ -1,0 +1,48 @@
+.bgLogin
+{
+    
+    margin-top: 100px;
+    width: 70%;
+    height: 420px;
+    border: 10px;
+    margin-bottom: 100px;
+    background-color: brown;
+}
+.TextSignUp
+{
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 440px;
+    color: aliceblue;
+    padding-top: 24px;
+}
+.name
+{
+    width: 45%;
+    margin-left: 200px;
+    margin-top: 25px;
+}
+.email
+{
+    width: 45%;
+    margin-left: 200px;
+    margin-top: 25px;
+}
+.pass
+{
+    width: 45%;
+    margin-left: 200px;
+    margin-top: 25px;
+}
+.passconfirm
+{
+    width: 45%;
+    margin-left: 200px;
+    margin-top: 25px;
+}
+.btnsignup
+{
+    margin-top: 30px;
+    margin-left: 300px;
+    font-family: 'Times New Roman', Times, serif;
+  
+}
