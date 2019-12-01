@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {  getAllCategory,getSubCategory,getAllProduct} from '../../redux/home_reducer';
 //import {getHotProduct} from '../../redux/hot_product_reducer';
 //import {getAllProduct} from '../../redux/product_reducer';
-import {show} from '../../redux/product_reducer';
+import {show, getRating,getColors} from '../../redux/product_reducer';
 import { Redirect,Link} from "react-router-dom";
 //import { actAddToCart} from '../../redux/cart_reducer';
 import Menu from '../Menu/Menu.js';
@@ -70,8 +70,10 @@ class Home extends Component{
             <button className="btn" onClick={e =>{
                  this.props.show(item2);
                   this.props.addToRecentlyViewed(item2);
+                  this.props.getRating(item2.id);
+                  this.props.getColors(item2.product_name);
                   }
-                  }><Link to="./product">Detail of Product</Link></button>
+                  }><Link to="./product" >Xem chi tiết</Link></button>
             
           </div>
           </div>
@@ -81,19 +83,9 @@ class Home extends Component{
           </h3>
           <div className="pi-price">
            Price:{item2.price}
-           <span> <button type="submit" className="shoe-cart pshoe-cart"onClick={e=>{this.props.onAddToCart(item2)}} style={{width:"22%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+                       
           </div>
-          {
-              
-               <a href="#">
-               <i className="fa fa-star" style={{color:"yellow"}}aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"black"}} aria-hidden="false" />
-              
-               </a>
-             }
+         
          
         
                 </div>
@@ -144,7 +136,9 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
          
           getAllProduct:()=>dispatch(getAllProduct()), 
            show:(product)=>dispatch(show(product)),
-         addToRecentlyViewed:(product)=>dispatch(addToRecentlyViewed(product))
+         addToRecentlyViewed:(product)=>dispatch(addToRecentlyViewed(product)),
+         getRating:(id)=>dispatch(getRating(id)),
+         getColors:(product_name)=>dispatch(getColors(product_name)),
         
         };
         }

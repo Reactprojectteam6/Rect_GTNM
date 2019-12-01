@@ -8,7 +8,7 @@ class CartItem extends Component {
         return (
             <tr>
                 <th scope="row">
-                <img  style={{width:"40%"}}src={require('../../assets/'+item.product.product_image)}
+                <img  style={{width:"40%"}}src={require('../../assets/'+item.product.image)}
                         alt={item.product.name} className="img-fluid z-depth-0" />
                
             
@@ -20,7 +20,7 @@ class CartItem extends Component {
                 </td>
                 <td>{item.product.price}Đ</td>
                 <td className="center-on-small-only">
-                    <span className="qty">{quantity}</span>
+                    <span className="qty">{item.quantity}</span>
                     <div className="btn-group radio-group" data-toggle="buttons">
                         <label
                              style={{backgroundColor:"white"}}
@@ -38,6 +38,7 @@ class CartItem extends Component {
                         </label>
                     </div>
                 </td>
+                <td>{item.color}</td>
                 <td>{this.showSubTotal(item.product.price, item.quantity)}Đ</td>
                 <td>
                     <button
@@ -53,6 +54,8 @@ class CartItem extends Component {
                         X
                     </button>
                 </td>
+
+               
             </tr>
         );
     }

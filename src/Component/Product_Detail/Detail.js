@@ -3,20 +3,36 @@ import { connect } from 'react-redux';
 import './Detail.css';
 import { actAddToCart} from '../../redux/cart_reducer';
 import { FacebookProvider, Comments} from 'react-facebook';
+import {getColors,getProductByNameAndColor} from '../../redux/product_reducer';
+import StarRatings from 'react-star-ratings';
+import {Link,Redirect} from 'react-router-dom';
 import $ from 'jquery';
 class Detail extends Component {
   
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {rating:1,color:""};
         this.onAddToCart=this.onAddToCart.bind(this);
+        this.changeRating=this.changeRating.bind(this);
       }
-   
+   componentWillMount()
+   {
+    
+  
+   }
+   changeRating( newRating, name ) {
+    this.setState({
+      rating:newRating
+    });
+  }
 render()
-{  let {product} =this.props;
-  let {isLogingSuccess,addProduct,quantity}=this.state;   
+{  let {product,sizes=[],colors=[],rate=0} =this.props;
+  let {isLogingSuccess,addProduct,quantity}=this.state;
   console.log("hdjsd");
   console.log(this.props);
+  console.log(rate);
+  console.log("Mau la");
+  console.log(this.props.colors);
     return (
         <div style={{marginLeft:"100px"}}>
          
@@ -68,8 +84,47 @@ render()
         </div>
         <div className="details col-md-6">
           <h3 className="product-title">{product.product_name}</h3>
+          <strong>Rate:{this.props.rate}</strong>
+                        <StarRatings
+                          rating={this.state.rating}
+                          starRatedColor="yellow"
+                          changeRating={this.changeRating}
+                          numberOfStars={5}
+                          name='rating'
+                        />
+          <h3>Màu sắc</h3>
+          <h>{product.id}</h>
+          <div className="row" style={{marginTop:"20px",marginBottom:"20px"}}>
+            {
+             this.props.colors.length>0 &&
+             this.props.colors.map((item,i)=>{
+               var color;
+               if(item.name=="Đỏ") color="red";
+               if(item.name=="Hồng") color="pink";
+               if(item.name=="Trắng") color="white";
+               if(item.name=="Đen") color="black";
+               console.log(color);
+               return(
+
+               <button value={item.name} style={{backgroundColor:color,fontsize:"1000px",float:"left",marginRight:"20px"}}
+
+               onClick={e=>{this.props.getProductByNameAndColor(product,product.product_name,item.name,product.shop_id)
+              this.setState({color:item.name})
+              
+              }}
+               
+               
+               >
+                 {item.name}
+            </button>
+            
+            
+               )
+             }
+             )
+           }
+         </div>
          
-          
           <p className="product-description">
             {product.description}
           </p>
@@ -79,16 +134,7 @@ render()
                           </div>
          
           <br/>              
-          {
-                        <a href="#">
-                        <i className="fa fa-star" style={{color:"yellow"}}aria-hidden="true" />
-                        <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-                        <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-                        <i className="fa fa-star" style={{color:"black"}} aria-hidden="false" />
-                        <i className="fa fa-star" style={{color:"black"}} aria-hidden="false" />
-                       
-                    </a>
-          }
+         
                    
         
 
@@ -109,15 +155,16 @@ render()
   {  e.preventDefault();
     
    
-    let { addProduct}  = this.state;
-    
-    //lay trang thai off state do qua email va password
-    this.props.onAddToCart(addProduct);
+    let { addProduct,color}  = this.state;
+    this.props.onAddToCart(addProduct,color);
    }
 } 
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {
-       //onAddToCart:(addProduct) =>dispatch(actAddToCart(addProduct,1))
+       onAddToCart:(addProduct,color) =>dispatch(actAddToCart(addProduct,1,color)),
+       
+      
+       getProductByNameAndColor:(product,name,color,shop_id)=>dispatch(getProductByNameAndColor(product,name,color,shop_id))
 };
   }      
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
@@ -125,7 +172,10 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
     if(localStorage.getItem('token')=="abcdefghiklm") a=true;
         return {
             product:state.productState.Product,
-            isLogingSuccess:a
+            isLogingSuccess:a,
+            sizes:state.productState.Sizes,
+            colors:state.productState.Colors,
+            rate:state.productState.Rate,
         };
         }
     

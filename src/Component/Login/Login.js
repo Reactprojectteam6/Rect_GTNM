@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.css';
-import {Link} from "react-router-dom";
+import {Link,Redirect} from "react-router-dom";
 import {login} from "../../redux/login_reducer";
 import {connect} from "react-redux";
 class Login extends React.Component  {
@@ -57,8 +57,13 @@ class Login extends React.Component  {
                  </div>
                  
              </div>
-             
+            {isLoginSuccess==true &&
+            <div>
+            <Redirect to="/home"></Redirect>
+           </div>
+            } 
           </div>
+
     
   );
 }

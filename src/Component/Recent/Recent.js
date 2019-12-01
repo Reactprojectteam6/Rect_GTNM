@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link ,Redirect} from "react-router-dom";
 import { connect } from 'react-redux';
-import { show} from '../../redux/product_reducer';
+import { show, getRating,getColors} from '../../redux/product_reducer';
 import './Recent.css';
 import { actAddToCart} from '../../redux/cart_reducer';
 import {addToRecentlyViewed} from '../../redux/recent_reducer';
@@ -23,7 +23,7 @@ class Recent extends Component {
   }
     render() {
         let { list_product,categoryname} = this.props;
-        let { product_id,addProduct,quantity}=this.state;
+        let { product_id,addProduct,quantity,product_name}=this.state;
         console.log("product");
         console.log(this.props.list_product);
         const numberOfItems = this.state.showMore ? this.state.finish : 3
@@ -61,8 +61,10 @@ class Recent extends Component {
             <button className="btn" onClick={e =>{
                  this.props.show(item2.product);
                  this.props.addToRecentlyViewed(item2.product);
+                 this.props.getRating(item2.product.id);
+                 this.props.getColors(item2.product.product_name);
                   }
-                  }><Link to="./product">Xem chi tiết</Link></button>
+                  }><Link to="./product" >Xem chi tiết </Link></button>
             
           </div>
           </div>
@@ -72,19 +74,9 @@ class Recent extends Component {
           </h3>
           <div className="pi-price">
            Price:{item2.product.price}
-           <span> <button type="submit" className="shoe-cart pshoe-cart"onClick={e=>{this.props.onAddToCart(item2.product)}} style={{width:"22%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+            
           </div>
-          {
-              
-               <a href="#">
-               <i className="fa fa-star" style={{color:"yellow"}}aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
-               <i className="fa fa-star" style={{color:"black"}} aria-hidden="false" />
-              
-               </a>
-             }
+         
          
         
                 </div>
@@ -126,6 +118,8 @@ return {
   show:(addProduct) => dispatch(show(addProduct)),
   //onAddToCart:(addProduct) => dispatch(actAddToCart(addProduct,1)),
   addToRecentlyViewed:(addProduct)=>dispatch(addToRecentlyViewed(addProduct)),
+  getRating:(id)=>dispatch(getRating(id)),
+  getColors:(product_name)=>dispatch(getColors(product_name))
   //action la login voi 2 tham so la email va password
 };
 }     
