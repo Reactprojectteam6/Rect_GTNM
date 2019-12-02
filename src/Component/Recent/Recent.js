@@ -64,7 +64,7 @@ class Recent extends Component {
                  this.props.getRating(item2.product.id);
                  this.props.getColors(item2.product.product_name);
                   }
-                  }><Link to="./product" >Xem chi tiết </Link></button>
+                  }><Link to={"./product/"+item2.id} >Xem chi tiết </Link></button>
             
           </div>
           </div>

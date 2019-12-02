@@ -12,7 +12,7 @@ class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {rating:1,color:""};
-        this.onAddToCart=this.onAddToCart.bind(this);
+        //this.onAddToCart=this.onAddToCart.bind(this);
         this.changeRating=this.changeRating.bind(this);
       }
    componentWillMount()
@@ -130,7 +130,7 @@ render()
           </p>
          <div className="pi-price">
                            Price:{product.price} Đ
-                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={this.onAddToCart}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product,this.state.color)}}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
                           </div>
          
           <br/>              
@@ -151,13 +151,7 @@ render()
 
       )
   }
-  onAddToCart(e)
-  {  e.preventDefault();
-    
-   
-    let { addProduct,color}  = this.state;
-    this.props.onAddToCart(addProduct,color);
-   }
+ 
 } 
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {

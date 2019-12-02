@@ -54,7 +54,7 @@ class Search extends React.Component{
                   this.props.addToRecentlyViewed(item2);
                   this.props.getRating(item2.id);
                   }
-                  }><Link to="./product" >Xem chi tiết </Link></button>
+                  }><Link to={"./product/"+item2.id} >Xem chi tiết </Link></button>
             
           </div>
           </div>

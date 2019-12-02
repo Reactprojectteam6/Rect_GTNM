@@ -43,7 +43,7 @@ class Header extends Component {
         
               <input type="text" name="" id="input" className="form-control" onChange={e => this.setState({product_name: e.target.value})} value={product_name} />
                   <span className="input-group-btn" >
-                  <button type="submit" className="btn btn-default" onClick={this.onSubmit} ><Link to='./search'>Search</Link></button>
+                  <button type="submit" className="btn btn-default" onClick={this.onSubmit} ><Link to='/search'>Search</Link></button>
                    </span>
             </div>
          </div>
@@ -52,11 +52,11 @@ class Header extends Component {
               <ul className="nav navbar-right list-inline" style={{marginRight: "100px"}}>
                 <li>
               
-               <button type="button" className="btn"> <Link to='./signup'>Đăng ký</Link></button>
+               <button type="button" className="btn"> <Link to='/signup'>Đăng ký</Link></button>
                </li>
                 <li>
                
-                <button type="button" className="btn"><Link to='./login'>Đăng nhập</Link></button>
+                <button type="button" className="btn"><Link to='/login'>Đăng nhập</Link></button>
                 </li>
               </ul>
           </div>
@@ -74,13 +74,13 @@ class Header extends Component {
                   </button>
                   <ul class="dropdown-menu">
                   <li>
-                     <Link to="./profile" >profile
+                     <Link to="/profile" >profile
                         <span class="glyphicon glyphicon-stats pull-right">
                         </span>
                      </Link>
                     </li>
                     <li>
-                      <Link to="./order_history">order_history
+                      <Link to="/order_history">order_history
                       
                         <span class="glyphicon glyphicon-cog pull-right">
                         </span>
@@ -123,28 +123,28 @@ class Header extends Component {
         <div className="collapse navbar-collapse js-navbar-collapse">
           <ul className="nav navbar-nav">
           <li>
-              <Link to='./home'>StyleShop</Link>
+              <Link to='/home'>StyleShop</Link>
             </li>
             <li>
-            <Link to='./recently_viewed'>Sản phẩm xem gần đây</Link>
+            <Link to='/recently_viewed'>Sản phẩm xem gần đây</Link>
             </li>
             <li>
-            <Link to='./about'>Giới thiệu</Link>
+            <Link to='/about'>Giới thiệu</Link>
              
             </li>
          
             <li>
-            <Link to='./help'>Giúp đỡ</Link>
+            <Link to='/help'>Giúp đỡ</Link>
                
             </li>
             <li>
-            <Link to='./contact'>Liên lạc</Link>
+            <Link to='/contact'>Liên lạc</Link>
             </li>
           </ul>
           <ul className="nav navbar-right link-cart" style={{marginRight:"100px",marginTop:"20px"}}>
             <li className="cart-text"> 
             <button type="button" className="btn btn-default btn-sm">
-             <span className="glyphicon glyphicon-shopping-cart"></span> <Link to="./cart" >Cart</Link></button></li>
+             <span className="glyphicon glyphicon-shopping-cart"></span> <Link to="/cart" >Cart</Link></button></li>
           </ul>
         </div>
       </nav>
