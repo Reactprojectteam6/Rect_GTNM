@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { userInfo } from 'os';
 const SET_ORDER='SET_ORDER';
+const GET_ORDER_HISTORY_OF_USER='GET_ORDER_HISTORY_OF_USER';
+const GET_ORDER='GET_ORDER';
+const GET_ORDER_DETAIL='GET_ORDER_DETAIL';
 export function   setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname)
 { return dispatch => {
     callApi(order,user_id,state,address,email,phone,total_payment,payment_method,fullname,error=> {
@@ -62,7 +64,7 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
       ).then(response=>{
         if(response.status=="200")
         {
-         alert("tao receiver thanh cong");
+         //alert("tao receiver thanh cong");
           axios(
             {  
            method:'post',
@@ -85,7 +87,7 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
           ).then(response1=>{
             if(response1.status=="200")
             { console.log(response1);
-             alert("Tao order thanh cong")
+             //alert("Tao order thanh cong")
 
              for(var i=0;i<order.length;i++)
              { if(order[i].quantity<=order[i].product.quantity)
@@ -109,7 +111,7 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
                    }).then(response2=>{
                      if(response2.status=="200")
                     {  
-                           alert("order detail thanh cong")
+                           //alert("order detail thanh cong")
                    }
                       
                    })
@@ -124,9 +126,7 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
                     shop_id:order[i].product.shop_id,
                     image:order[i].product.image
                   }
-                  alert(product.quantity);
-                  alert(product.product_name);
-                  alert(product.description);
+                
                   var id=order[i].product.id;
                  axios({
                   method:'put',
@@ -138,7 +138,7 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
                     'Authorization':'Bearer '+localStorage.getItem('token')
                   }
                  }).then(res=>{
-                  if(res.status=="200") alert("update xong");
+                  if(res.status=="200") alert("order thanh cong");
                  })
 
                  }
@@ -159,8 +159,91 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
  
  }
  
+ export function getOrderOfUser()
+ { 
+  return dispatch => {
+    
+    axios(
+      {  method:'get',
+         url: `https://127.0.0.1:5001/api/Order/user/${JSON.parse(localStorage.getItem('currentUser')).id}`,
+         headers:{
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Authorization':'Bearer '+localStorage.getItem('token')
+        }
+          
+      }
+    ).then(response=>{
+      if(response.status=="200")
+      { 
+      dispatch({type:GET_ORDER_HISTORY_OF_USER,payload:response.data});
+      }
+     
+    })
+
+  };
+  }
+
+  export function getOrder(id)
+  {
+    return dispatch=>{
+
+      axios(
+        {  method:'get',
+           url: `https://127.0.0.1:5001/api/Order/${id}`,
+           headers:{
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization':'Bearer '+localStorage.getItem('token')
+          }
+            
+        }
+      ).then(response=>{
+        if(response.status=="200")
+        {  console.log("ba noi m")
+           console.log(response.data);
+          dispatch({type:GET_ORDER,payload:response.data})
+        }
+       
+      })
+  
+    };
+    
+    }
+
+  export function getOrderDetail(id)
+  {
+    return dispatch => {
+    
+      axios(
+        {  method:'get',
+           url: `https://127.0.0.1:5001/api/OrderDetail/Order/${id}`,
+           headers:{
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization':'Bearer '+localStorage.getItem('token')
+          }
+            
+        }
+      ).then(response=>{
+        if(response.status=="200")
+        { console.log("dcm");
+          console.log(response.data);
+        dispatch({type:GET_ORDER_DETAIL,payload:response.data});
+        }
+       
+      })
+  
+    };
+  }
+var order=JSON.parse(localStorage.getItem('order'));
+var listOrderDetail=JSON.parse(localStorage.getItem('listOrderDetail'))
 var order_state={
   isSuccess:false,
+  ordersUser:[],
+  order:order?order:[],
+  listOrderDetail:listOrderDetail?listOrderDetail:[]
+  //order_user?order_user:[]
 }
 export default function order_reducer(state =order_state, action) {
   if(action.type=='SET_ORDER')
@@ -169,6 +252,30 @@ export default function order_reducer(state =order_state, action) {
     newState.isSuccess=action.isSuccess;
     if(newState.isSuccess==true) alert("order thanh cong,vui long cho nhan hang");
     return newState;
+  }
+  if(action.type=='GET_ORDER_HISTORY_OF_USER')
+  { let newState={...state};
+     newState.ordersUser=action.payload;
+     console.log("list order");
+     console.log(newState.ordersUser);
+     //localStorage.setItem('orderHistoryOfUser',JSON.stringify(newState.ordersUser));
+     return newState;
+  }
+  if(action.type=='GET_ORDER')
+  {
+    let newState={...state};
+     newState.order=action.payload;
+     console.log("order la:");
+     console.log(newState.order);
+    localStorage.setItem('order',JSON.stringify(newState.order));
+    return newState;
+  }
+  if(action.type=='GET_ORDER_DETAIL')
+  {let newState={...state};
+    newState.listOrderDetail=action.payload;
+    localStorage.setItem('listOrderDetail',JSON.stringify(newState.listOrderDetail));
+    return newState;
+
   }
       return state;
   

@@ -14,10 +14,8 @@ class Login extends React.Component  {
     let {isLoginPending, isLoginSuccess, loginError} = this.props;
       return (
           <div>
-             
              <div class="container" style={{marginLeft:"200px"}}>
-                 
-                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <div className="bgLogin">
                   <div style={{marginLeft:"200px"}}>
                   <div style={{color:"red",float:"left",marginRight:"5px",fontSize:"50px"}}>Đ</div>

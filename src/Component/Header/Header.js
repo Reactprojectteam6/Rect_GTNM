@@ -65,34 +65,44 @@ class Header extends Component {
          }
          { isLoginSuccess &&
               <div class="col-md-3 col-sm-2 col-xs-2 btn-sign-group">
-              <ul class="nav navbar-right">
+              <div class="nav navbar-right">
+              <img src={require('../../assets/chonglee.jpg')} alt="Avatar" class="avatar" style={{marginRight:"20px"}}/>
+              <ul class="nav navbar-right" style={{marginRight:"50px"}}>
                 <li class="dropdown">
                   <button class="btn dropdown-toggle btn-account"
-                    data-toggle="dropdown" style={{marginRight:"30px"}}>
-                    account
+                    data-toggle="dropdown">
+                    {currentUser.user_name}
                     <span class="glyphicon glyphicon-user pull-right"></span>
                   </button>
                   <ul class="dropdown-menu">
                   <li>
-                     <Link to="/profile" >profile
+                     <Link to={`/profile/${currentUser.id}`} >Cá nhân
                         <span class="glyphicon glyphicon-stats pull-right">
                         </span>
                      </Link>
                     </li>
                     <li>
-                      <Link to="/order_history">order_history
+                      <Link to={`/orderhistory/${currentUser.id}`}>Lịch sử đặt hàng
                       
                         <span class="glyphicon glyphicon-cog pull-right">
                         </span>
                      </Link>
                     </li>
                     <li>
-                   
+                    {currentUser.is_admin &&
+                     <Link to="/admin" >
+                       Admin
+                       <span class="glyphicon glyphicon-user pull-right"></span>
+                     </Link>
+
+                    
+  
+                      }
                       </li>
                     <li class="divider"></li>
                     
                     <li>
-                        <a href='#' onClick={this.onLogout}>log out
+                        <a href='#' onClick={this.onLogout}>Đăng xuất
                         <span class="glyphicon glyphicon-log-out pull-right">
                         </span>
                         </a>
@@ -101,7 +111,8 @@ class Header extends Component {
                     </ul>
                   
                 </li>
-              </ul>
+              </ul>  
+              </div>
             </div>
         
      
@@ -191,7 +202,7 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
  
      isLoginSuccess:state.loginState.isLoginSuccess,
     //list_product_get_by_name:state.searchState.allProduct,
-    //currentUser:state.loginState.currentUser
+      currentUser:state.loginState.currentUser
   };
   }
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

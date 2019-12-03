@@ -12,6 +12,9 @@ import About from '../About/About.js';
 import Help from '../Help/Help.js';
 import Contact from '../Contact/Contact.js'
 import Complete from '../Cart/Complete.js';
+import Profile from '../Profile/Profile.js';
+import Orderhistory from '../OrderHistory/Orderhistory.js';
+import Detailoforder from '../OrderHistory/Detailoforder.js';
 class RouterURL extends Component {
     render() {
         return (
@@ -29,6 +32,9 @@ class RouterURL extends Component {
                     <Route exact path="/contact" component={Contact}/>
                     <Route exact path="/help" component={Help}/>
                     <Route exact path="/order" component={Complete}/>
+                    <Route exact path="/profile/:id" component={Profile}/>
+                    <Route exact path="/orderhistory/:id" component={Orderhistory}/>
+                    <Route exact path="/order/:id" component={Detailoforder}/>
                     <Route component={Home}/>
                 </Switch>
             </div>

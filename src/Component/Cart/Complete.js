@@ -122,9 +122,14 @@ class Complete extends Component {
 
 
     }
-         <h3>Phương thức thanh toán</h3>
-         <img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/>
-         <img className="img-responsive" style={{width:"100px",height:"80px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/>
+         <h3>Phương thức thanh toán</h3><br/>
+         
+         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
+         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></span></button>
+         
+        
+         {/* <a href="#"><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></a>
+         <a href="#"><img className="img-responsive" style={{width:"100px",height:"80px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></a> */}
          
          </div>
          </div>

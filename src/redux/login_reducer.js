@@ -35,7 +35,7 @@ export function login(email, password) {
           user_name:user.user_name,
           email:user.email,
           address:user.address,
-          rols:user.role,
+          role:user.role,
           phone:user.phone,
         }
          localStorage.setItem('currentUser',JSON.stringify(currentUser));
