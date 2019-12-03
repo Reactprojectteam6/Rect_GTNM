@@ -11,6 +11,7 @@ import CartContainer from '../Cart/CartContainer.js';
 import About from '../About/About.js';
 import Help from '../Help/Help.js';
 import Contact from '../Contact/Contact.js'
+import Complete from '../Cart/Complete.js';
 class RouterURL extends Component {
     render() {
         return (
@@ -27,6 +28,7 @@ class RouterURL extends Component {
                     <Route exact path="/about" component={About}/>
                     <Route exact path="/contact" component={Contact}/>
                     <Route exact path="/help" component={Help}/>
+                    <Route exact path="/order" component={Complete}/>
                     <Route component={Home}/>
                 </Switch>
             </div>

@@ -1,6 +1,7 @@
 //Login
 import axios from 'axios';
 const SET_LOGIN = 'SET_LOGIN';
+const CHECK_LOGIN='CHECK_LOGIN';
 export function login(email, password) { 
   //reducer thuc hien action login xu ly du lieu lay qua
   console.log("abcdds");
@@ -34,7 +35,8 @@ export function login(email, password) {
           user_name:user.user_name,
           email:user.email,
           address:user.address,
-          is_admin:user.is_admin
+          rols:user.role,
+          phone:user.phone,
         }
          localStorage.setItem('currentUser',JSON.stringify(currentUser));
         
@@ -69,23 +71,38 @@ function getCookie(cname) {
   }
   return "";
 }
-
+export function checkLogin() { //reducer thuc hien action login xu ly du lieu lay qua
+  return dispatch => {
+    var a=localStorage.getItem('token');
+    if(a!=null)
+    dispatch ({type:CHECK_LOGIN, payload:true});
+    else   dispatch ({type:CHECK_LOGIN, payload:false});
+}
+}
 var a=false;
  var data=localStorage.getItem('token');
+ var user=JSON.parse(localStorage.getItem('currentUser'));
  console.log(data);
  if(data!=null) a=true;
 var login_state={
- 
   isLoginSuccess:a,
+  currentUser:user?user:[],
+  checkLogin:false
 }
 export default function login_reducer(state =login_state, action) {
   
   if(action.type=='SET_LOGIN')
   {  let newState={...state};
       console.log(action.payload);
-     newState.isLoginSuccess=action.payload
+     newState.isLoginSuccess=action.payload;
      if(newState.isLoginSuccess==true) alert("login successfully");
      return newState;
+   }
+   if(action.type=='CHECK_LOGIN')
+   {let newState={...state};
+     newState.checkLogin=action.payload;
+     return newState;
+     
    }
    return state;
   

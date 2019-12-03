@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './Detail.css';
 import { actAddToCart} from '../../redux/cart_reducer';
 import { FacebookProvider, Comments} from 'react-facebook';
-import {getColors,getProductByNameAndColor} from '../../redux/product_reducer';
+import {getColors,getProductByNameAndColor,setComment} from '../../redux/product_reducer';
 import StarRatings from 'react-star-ratings';
 import {Link,Redirect} from 'react-router-dom';
 import $ from 'jquery';
@@ -26,8 +26,9 @@ class Detail extends Component {
     });
   }
 render()
-{  let {product,sizes=[],colors=[],rate=0} =this.props;
+{  let {product,sizes=[],colors=[],rate=0,currentUser} =this.props;
   let {isLogingSuccess,addProduct,quantity}=this.state;
+  console.log(currentUser);
   console.log("hdjsd");
   console.log(this.props);
   console.log(rate);
@@ -109,7 +110,8 @@ render()
                <button value={item.name} style={{backgroundColor:color,fontsize:"1000px",float:"left",marginRight:"20px"}}
 
                onClick={e=>{this.props.getProductByNameAndColor(product,product.product_name,item.name,product.shop_id)
-              this.setState({color:item.name})
+              this.setState({color:item.name});
+              //this.props.getRating(product.id);
               
               }}
                
@@ -130,7 +132,9 @@ render()
           </p>
          <div className="pi-price">
                            Price:{product.price} Đ
-                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product,this.state.color)}}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product,this.state.color);
+                            this.props.setComment(currentUser.id,product.id,this.state.rating);
+                             }}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
                           </div>
          
           <br/>              
@@ -158,7 +162,8 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
        onAddToCart:(addProduct,color) =>dispatch(actAddToCart(addProduct,1,color)),
        
       
-       getProductByNameAndColor:(product,name,color,shop_id)=>dispatch(getProductByNameAndColor(product,name,color,shop_id))
+       getProductByNameAndColor:(product,name,color,shop_id)=>dispatch(getProductByNameAndColor(product,name,color,shop_id)),
+       setComment:(user_id,product_id,rate)=>dispatch(setComment(user_id,product_id,rate))
 };
   }      
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
@@ -170,6 +175,7 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
             sizes:state.productState.Sizes,
             colors:state.productState.Colors,
             rate:state.productState.Rate,
+            currentUser:state.loginState.currentUser
         };
         }
     
