@@ -9,6 +9,8 @@ import search_reducer from './search_reducer';
 import menu_reducer from './menu_reducer';
 import recent_reducer from './recent_reducer';
 import product_reducer from './product_reducer';
+import shop_reducer from './shop_reducer';
+
 const  reducer=combineReducers(
   {
     loginState: login_reducer ,
@@ -19,6 +21,7 @@ const  reducer=combineReducers(
     menuState:menu_reducer,
     recentState:recent_reducer,
     productState:product_reducer,
+    shopState:shop_reducer
   }
 )
 export default reducer;

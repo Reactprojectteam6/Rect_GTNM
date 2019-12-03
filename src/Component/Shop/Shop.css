@@ -1,0 +1,12 @@
+.bg-right{
+    background-color: aliceblue;
+}
+
+.bg-thumnail{
+    background-color: bisque;
+    border: 1px;
+    margin: 7px;
+    height: 400px;
+    text-align: center;
+    color: black;
+}
