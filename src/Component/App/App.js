@@ -4,7 +4,6 @@ import RouterURL from '../RouterURL/RouterURL';
 import Footer from '../Footer/Footer';
 import Slider from'../Slider/Slider.js';
 import Header from '../Header/Header.js';
-
 class App extends Component {
   render() {
     return (

@@ -4,30 +4,29 @@ const UPDATE_PRODUCT_IN_CART='UPDATE_PRODUCT_IN_CART'
 var data = JSON.parse(localStorage.getItem('CART'));
 var initialState = data ? data : [];
 
-export function  actAddToCart(product, quantity,color) {
-    
-    
+export function  actAddToCart(product, quantity) {
     return {
         type:ADD_TO_CART,
         product,
-        quantity,
-        color
+        quantity
     }
 }
 export function  actDeleteProductInCart(product){
     return {
         type :DELETE_PRODUCT_IN_CART,
-       product    }
+        product
+    }
 }
+
 export function  actUpdateProductInCart(product, quantity ){
     return {
         type :UPDATE_PRODUCT_IN_CART,
-       product,
-       quantity
+        product,
+        quantity
     }
- }
+}
 export default function cart_reducer(state =initialState, action)  {
-    var { product, quantity,color } = action;
+    var { product, quantity } = action;
     var index = -1; // Không tìm thấy => index = -1
     if(action.type=='ADD_TO_CART')
     {        
@@ -37,9 +36,7 @@ export default function cart_reducer(state =initialState, action)  {
             } else {
                 state.push({
                     product,
-                    quantity,
-                    color
-                    
+                    quantity
                 });
                 alert("add product into cart successfully");
             }

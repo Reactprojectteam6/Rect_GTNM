@@ -4,18 +4,22 @@ import './Header.css';
 import { connect } from 'react-redux';
 import {logout} from '../../redux/login_reducer';
 import { getProductByName} from '../../redux/search_reducer';
+import {getShopID,getShop,getProductsShop} from '../../redux/shop_reducer';
 class Header extends Component {
   constructor(props)
   {
     super(props);
-    this.state = {};
+    this.state = {
+    };
     this.onSubmit=this.onSubmit.bind(this);
     this.onLogout=this.onLogout.bind(this);
+    this.clickShop = this.clickShop.bind(this);
+
   }
     render() {
       console.log(this.props);
       let {product_name} = this.state;
-      let { isLoginSuccess,list_product_get_by_name,currentUser} = this.props;
+      let { isLoginSuccess,isShop,currentUser} = this.props;
      
         return ( 
         
@@ -32,7 +36,10 @@ class Header extends Component {
             </div>
            </div>
             <div className="col-md-4">
-            <button style={{width:"80px",height:"35px",color:"black",borderRadius:"10px",borderColor:"brown",marginTop:"20px"}}>Shop</button>
+            <button style={{width:"80px",height:"35px",color:"black",borderRadius:"10px",borderColor:"brown",marginTop:"20px"}}
+             onClick={this.clickShop} >
+              <Link to="/shop">Shop</Link>
+              </button>
             </div>
               
           </div>
@@ -43,7 +50,11 @@ class Header extends Component {
         
               <input type="text" name="" id="input" className="form-control" onChange={e => this.setState({product_name: e.target.value})} value={product_name} />
                   <span className="input-group-btn" >
-                  <button type="submit" className="btn btn-default" onClick={this.onSubmit} ><Link to='/search'>Search</Link></button>
+                  <button type="submit" className="btn btn-default"
+                   onClick={this.onSubmit} >
+                    <Link to='/search'>
+                       Search
+                    </Link></button>
                    </span>
             </div>
          </div>
@@ -65,44 +76,34 @@ class Header extends Component {
          }
          { isLoginSuccess &&
               <div class="col-md-3 col-sm-2 col-xs-2 btn-sign-group">
-              <div class="nav navbar-right">
-              <img src={require('../../assets/chonglee.jpg')} alt="Avatar" class="avatar" style={{marginRight:"20px"}}/>
-              <ul class="nav navbar-right" style={{marginRight:"50px"}}>
+              <ul class="nav navbar-right">
                 <li class="dropdown">
                   <button class="btn dropdown-toggle btn-account"
-                    data-toggle="dropdown">
-                    {currentUser.user_name}
+                    data-toggle="dropdown" style={{marginRight:"30px"}}>
+                    account
                     <span class="glyphicon glyphicon-user pull-right"></span>
                   </button>
                   <ul class="dropdown-menu">
                   <li>
-                     <Link to={`/profile/${currentUser.id}`} >Cá nhân
+                     <Link to="/profile" >profile
                         <span class="glyphicon glyphicon-stats pull-right">
                         </span>
                      </Link>
                     </li>
                     <li>
-                      <Link to={`/orderhistory/${currentUser.id}`}>Lịch sử đặt hàng
+                      <Link to="/order_history">order_history
                       
                         <span class="glyphicon glyphicon-cog pull-right">
                         </span>
                      </Link>
                     </li>
                     <li>
-                    {currentUser.is_admin &&
-                     <Link to="/admin" >
-                       Admin
-                       <span class="glyphicon glyphicon-user pull-right"></span>
-                     </Link>
-
-                    
-  
-                      }
+                   
                       </li>
                     <li class="divider"></li>
                     
                     <li>
-                        <a href='#' onClick={this.onLogout}>Đăng xuất
+                        <a href='#' onClick={this.onLogout}>log out
                         <span class="glyphicon glyphicon-log-out pull-right">
                         </span>
                         </a>
@@ -111,8 +112,7 @@ class Header extends Component {
                     </ul>
                   
                 </li>
-              </ul>  
-              </div>
+              </ul>
             </div>
         
      
@@ -172,6 +172,12 @@ class Header extends Component {
    
 );
 }
+clickShop(e)
+{
+  e.preventDefault();
+  this.props.getShopID();
+
+}
 onLogout(e)
 {
   e.preventDefault();
@@ -195,14 +201,23 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     getProductByName: (product_name) => dispatch( getProductByName(product_name)),
     logout:()=> dispatch( logout()),
     //action la login voi 2 tham so la email va password
+    getShopID: ()=> dispatch(getShopID()),
+    getProductsShop: (isShop)=>dispatch(getProductsShop(isShop))
+    
   };
   }
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
+  var isShop=localStorage.getItem('shop_id');
+  console.log("isshop");
+  console.log(isShop);
+  if(isShop!=null) 
   return {
  
      isLoginSuccess:state.loginState.isLoginSuccess,
+     currentUser:state.loginState.currentUser,
+     isShop:isShop,    
     //list_product_get_by_name:state.searchState.allProduct,
-      currentUser:state.loginState.currentUser
+    //currentUser:state.loginState.currentUser
   };
   }
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

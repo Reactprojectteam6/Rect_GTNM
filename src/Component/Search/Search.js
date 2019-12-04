@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link ,Redirect} from "react-router-dom";
 import { connect } from 'react-redux';
-import { show, getRating} from '../../redux/product_reducer';
+import { show} from '../../redux/product_reducer';
 import './Search.css';
 // import { actAddToCart} from '../../redux/cart_reducer';
 import {addToRecentlyViewed} from '../../redux/recent_reducer';
@@ -21,7 +21,7 @@ class Search extends React.Component{
   }
   render(){
     const {list=[]}=this.props;
-    let{addProduct,product_id,id}=this.state;
+    let{addProduct,product_id}=this.state;
     const numberOfItems = this.state.showMore ? this.state.finish : 3
     return (
   <div>
@@ -52,9 +52,8 @@ class Search extends React.Component{
             <button className="btn" onClick={e =>{
                   this.props.show(item2);
                   this.props.addToRecentlyViewed(item2);
-                  this.props.getRating(item2.id);
                   }
-                  }><Link to={"./product/"+item2.id} >Xem chi tiết </Link></button>
+                  }><Link to="./product">Detail of Product</Link></button>
             
           </div>
           </div>
@@ -64,9 +63,20 @@ class Search extends React.Component{
           </h3>
           <div className="pi-price">
            Price:{item2.price}
-                   
+           <span> <button type="submit" className="shoe-cart pshoe-cart"onClick={e=>{this.props.onAddToCart(item2)}} style={{width:"22%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
           </div>
-        
+          {
+              
+               <a href="#">
+               <i className="fa fa-star" style={{color:"yellow"}}aria-hidden="true" />
+               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
+               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
+               <i className="fa fa-star" style={{color:"yellow"}} aria-hidden="true" />
+               <i className="fa fa-star" style={{color:"black"}} aria-hidden="false" />
+              
+               </a>
+             }
+         
         
                 </div>
                  </div>
@@ -93,7 +103,6 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
      show:(addProduct) => dispatch(show(addProduct)),
      //onAddToCart:(addProduct) => dispatch(actAddToCart(addProduct,1)),
      addToRecentlyViewed:(addProduct)=>dispatch(addToRecentlyViewed(addProduct)),
-     getRating:(id)=>dispatch(getRating(id))
     //action la login voi 2 tham so la email va password
   };
   }     

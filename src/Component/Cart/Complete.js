@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setOrder } from '../../redux/order_reducer';
-import './Complete.css';
 class Complete extends Component {
     constructor(props)
     {
         super(props);
         this.state = {};
         this.Order=this.Order.bind(this);
-       
+        // onChange={e => this.setState({user_id:currentUser.id})
     }
     componentDidMount()
     { 
-        this.setState({state:1});
+        this.setState({state:0});
         this.setState({user_id:this.props.currentUser.id});
         this.setState({order:this.props.cart});
         this.setState({total_payment:this.showTotalAmount(this.props.cart)});
-        this.setState({address:this.props.currentUser.address,email:this.props.currentUser.email,phone:this.props.currentUser.phone})
     }
     render() {
     
      let {currentUser,cart}=this.props;
-     let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state;
+     let {order,user_id,state,receiving_address,receiver,total_payment,note} = this.state;
      console.log(this.state);
      console.log(currentUser.id);
         return (
@@ -32,18 +30,15 @@ class Complete extends Component {
          <label>UserName</label>
           <label className="form-control" >{currentUser.user_name} </label>  
            <br/>
-           <label>Reicever</label>
-         <input type="text" className="form-control"  onChange={e => this.setState({fullname: e.target.value})} />
+         <label>Receiver</label>
+         <input type="text" className="form-control" onChange={e => this.setState({receiver: e.target.value})} />
       <br/>
-         <label>receiving_address</label>
-         <input type="text" className="form-control" value={address} onChange={e => this.setState({address: e.target.value})} />
-      <br/>
-       <label>email</label>
-       <input type="text" className="form-control" value={email}onChange={e => this.setState({email: e.target.value})} />
+       <label>Receiving Address</label>
+       <input type="text" className="form-control" onChange={e => this.setState({receiving_address: e.target.value})} />
       <br/>
 
-     <label>phone</label>
-     <input type="text" className="form-control" value={phone} onChange={e => this.setState({phone: e.target.value})} />
+     <label>Note</label>
+     <input type="text" className="form-control" onChange={e => this.setState({note: e.target.value})} />
       <br/>
     <label>TotalPayment</label>
      <input type="text" value={this.showTotalAmount(cart)}  className="form-control" readonly="true"  />
@@ -65,7 +60,6 @@ class Complete extends Component {
                             <th>Sản Phẩm</th>
                             <th>Giá</th>
                             <th>Số Lượng</th>
-                            <th>Màu</th>
                             <th>Tổng Cộng</th>
                             <th></th>
                         </tr>
@@ -76,7 +70,7 @@ class Complete extends Component {
                 return (
                     <tr>
                     <th scope="row">
-                    <img  style={{width:"40%"}}src={require('../../assets/'+item.product.image)}
+                    <img  style={{width:"40%"}}src={require('../../assets/'+item.product.product_image)}
                             alt={item.product.name} className="img-fluid z-depth-0" />
                    
                     </th>
@@ -89,7 +83,6 @@ class Complete extends Component {
                     <td style={{paddingLeft:"10px"}}>
                     <span className="qty">{item.quantity}</span>
                     </td>
-                <td>{item.color}</td>
                     <td>{this.showSubTotal(item.product.price, item.quantity)}Đ</td>
                     
                    </tr>
@@ -98,7 +91,7 @@ class Complete extends Component {
                 );
             })
         }
-        
+        }
        
        
         <tr>
@@ -119,18 +112,7 @@ class Complete extends Component {
         </table>
              }
              </div>
-
-
     }
-         <h3>Phương thức thanh toán</h3><br/>
-         
-         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
-         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></span></button>
-         
-        
-         {/* <a href="#"><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></a>
-         <a href="#"><img className="img-responsive" style={{width:"100px",height:"80px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></a> */}
-         
          </div>
          </div>
 
@@ -154,21 +136,22 @@ class Complete extends Component {
     }
     Order(e)
     {
-        let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname}=this.state;
-        this.props.setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname);
+        let {order,user_id,state,receiving_address,receiver,total_payment,note}=this.state;
+        this.props.setOrder(order,user_id,state,receiving_address,receiver,total_payment,note);
     }
    
 }
 const mapStateToProps = state => {
-return {
-        
+
+    return {
+
         cart: state.cartState,
         currentUser:state.loginState.currentUser
     }
 }
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     return {
-    setOrder: (order,user_id,state,address,email,phone,total_payment,payment_method,fullname) => dispatch(setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname))//action la login voi 2 tham so la email va password
+      setOrder: (order,user_id,state,receiving_address,receiver,total_payment,note) => dispatch(setOrder(order,user_id,state,receiving_address,receiver,total_payment,note))//action la login voi 2 tham so la email va password
     };
     }
 

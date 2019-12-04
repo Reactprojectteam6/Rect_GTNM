@@ -39,14 +39,14 @@ class Menu extends React.Component{
                   this.props.list_cate.map((item,i)=>{
                       return (
                         <div>
-                       <li  className="fa fa-dashboard fa-lg" style={{color:"brown",width:"200px",fontSize:"20px"}}><Link to={"/category/"+item.id} style={{color:"brown"}}onClick={e=>{this.props.getProductByCategory(item.id);this.props.getCategoryName(item.name)}}><strong>{item.name}</strong></Link></li>
+                       <li  className="fa fa-dashboard fa-lg" style={{color:"brown",width:"200px",fontSize:"20px"}}><Link to="./category" style={{color:"brown"}}onClick={e=>{this.props.getProductByCategory(item.id);this.props.getCategoryName(item.name)}}><strong>{item.name}</strong></Link></li>
                           <ul>
                             
                    {this.props.list_cate.length>0 &&
                   this.props.list_sub.map((item1,i)=>{
                     if(item1.parent_id==item.id) 
                     return(
-                      <li  className="glyphicon glyphicon-heart-empty" style={{color:"brown",width:"200px",fontSize:"18px",marginLeft:"50px"}}><Link to={"/category/"+item1.id} style={{color:"brown"}} onClick={e=>{this.props.getProductByCategory(item1.id);this.props.getCategoryName(item1.name)}}>{item1.name}</Link></li>
+                      <li  className="glyphicon glyphicon-heart-empty" style={{color:"brown",width:"200px",fontSize:"18px",marginLeft:"50px"}}><Link to="./category" style={{color:"brown"}} onClick={e=>{this.props.getProductByCategory(item1.id);this.props.getCategoryName(item1.name)}}>{item1.name}</Link></li>
                     )
                   }
                   )}

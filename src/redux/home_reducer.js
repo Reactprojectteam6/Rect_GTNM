@@ -27,11 +27,11 @@ function callCategoryApi( callback) {
     axios({
       method: 'get',
       url: `https://127.0.0.1:5001/api/Category/parent`,
-      // headers:{
-      //   'Content-Type': 'application/json',
-      //   Accept: 'application/json',
-      //   'Authorization':token
-      // }
+    // headers:{
+    //   'Content-Type': 'application/json',
+    //     Accept: 'application/json',
+    //    //'Authorization':token
+    //    }
      
     }).then(response => {
    if(response.data!=null) 
@@ -112,7 +112,7 @@ function callSubAPI(callback) {
     console.log(token);
     axios({
       method: 'get',
-      url: `https://127.0.0.1:5001/api/Category/subcategory`,
+      url: `https://127.0.0.1:5001/api/Category/Subcategory`,
       //headers:{
          //'Content-Type': 'application/json',
       //   Accept: 'application/json',

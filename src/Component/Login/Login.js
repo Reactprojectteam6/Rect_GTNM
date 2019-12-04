@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.css';
-import {Link,Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {login} from "../../redux/login_reducer";
 import {connect} from "react-redux";
 class Login extends React.Component  {
@@ -14,8 +14,10 @@ class Login extends React.Component  {
     let {isLoginPending, isLoginSuccess, loginError} = this.props;
       return (
           <div>
+             
              <div class="container" style={{marginLeft:"200px"}}>
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                 
+                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <div className="bgLogin">
                   <div style={{marginLeft:"200px"}}>
                   <div style={{color:"red",float:"left",marginRight:"5px",fontSize:"50px"}}>Đ</div>
@@ -55,13 +57,8 @@ class Login extends React.Component  {
                  </div>
                  
              </div>
-            {isLoginSuccess==true &&
-            <div>
-            <Redirect to="/home"></Redirect>
-           </div>
-            } 
+             
           </div>
-
     
   );
 }
@@ -85,7 +82,7 @@ onSubmit(e) {
   
   const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {
-    login: (email, password) => dispatch(login(email, password))//action la login voi 2 tham so la email va password
+    login: (email, password) => dispatch(login(email, password)),//action la login voi 2 tham so la email va password
   };
   }
   

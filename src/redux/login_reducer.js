@@ -1,7 +1,6 @@
 //Login
 import axios from 'axios';
 const SET_LOGIN = 'SET_LOGIN';
-const CHECK_LOGIN='CHECK_LOGIN';
 export function login(email, password) { 
   //reducer thuc hien action login xu ly du lieu lay qua
   console.log("abcdds");
@@ -35,9 +34,25 @@ export function login(email, password) {
           user_name:user.user_name,
           email:user.email,
           address:user.address,
-          role:user.role,
           phone:user.phone,
+          role:user.role,
         }
+        if(user.role==2) 
+        { 
+          axios({
+            method: 'get',
+            url: `https://127.0.0.1:5001/api/User/${user.id}/shop`,
+            headers:{
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization':'Bearer '+localStorage.getItem("token")
+              }
+        }).then(response =>{
+           if(response.status=="200") localStorage.setItem('shop_id',response.data.id);
+           
+        }).catch(err => console.log(err));
+        }
+
          localStorage.setItem('currentUser',JSON.stringify(currentUser));
         
        }
@@ -71,38 +86,23 @@ function getCookie(cname) {
   }
   return "";
 }
-export function checkLogin() { //reducer thuc hien action login xu ly du lieu lay qua
-  return dispatch => {
-    var a=localStorage.getItem('token');
-    if(a!=null)
-    dispatch ({type:CHECK_LOGIN, payload:true});
-    else   dispatch ({type:CHECK_LOGIN, payload:false});
-}
-}
+
 var a=false;
  var data=localStorage.getItem('token');
- var user=JSON.parse(localStorage.getItem('currentUser'));
  console.log(data);
  if(data!=null) a=true;
 var login_state={
+ 
   isLoginSuccess:a,
-  currentUser:user?user:[],
-  checkLogin:false
 }
 export default function login_reducer(state =login_state, action) {
   
   if(action.type=='SET_LOGIN')
   {  let newState={...state};
       console.log(action.payload);
-     newState.isLoginSuccess=action.payload;
+     newState.isLoginSuccess=action.payload
      if(newState.isLoginSuccess==true) alert("login successfully");
      return newState;
-   }
-   if(action.type=='CHECK_LOGIN')
-   {let newState={...state};
-     newState.checkLogin=action.payload;
-     return newState;
-     
    }
    return state;
   
