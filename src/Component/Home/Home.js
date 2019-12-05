@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {  getAllCategory,getSubCategory,getAllProduct} from '../../redux/home_reducer';
-//import {getHotProduct} from '../../redux/hot_product_reducer';
-//import {getAllProduct} from '../../redux/product_reducer';
+import {getAllProduct,getHotProduct} from '../../redux/home_reducer';
 import {show, getRating,getColors} from '../../redux/product_reducer';
 import { Redirect,Link} from "react-router-dom";
-//import { actAddToCart} from '../../redux/cart_reducer';
 import Menu from '../Menu/Menu.js';
 import "./Home.css";
 import {addToRecentlyViewed} from '../../redux/recent_reducer';
@@ -25,25 +22,90 @@ class Home extends Component{
       }
      componentWillMount()
      {
-     
+      this.props.getHotProduct();
       this.props.getAllProduct();
      
      }
       render(){
         
-        let{ list_product=[]}=this.props;
+        let{ list_product=[],list_hot_product=[]}=this.props;
         let {product,id}=this.state;
         console.log(this.props);
+        console.log("Hot product");
+        console.log(list_hot_product);
         const numberOfItems = this.state.showMore ? this.state.finish : 9
         return(<div style={{marginTop:"10px"}}>
-       
+        
         
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                <Menu/> 
        </div> 
        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-        
-      
+       <nav className="navbar nav-menu result-brand">
+          <div className="navbar-brand">
+             Sản phẩm nổi bật
+           
+              </div>
+              </nav>
+              <div className="row">
+            {list_hot_product.length>0 &&
+              list_hot_product.map((item1,i)=>{
+               return (
+
+                <div className="col-sm-6">
+                         
+                <div className="panel panel-default">
+                  <div className="panel-body" style={{height:"550px"}}>
+                  
+            <div className="product-item">
+              <div className="pi-img-wrapper"style={{width:"400px",height:"400px"}} >
+    
+              <img className="img-responsive" style={{width:"400px",height:"400px"}}   src={require('../../assets/'+item1.image)}alt=""/>
+                <div>
+                <button className="btn" onClick={e =>{
+                      this.props.show(item1.id);
+                      this.props.addToRecentlyViewed(item1);
+                      this.props.getRating(item1.id);
+                      this.props.getColors(item1.product_name);
+                      }
+                      }><Link to={"/product/"+item1.id} >Xem chi tiết</Link></button>
+                
+              </div>
+              </div>
+              </div>
+              <h3>
+              {item1.product_name}
+              </h3>
+              <div className="pi-price">
+               Price:{item1.price}
+                           
+              </div>
+             
+             
+            
+                    </div>
+                     </div>
+                     </div>
+    
+    
+               )
+
+ 
+
+
+              }
+              
+              
+              
+              
+              
+              )
+
+
+
+            }
+            </div>
+         
                      <nav className="navbar nav-menu result-brand">
                       <div className="navbar-brand">
                     
@@ -68,7 +130,7 @@ class Home extends Component{
           <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={require('../../assets/'+item2.image)}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
-                 this.props.show(item2);
+                 this.props.show(item2.id);
                   this.props.addToRecentlyViewed(item2);
                   this.props.getRating(item2.id);
                   this.props.getColors(item2.product_name);
@@ -128,6 +190,7 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
     return {
      
        list_product:state.homeState.products,
+       list_hot_product:state.homeState.hotproduct,
 
  };
 }
@@ -139,6 +202,7 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
          addToRecentlyViewed:(product)=>dispatch(addToRecentlyViewed(product)),
          getRating:(id)=>dispatch(getRating(id)),
          getColors:(product_name)=>dispatch(getColors(product_name)),
+         getHotProduct:()=>dispatch(getHotProduct())
         
         };
         }

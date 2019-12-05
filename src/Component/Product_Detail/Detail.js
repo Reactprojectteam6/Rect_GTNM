@@ -26,7 +26,7 @@ class Detail extends Component {
     });
   }
 render()
-{  let {product,sizes=[],colors=[],rate=0,currentUser} =this.props;
+{  let {product=[],sizes=[],colors=[],rate=0,currentUser} =this.props;
   let {isLogingSuccess,addProduct,quantity}=this.state;
   console.log(currentUser);
   console.log("hdjsd");
@@ -37,7 +37,7 @@ render()
     return (
         <div style={{marginLeft:"100px"}}>
          
-          {
+          {product.length>0 &&
            <div>
                
               <div className="row product-details">
@@ -52,39 +52,39 @@ render()
         <div className="preview col-md-6">
           <div className="preview-pic tab-content">
             <div className="tab-pane active" id="pic-1">
-            <img className="img-responsive" onLoad={e => this.setState({addProduct:product})}  src={require('../../assets/'+product.image)} alt=""/>
+            <img className="img-responsive"   src={require('../../assets/'+product[0].image)} alt=""/>
             </div>
           </div>
           <ul className="preview-thumbnail nav nav-tabs">
             <li className="active">
               <a data-target="#pic-1" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-2" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-3" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-4" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-4" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
           </ul>
         </div>
         <div className="details col-md-6">
-          <h3 className="product-title">{product.product_name}</h3>
+          <h3 className="product-title">{product[0].product_name}</h3>
           <strong>Rate:{this.props.rate}</strong>
                         <StarRatings
                           rating={this.state.rating}
@@ -94,7 +94,7 @@ render()
                           name='rating'
                         />
           <h3>Màu sắc</h3>
-          <h>{product.id}</h>
+          <h>{product[0].id}</h>
           <div className="row" style={{marginTop:"20px",marginBottom:"20px"}}>
             {
              this.props.colors.length>0 &&
@@ -109,7 +109,7 @@ render()
 
                <button value={item.name} style={{backgroundColor:color,fontsize:"1000px",float:"left",marginRight:"20px"}}
 
-               onClick={e=>{this.props.getProductByNameAndColor(product,product.product_name,item.name,product.shop_id)
+               onClick={e=>{this.props.getProductByNameAndColor(product[0],product[0].product_name,item.name,product[0].shop_id)
               this.setState({color:item.name});
               //this.props.getRating(product.id);
               
@@ -128,12 +128,12 @@ render()
          </div>
          
           <p className="product-description">
-            {product.description}
+            {product[0].description}
           </p>
          <div className="pi-price">
-                           Price:{product.price} Đ
-                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product,this.state.color);
-                            this.props.setComment(currentUser.id,product.id,this.state.rating);
+                           Price:{product[0].price} Đ
+                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product[0]);
+                            this.props.setComment(currentUser.id,product[0].id,this.state.rating);
                              }}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
                           </div>
          
@@ -159,9 +159,7 @@ render()
 } 
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {
-       onAddToCart:(addProduct,color) =>dispatch(actAddToCart(addProduct,1,color)),
-       
-      
+       onAddToCart:(addProduct) =>dispatch(actAddToCart(addProduct,1)),
        getProductByNameAndColor:(product,name,color,shop_id)=>dispatch(getProductByNameAndColor(product,name,color,shop_id)),
        setComment:(user_id,product_id,rate)=>dispatch(setComment(user_id,product_id,rate))
 };

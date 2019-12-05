@@ -50,7 +50,7 @@ class Search extends React.Component{
           <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={require('../../assets/'+item2.image)}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
-                  this.props.show(item2);
+                  this.props.show(item2.id);
                   this.props.addToRecentlyViewed(item2);
                   this.props.getRating(item2.id);
                   }

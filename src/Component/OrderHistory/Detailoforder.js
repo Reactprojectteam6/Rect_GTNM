@@ -11,7 +11,7 @@ class Detailoforder extends Component {
     }
     render() {
     
-     let {list_order_detail=[],currentUser,order,product=[]}=this.props;
+     let {list_order_detail=[],currentUser,order=[],product=[]}=this.props;
      let {id}=this.state;
     console.log("product of component");
     console.log(this.props.list_order_detail);
@@ -20,6 +20,7 @@ class Detailoforder extends Component {
           <div>
            
             <div>
+              { this.props.order.length>0 &&
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> 
          <h1>Hoàn thành đơn đặt hàng</h1>
          <form style={{marginLeft:"20px"}}>
@@ -49,12 +50,14 @@ class Detailoforder extends Component {
      <input type="text" value="Đã hủy"  className="form-control" />
      </div>
      }
-     <button type="button" className="btn btn-lg btn-primary" style={{marginTop:"30px",backgroundColor:"#A52A2A"}} ><Link to="./order_history">Back</Link></button>
-         </form>    
+     <button type="button" className="btn btn-lg btn-primary" style={{marginTop:"30px",backgroundColor:"#A52A2A"}} ><Link to={`/orderhistory/${currentUser.id}`}>Back</Link></button>
+         </form>  
          </div>
+      }  
+        
          <div class="col-xs-6 col-sm-6 col-md-3 col-lg-6"> 
          <table border="1">
-                        <caption>List Order</caption>
+                        <caption style={{fontSize:"30px"}}>List Order</caption>
                     <thead>
                         <tr>
                             <th>STT</th>

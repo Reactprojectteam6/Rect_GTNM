@@ -5,9 +5,22 @@ const GET_COLORS='GET_COLORS';
 const GET_RATING='GET_RATING';
 const GET_PRODUCT_BY_NAME_AND_COLOR='GET_PRODUCT_BY_NAME_AND_COLOR';
 const SET_COMMENT='SET_COMMENT';
-export function show(product) {
+const SORT='SORT';
+export function show(id) {
    return dispatch => {
-      dispatch({type:GET_PRODUCT_DETAIL,Product:product});//tra ve cho form
+
+    axios({
+      method: 'get',
+      url: `https://127.0.0.1:5001/api/Product/${id}`,
+    
+     
+    }).then(response => {
+      if(response.status=="200")
+      console.log("product_detail");
+      console.log(response.data);
+      dispatch({type:GET_PRODUCT_DETAIL,Product:response.data});//tra ve cho form
+    
+    })
         
    
   }
@@ -44,7 +57,7 @@ export function getRating(id)
 }
 
 }
-
+//detail chon mau
 export function getProductByNameAndColor(product,name,color,shop_id)
 {
   return dispatch => {
@@ -64,6 +77,7 @@ export function getProductByNameAndColor(product,name,color,shop_id)
 }
 
 }
+//comment
 export function setComment(user_id,product_id,rate)
 {   console.log(user_id);
     console.log(product_id);
@@ -98,17 +112,145 @@ export function setComment(user_id,product_id,rate)
 }
 
 }
+//sort
+
+
+export function sort(by,value) {
+  console.log("by");
+  console.log(by);
+  console.log("value");
+  console.log(value);
+return dispatch => {
+  var id=null; 
+if(by=="Rating")
+  { 
+    if(value=="1-3")
+    {
+  axios({
+      method:'get',
+      url: `https://127.0.0.1:5001/api/Product/Rating/${1}-${3}`,
+      headers:{
+     'Content-Type': 'application/json',
+     Accept: 'application/json',
+     'Authorization':'Bearer '+localStorage.getItem('token')
+  }
+
+
+})
+.then(res => {
+     if(res.status=="200")  dispatch({type:SORT,payload:res.data});
+    } 
+)
+  }
+if(value=="4-5")
+{
+axios({
+  method:'get',
+  url: `https://127.0.0.1:5001/api/Product/Rating/${4}-${5}`,
+  headers:{
+   'Content-Type': 'application/json',
+   Accept: 'application/json',
+   'Authorization':'Bearer '+localStorage.getItem('token')
+ }
+
+
+})
+.then(res => {
+  console.log("4-5")
+  console.log(res.data);
+     if(res.status=="200") dispatch({type:SORT,payload:res.data});
+    } 
+)
+  }
+
+  }
+  
+if(by=="Price")
+{
+  var data=[];
+    axios({
+      method:'get',
+      url: `https://127.0.0.1:5001/api/Product`,
+      headers:{
+       'Content-Type': 'application/json',
+       Accept: 'application/json',
+       'Authorization':'Bearer '+localStorage.getItem('token')
+     }
+    
+
+    })
+    .then(res => {
+    
+      if (res.data.length>0)
+        { data=res.data;
+          if(value=="1-300000")
+          {const result=data.filter(data =>data.price>1&&data.price<301000);
+            dispatch({type:SORT,payload:result});
+       
+          }
+          if(value=="300000-500000")
+          {
+            const result=data.filter(data =>data.price>301000&&data.price<501000);
+            console.log("result");
+            dispatch({type:SORT,payload:result});
+          }
+          if(value=="500000-1000000")
+          {  console.log("result");
+        
+            const result=data.filter(data =>data.price>501000&&data.price<1000000);
+            dispatch({type:SORT,payload:result});
+          }
+       } 
+     }
+    )
+}
+if(by=="Sort")
+var data=[];
+axios({
+  method:'get',
+  url: `https://127.0.0.1:5001/api/Product`,
+  headers:{
+   'Content-Type': 'application/json',
+   Accept: 'application/json',
+   'Authorization':'Bearer '+localStorage.getItem('token')
+ }
+
+
+})
+.then(res => {
+
+  if (res.data.length>0)
+    { data=res.data;
+      if(value=="Tên sản phẩm")
+      {const result=data.sort((a, b) => a.product_name.localeCompare(b.product_name, 'es', {sensitivity: 'base'}))
+       dispatch({type:SORT,payload:result});
+      }
+      if(value=="Giá")
+      {
+        const result=data.sort(function(a, b){return a.price - b.price});
+        dispatch({type:SORT,payload:result});
+      }
+    }
+  })
+
+
+
+}
+}       
+
 
 
 var data = JSON.parse(localStorage.getItem('detail'));
 var color=JSON.parse(localStorage.getItem('color'));
 var dt1 = localStorage.getItem('rate');
+var filter=JSON.parse(localStorage.getItem('filter'));
 var initialState =
 { Product:data ? data : [],
   Colors:color?color:[],
   Sizes:[],
   Rate:dt1?dt1:null,
   hasComment:null,
+  productsFilter:filter?filter:[]
 }
 export default function product_reducer(state =initialState, action) {
   if(action.type=='GET_PRODUCT_DETAIL')
@@ -147,6 +289,13 @@ export default function product_reducer(state =initialState, action) {
     newState.hasComment=action.payload;
     if(newState.hasComment==true) alert("cam on danh gia ve san pham nay cua ban");
     return newState;
+   }
+   if(action.type=='SORT')
+   { let newState={...state};
+   newState.productsFilter=action.payload;
+   localStorage.setItem("filter",JSON.stringify(newState.productsFilter));
+   return newState;
+
    }
   else return state;
 }

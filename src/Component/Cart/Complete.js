@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setOrder } from '../../redux/order_reducer';
+import Login from '../Login/Login';
 import './Complete.css';
+import {  deleteAllProductInCart} from '../../redux/cart_reducer';
 class Complete extends Component {
     constructor(props)
     {
@@ -20,14 +22,16 @@ class Complete extends Component {
     }
     render() {
     
-     let {currentUser,cart}=this.props;
+     let {currentUser,cart,isloginSuccess=true}=this.props;
      let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state;
      console.log(this.state);
      console.log(currentUser.id);
         return (
           <div>
+           {isloginSuccess==true &&
+          <div>    
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
-         <h1 onLoad={e=> this.setState({order:cart})}>Completing the order</h1>
+         <h1 onLoad={e=> this.setState({order:cart})}>Hoàn thành đơn đặt hàng</h1>
          <form style={{marginLeft:"20px"}}>
          <label>UserName</label>
           <label className="form-control" >{currentUser.user_name} </label>  
@@ -127,13 +131,17 @@ class Complete extends Component {
          <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
          <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></span></button>
          
-        
-         {/* <a href="#"><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></a>
-         <a href="#"><img className="img-responsive" style={{width:"100px",height:"80px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></a> */}
+       
          
          </div>
          </div>
+    } 
 
+    {
+        isloginSuccess==false &&
+        <Login></Login>
+    }
+          </div>
  
         )
     }
@@ -156,19 +164,21 @@ class Complete extends Component {
     {
         let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname}=this.state;
         this.props.setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname);
+        //this.props.deleteAllProductInCart();
     }
    
 }
 const mapStateToProps = state => {
-return {
-        
-        cart: state.cartState,
-        currentUser:state.loginState.currentUser
+return { cart: state.cartState,
+        currentUser:state.loginState.currentUser,
+        isloginSuccess:state.loginState.checkLogin
     }
 }
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     return {
-    setOrder: (order,user_id,state,address,email,phone,total_payment,payment_method,fullname) => dispatch(setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname))//action la login voi 2 tham so la email va password
+    setOrder: (order,user_id,state,address,email,phone,total_payment,payment_method,fullname) => dispatch(setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname)),
+    //deleteAllProductInCart:()=>dispatch(deleteAllProductInCart())
+    //action la login voi 2 tham so la email va password
     };
     }
 

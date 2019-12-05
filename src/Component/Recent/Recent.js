@@ -59,7 +59,7 @@ class Recent extends Component {
           <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={require('../../assets/'+item2.product.image)}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
-                 this.props.show(item2.product);
+                 this.props.show(item2.product.id);
                  this.props.addToRecentlyViewed(item2.product);
                  this.props.getRating(item2.product.id);
                  this.props.getColors(item2.product.product_name);

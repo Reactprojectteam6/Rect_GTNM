@@ -8,9 +8,16 @@ class Orderhistory extends Component {
     constructor(props)
     {
         super(props);
-        this.state={};
-
-
+        this.state = {
+          showMore: false,
+          finish:4
+        }
+  }
+    handleClick() {
+      this.setState({showMore: true})
+      this.setState((prevState) => ({
+      finish: prevState.finish + 4
+      }));
     }
     componentWillMount()
     {
@@ -18,6 +25,7 @@ class Orderhistory extends Component {
     }
     render()
     { let {list_order=[],currentUser}=this.props;
+    const numberOfItems = this.state.showMore ? this.state.finish : 4
       let {id}=this.state;
         return (
    <div style={{marginLeft:"100px"}}>     
@@ -39,7 +47,7 @@ class Orderhistory extends Component {
        
   
      {
-         this.props.list_order.map((item,i)=>
+         list_order.slice(0, numberOfItems).map((item,i)=>
          {  console.log(item.id);
              return(
           
@@ -72,6 +80,11 @@ class Orderhistory extends Component {
    </div>
    }
   </div>
+  <div class="row">
+  <div className="button" style={{marginLeft:"600px"}}>
+        <button onClick={()=> this.handleClick()}  type="button" className="btn btn-default" style={{color:"black",backgroundColor:"brown"}}>Xem thêm</button>
+        </div>
+</div>
 </div>
 </div>
     

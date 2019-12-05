@@ -21,7 +21,7 @@ export function   setOrder(order,user_id,state,address,email,phone,total_payment
     };
   }
   
-function callApi(order,user_id,state,address,email,phone,total_payment,payment_method,fullname,callback) {
+  async function callApi(cart,user_id,state,address,email,phone,total_payment,payment_method,fullname,callback) {
     console.log(order);
     console.log(user_id);
     console.log(state);
@@ -31,131 +31,142 @@ function callApi(order,user_id,state,address,email,phone,total_payment,payment_m
     console.log(total_payment);
     console.log(payment_method);
     console.log(fullname);
-  var count=0;
-           if (order.length > 0 ) {
-             for (var i = 0; i < order.length; i++) {
-               if(order[i].quantity<=order[i].product.quantity)
-                { count++;
-                
-                 }
-                }
-             }        
-               
-    if(count!=0)
-    { 
-        
-         axios(
+   var count=0;
+  var list_shop_id=[];
+  var receiver_id=null;
+  var order_id=null;
+  var shop_id=null;
+   list_shop_id[0]=cart[0].product.shop_id;
+    for (var i = 1; i < cart.length; i++) {
+     if(cart[i].product.shop_id) list_shop_id.push(cart[i].product.shop_id);
+
+      }    
+      console.log("list_shop_id")
+      console.log(list_shop_id); 
+      console.log("ket thuc shop id");   
+    for(var i=0;i<list_shop_id.length;i++)
+    {  
     
-        {  method:'post',
+      var receiver=
+        {
+           address :address,
+           email :email,
+           fullname:fullname,
+           phone:phone
+         }
+      console.log(list_shop_id[i]);
+    await axios(
+       {   method:'post',
            url: `https://127.0.0.1:5001/api/Receiver`,
-           data:{
-            address :address,
-            email :email,
-            fullname:fullname,
-            phone:phone
-           },
+           data:receiver,
            headers:{
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
             'Authorization':'Bearer '+localStorage.getItem('token')
           }
             
         }
       ).then(response=>{
-        if(response.status=="200")
-        {
-         //alert("tao receiver thanh cong");
-          axios(
-            {  
-           method:'post',
-           url: `https://127.0.0.1:5001/api/Order`,
-           data:{
-            payment_id:payment_method,
-            receiver_id :response.data.id,
-            user_id:user_id,
-            status:Number(state),
-            total:Number(total_payment),
-            date_create:new Date(Date.now()),
-           },
+        if(response.status=="200") receiver_id=response.data.id;
+       
+      
+      })
+        
+      var total=0;
+      for(let j=0;j<cart.length;j++)
+      { if(cart[j].product.shop_id==list_shop_id[i]) total+=cart[j].product.price*cart[j].quantity;
+
+      }
+       var order={
+        payment_id:payment_method,
+        receiver_id :receiver_id,
+        user_id:user_id,
+        status:Number(state),
+        total:Number(total),
+        date_create:new Date(Date.now()),
+        shop_id:list_shop_id[i]
+       }
+       await axios(
+        {  
+       method:'post',
+       url: `https://127.0.0.1:5001/api/Order`,
+       data:order,
+       headers:{
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Authorization':'Bearer '+localStorage.getItem('token')
+      }  
+
+        }
+      ).then(response1=>{
+        if(response1.status=="200") order_id=response1.data.id;
+      })
+      
+      for(let j=0;j<cart.length;j++)
+      { if(cart[j].quantity<=cart[j].product.quantity &&cart[j].product.shop_id==list_shop_id[i])
+          {  let order_detail={
+           price:Number(cart[j].product.price),
+           product_id:cart[j].product.id,
+           quantity:Number(cart[j].quantity),
+           order_id:order_id
+
+          }
+            await axios({
+             method:'post',
+             url: `https://127.0.0.1:5001/api/OrderDetail`,
+             data:order_detail,
+              headers:{
+               'Content-Type': 'application/json',
+               Accept: 'application/json',
+               'Authorization':'Bearer '+localStorage.getItem('token')
+             }
+
+            }).then(response2=>{
+              if(response2.status=="200")
+             {  
+                   
+            }
+           })
+
+          //update so luong
+
+          let product={
+
+            id:cart[j].product.id,
+            product_name:cart[j].product.product_name,
+            description:cart[j].product.description,
+            cat_id:cart[j].product.cat_id,
+            price:Number(cart[j].product.price),
+            quantity:cart[j].product.quantity-cart[j].quantity,
+            shop_id:cart[j].product.shop_id,
+            image:cart[j].product.image
+          }
+        
+          let id=cart[j].product.id;
+        await axios({
+          method:'put',
+          url: `https://127.0.0.1:5001/api/Product/${id}`,
+          data:product,
            headers:{
             'Content-Type': 'application/json',
             Accept: 'application/json',
             'Authorization':'Bearer '+localStorage.getItem('token')
           }
+         }).then(res=>{
+          if(res.status=="200"){alert("order thanh cong,vui long doi de nhan hang"); }
+         })
+     
 
-            }
-          ).then(response1=>{
-            if(response1.status=="200")
-            { console.log(response1);
-             //alert("Tao order thanh cong")
 
-             for(var i=0;i<order.length;i++)
-             { if(order[i].quantity<=order[i].product.quantity)
-                 { 
-                   axios({
-                    method:'post',
-                    url: `https://127.0.0.1:5001/api/OrderDetail`,
-                    data:{
-                      price:Number(order[i].product.price),
-                      product_id:order[i].product.id,
-                      quantity:Number(order[i].quantity),
-                      order_id:response1.data.id
+          }
+        }  
+        
+           
 
-                     },
-                     headers:{
-                      'Content-Type': 'application/json',
-                      Accept: 'application/json',
-                      'Authorization':'Bearer '+localStorage.getItem('token')
-                    }
-
-                   }).then(response2=>{
-                     if(response2.status=="200")
-                    {  
-                           //alert("order detail thanh cong")
-                   }
-                      
-                   })
-                   var product={
-
-                    id:order[i].product.id,
-                    product_name:order[i].product.product_name,
-                    description:order[i].product.description,
-                    cat_id:order[i].product.cat_id,
-                    price:Number(order[i].product.price),
-                    quantity:order[i].product.quantity-order[i].quantity,
-                    shop_id:order[i].product.shop_id,
-                    image:order[i].product.image
-                  }
-                
-                  var id=order[i].product.id;
-                 axios({
-                  method:'put',
-                  url: `https://127.0.0.1:5001/api/Product/${id}`,
-                  data:product,
-                   headers:{
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization':'Bearer '+localStorage.getItem('token')
-                  }
-                 }).then(res=>{
-                  if(res.status=="200") alert("order thanh cong");
-                 })
-
-                 }
-
-             }
-            }
-
-          })
-        }
-         
-
-      })    
-                 
-
-    }
+   
+        
     
- 
+  }
  
  }
  

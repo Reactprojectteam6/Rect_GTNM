@@ -1,6 +1,7 @@
 const ADD_TO_CART = 'ADD_TO_CART';
 const DELETE_PRODUCT_IN_CART = 'DELETE_PRODUCT_IN_CART';
-const UPDATE_PRODUCT_IN_CART='UPDATE_PRODUCT_IN_CART'
+const UPDATE_PRODUCT_IN_CART='UPDATE_PRODUCT_IN_CART';
+const DELETE_ALL_PRODUCT_IN_CART='DELETE_ALL_PRODUCT_IN_CART';
 var data = JSON.parse(localStorage.getItem('CART'));
 var initialState = data ? data : [];
 
@@ -11,7 +12,6 @@ export function  actAddToCart(product, quantity,color) {
         type:ADD_TO_CART,
         product,
         quantity,
-        color
     }
 }
 export function  actDeleteProductInCart(product){
@@ -26,6 +26,12 @@ export function  actUpdateProductInCart(product, quantity ){
        quantity
     }
  }
+ export function deleteAllProductInCart()
+ {
+    return {
+        type :DELETE_ALL_PRODUCT_IN_CART,
+    }
+ }
 export default function cart_reducer(state =initialState, action)  {
     var { product, quantity,color } = action;
     var index = -1; // Không tìm thấy => index = -1
@@ -38,7 +44,6 @@ export default function cart_reducer(state =initialState, action)  {
                 state.push({
                     product,
                     quantity,
-                    color
                     
                 });
                 alert("add product into cart successfully");
@@ -67,6 +72,19 @@ export default function cart_reducer(state =initialState, action)  {
             localStorage.setItem('CART', JSON.stringify(state));
             return [...state];
         }      
+     if(action.type=='DELETE_ALL_PRODUCT_IN_CART')
+     {
+      
+          
+            state.splice(0,state.length);
+        
+        localStorage.setItem('CART', JSON.stringify(state));
+        return [...state];
+
+     }   
+
+
+
      else return [...state];
     
 }
