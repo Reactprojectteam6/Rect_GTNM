@@ -6,6 +6,7 @@ const GET_RATING='GET_RATING';
 const GET_PRODUCT_BY_NAME_AND_COLOR='GET_PRODUCT_BY_NAME_AND_COLOR';
 const SET_COMMENT='SET_COMMENT';
 const SORT='SORT';
+const GET_PRODUCT_ON_CART='GET_PRODUCT_ON_CART';
 export function show(id) {
    return dispatch => {
 
@@ -238,19 +239,30 @@ axios({
 }
 }       
 
+export function getProductOnCart(cart)
+{ console.log(cart);
+  return dispatch => {
+
+        dispatch({type: GET_PRODUCT_ON_CART,payload:cart});
+        //tra ve cho form
+  }
+        
+}
 
 
 var data = JSON.parse(localStorage.getItem('detail'));
 var color=JSON.parse(localStorage.getItem('color'));
 var dt1 = localStorage.getItem('rate');
 var filter=JSON.parse(localStorage.getItem('filter'));
+var dt2=JSON.parse(localStorage.getItem('productOrder'));
 var initialState =
 { Product:data ? data : [],
   Colors:color?color:[],
   Sizes:[],
   Rate:dt1?dt1:null,
   hasComment:null,
-  productsFilter:filter?filter:[]
+  productsFilter:filter?filter:[],
+  productInCart:dt2?dt2:[]
 }
 export default function product_reducer(state =initialState, action) {
   if(action.type=='GET_PRODUCT_DETAIL')
@@ -296,6 +308,13 @@ export default function product_reducer(state =initialState, action) {
    localStorage.setItem("filter",JSON.stringify(newState.productsFilter));
    return newState;
 
+   }
+   if(action.type=='GET_PRODUCT_ON_CART')
+   {
+    let newState={...state};
+    newState.productInCart=action.payload;
+    localStorage.setItem('productOrder',JSON.stringify(newState.productInCart));
+    return newState;
    }
   else return state;
 }

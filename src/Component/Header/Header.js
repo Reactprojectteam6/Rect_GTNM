@@ -16,7 +16,8 @@ class Header extends Component {
       console.log(this.props);
       let {product_name} = this.state;
       let { isLoginSuccess,list_product_get_by_name,currentUser} = this.props;
-     
+      console.log("currentuser");
+      console.log(currentUser);
         return ( 
         
   <header className="header-layout">
@@ -89,7 +90,7 @@ class Header extends Component {
                      </Link>
                     </li>
                     <li>
-                    {currentUser.is_admin &&
+                    {currentUser.role==3 &&
                      <Link to="/admin" >
                        Admin
                        <span class="glyphicon glyphicon-user pull-right"></span>
@@ -115,10 +116,11 @@ class Header extends Component {
               </div>
             </div>
         
-     
+                    }
         
          
-         }
+         
+         
      <div className="header-bottom">
       <nav className="nav navbar-custom navbar-static">
         <div className="navbar-header">
@@ -198,11 +200,12 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   };
   }
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
+  console.log("set");
+  console.log(state.loginState.currentUser);
   return {
  
      isLoginSuccess:state.loginState.isLoginSuccess,
-    //list_product_get_by_name:state.searchState.allProduct,
-      currentUser:state.loginState.currentUser
+     currentUser:state.loginState.currentUser
   };
   }
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

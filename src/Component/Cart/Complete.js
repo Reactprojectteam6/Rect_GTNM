@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setOrder } from '../../redux/order_reducer';
+import { setOrder } from '../../redux/cart_reducer';
 import Login from '../Login/Login';
 import './Complete.css';
-import {  deleteAllProductInCart} from '../../redux/cart_reducer';
 class Complete extends Component {
     constructor(props)
     {
         super(props);
         this.state = {};
         this.Order=this.Order.bind(this);
-       
     }
     componentDidMount()
     { 
@@ -21,8 +19,7 @@ class Complete extends Component {
         this.setState({address:this.props.currentUser.address,email:this.props.currentUser.email,phone:this.props.currentUser.phone})
     }
     render() {
-    
-     let {currentUser,cart,isloginSuccess=true}=this.props;
+    let {currentUser,cart=[],isloginSuccess=true}=this.props;
      let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state;
      console.log(this.state);
      console.log(currentUser.id);
@@ -75,13 +72,13 @@ class Complete extends Component {
                         </tr>
                     </thead>
                    
-           {
-           cart.map((item, index) => {
+           { cart.length>0 &&
+           cart.map((item,index) => {
                 return (
                     <tr>
                     <th scope="row">
                     <img  style={{width:"40%"}}src={require('../../assets/'+item.product.image)}
-                            alt={item.product.name} className="img-fluid z-depth-0" />
+                            alt={item.product_name} className="img-fluid z-depth-0" />
                    
                     </th>
                     <td style={{paddingLeft:"10px"}}>
@@ -93,7 +90,7 @@ class Complete extends Component {
                     <td style={{paddingLeft:"10px"}}>
                     <span className="qty">{item.quantity}</span>
                     </td>
-                <td>{item.color}</td>
+                <td>{item.name}</td>
                     <td>{this.showSubTotal(item.product.price, item.quantity)}Đ</td>
                     
                    </tr>
@@ -169,7 +166,7 @@ class Complete extends Component {
    
 }
 const mapStateToProps = state => {
-return { cart: state.cartState,
+return { cart:state.productState.productInCart,
         currentUser:state.loginState.currentUser,
         isloginSuccess:state.loginState.checkLogin
     }

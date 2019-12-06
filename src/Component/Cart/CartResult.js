@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link ,Redirect} from "react-router-dom";
 import { connect } from 'react-redux';
 import { checkLogin} from '../../redux/login_reducer';
+import { getProductOnCart} from '../../redux/product_reducer';
 class CartResult extends Component {
     constructor(props)
     {
@@ -31,7 +32,7 @@ class CartResult extends Component {
                     className="btn btn-primary waves-effect waves-light" style={{backgroundColor:"#A52A2A"}}
                     onClick={ e=>{
                           this.props.checkLogin();
-                           
+                          this.props.getProductOnCart(cart);
   
                     }    
                     }
@@ -67,7 +68,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     return {
-     checkLogin:()=>dispatch(checkLogin())
+     checkLogin:()=>dispatch(checkLogin()),
+     getProductOnCart:(cart)=>dispatch(getProductOnCart(cart))
     };
     }
 export default connect(mapStateToProps,mapDispatchToProps)(CartResult);

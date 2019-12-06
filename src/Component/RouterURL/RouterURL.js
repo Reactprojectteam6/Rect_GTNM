@@ -16,6 +16,7 @@ import Profile from '../Profile/Profile.js';
 import Orderhistory from '../OrderHistory/Orderhistory.js';
 import Detailoforder from '../OrderHistory/Detailoforder.js';
 import ResultFilter from '../Menu/ResultFilter.js';
+import AdminDashboard from '../Admin/AdminDashboard.js';
 class RouterURL extends Component {
     render() {
         return (
@@ -37,6 +38,7 @@ class RouterURL extends Component {
                     <Route exact path="/orderhistory/:id" component={Orderhistory}/>
                     <Route exact path="/order/:id" component={Detailoforder}/>
                     <Route exact path="/filter/by=:a/value=:b" component={ResultFilter}/>
+                    <Route exact path="/admin" component={AdminDashboard}/>
                     <Route component={Home}/>
                 </Switch>
             </div>

@@ -8,7 +8,7 @@ import { actDeleteProductInCart,actUpdateProductInCart } from '../../redux/cart_
 
 class CartContainer extends Component {
     render() {
-        var { cart } = this.props;
+        var { cart=[] } = this.props;
         return (
             <Cart>
                 {this.showCartItem(cart)}

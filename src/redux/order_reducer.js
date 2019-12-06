@@ -238,7 +238,7 @@ export function   setOrder(order,user_id,state,address,email,phone,total_payment
         }
       ).then(response=>{
         if(response.status=="200")
-        { console.log("dcm");
+        { 
           console.log(response.data);
         dispatch({type:GET_ORDER_DETAIL,payload:response.data});
         }

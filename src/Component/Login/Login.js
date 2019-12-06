@@ -11,7 +11,7 @@ class Login extends React.Component  {
       }
   render(){
     let {email, password} = this.state;//state co 2 trang thai la email va password
-    let {isLoginPending, isLoginSuccess, loginError} = this.props;
+    let {isLoginPending, isLoginSuccess, loginError,currentUser} = this.props;
       return (
           <div>
              <div class="container" style={{marginLeft:"200px"}}>
@@ -60,6 +60,12 @@ class Login extends React.Component  {
             <Redirect to="/home"></Redirect>
            </div>
             } 
+              {isLoginSuccess==true&&currentUser.role==3 &&
+            <div>
+            <Redirect to="/admin"></Redirect>
+           </div>
+            } 
+            
           </div>
 
     
@@ -80,6 +86,7 @@ onSubmit(e) {
    
   return {
     isLoginSuccess: state.loginState.isLoginSuccess,
+    currentUser:state.loginState.currentUser,
   };
   }
   
