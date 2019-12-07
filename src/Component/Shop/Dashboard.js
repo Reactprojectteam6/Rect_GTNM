@@ -41,7 +41,9 @@ class Dashboard extends React.Component  {
                                 <tr>
                                     <td>
                                     <ul className="nav nav-pills nav-stacked">
-                                        <li ><a href="#section3"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}><i className="fas fa-plus-square"></i>&nbsp;Đơn Bán</a></li>
+                                        <li ><Link to="/shop/order"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}>
+                                            <i className="fas fa-plus-square"></i>
+                                            &nbsp;Đơn Bán</Link></li>
                                     </ul>
                                     </td>
                                 </tr>

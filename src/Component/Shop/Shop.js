@@ -1,7 +1,7 @@
 import React from 'react';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
-import {getProductsShop,getShop} from '../../redux/shop_reducer';
+import {getProductsShop,getShop,getOrdersShop} from '../../redux/shop_reducer';
 import {deleteProduct} from '../../redux/shop_reducer';
 import './Shop.css'
 
@@ -31,9 +31,12 @@ class Shop extends React.Component
         var shop_id = localStorage.getItem('shop_id');
         //this.props.getProductsShop(shop_id);
         this.props.getShop(shop_id);
+        //this.props.getOrdersShop(shop_id);
     }
     render()
-    {
+    {  
+        console.log("shop")
+        console.log(this.props);
         let{products=[],isShop}=this.props
         const numberOfItems = this.state.showMore ? this.state.quantity : 1
         return(
@@ -102,8 +105,9 @@ class Shop extends React.Component
 
 const mapStateToProps = (state) =>
 {
+    var isShop = localStorage.getItem("shop_id")
     return{
-       isShop:state.shopState.shop_id,
+       isShop:isShop,
        products:state.shopState.products
     }
 }
@@ -113,7 +117,9 @@ const mapDispatchToProps = (dispath) =>
     return{
         //getProductsShop: (shop_id)=>dispath(getProductsShop(shop_id)),
         getShop: (shop_id) => dispath(getShop(shop_id)),
-        deleteProduct:(id)=>dispath(deleteProduct(id))
+        deleteProduct:(id)=>dispath(deleteProduct(id)),
+       // getOrdersShop: (shop_id)=>dispath(getOrdersShop(shop_id))
+
     }
 }
 

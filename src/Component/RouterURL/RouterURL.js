@@ -8,7 +8,9 @@ import MenuResult from '../Menu/MenuResult';
 import Detail from '../Product_Detail/Detail';
 import Recent from '../Recent/Recent.js';
 import Shop from '../Shop/Shop.js';
-import ProfileShop from '../Shop/ProfileShop.js'
+import ProfileShop from '../Shop/ProfileShop.js';
+import OrderManage from '../Shop/OrderManage.js';
+import OrderDetail from '../Shop/OrderDetail.js';
 
 class RouterURL extends Component {
     render() {
@@ -23,6 +25,8 @@ class RouterURL extends Component {
                     <Route exact path="/recently_viewed" component={Recent}/>
                     <Route exact path="/shop" component={Shop}/>
                     <Route exact path="/shop/profile" component={ProfileShop}/>
+                    <Route exact path="/shop/order" component={OrderManage}/>
+                    <Route exact path="/shop/order/detail" component={OrderDetail}/>
                     <Route component={Home}/>
                     
                 </Switch>

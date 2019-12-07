@@ -48,7 +48,11 @@ export function login(email, password) {
                 'Authorization':'Bearer '+localStorage.getItem("token")
               }
         }).then(response =>{
-           if(response.status=="200") localStorage.setItem('shop_id',response.data.id);
+           if(response.status=="200"){
+             //console.log("shop")
+             //console.log(response.data)
+            localStorage.setItem('shop_id',response.data)
+           };
            
         }).catch(err => console.log(err));
         }

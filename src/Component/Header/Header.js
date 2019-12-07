@@ -17,10 +17,10 @@ class Header extends Component {
 
   }
     render() {
+      console.log("header");
       console.log(this.props);
       let {product_name} = this.state;
-      let { isLoginSuccess,isShop,currentUser} = this.props;
-     
+      let { isLoginSuccess} = this.props;
         return ( 
         
   <header className="header-layout">
@@ -174,9 +174,10 @@ class Header extends Component {
 }
 clickShop(e)
 {
+  var shop_id=localStorage.getItem('shop_id');
   e.preventDefault();
-  this.props.getShopID();
-
+  //this.props.getShopID();
+  this.props.getProductsShop(shop_id);
 }
 onLogout(e)
 {
@@ -197,25 +198,25 @@ onSubmit(e)
 }
 
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
+  var shop_id=localStorage.getItem('shop_id');
   return {
     getProductByName: (product_name) => dispatch( getProductByName(product_name)),
     logout:()=> dispatch( logout()),
     //action la login voi 2 tham so la email va password
-    getShopID: ()=> dispatch(getShopID()),
-    getProductsShop: (isShop)=>dispatch(getProductsShop(isShop))
-    
+    //getShopID: ()=> dispatch(getShopID()),
+    getProductsShop: (shop_id)=>dispatch(getProductsShop(shop_id))
   };
   }
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
-  var isShop=localStorage.getItem('shop_id');
-  console.log("isshop");
-  console.log(isShop);
-  if(isShop!=null) 
-  return {
- 
+  //console.log("isshop");
+  //console.log(isShop);
+  //if(isShop!=null) 
+  return { 
      isLoginSuccess:state.loginState.isLoginSuccess,
      currentUser:state.loginState.currentUser,
-     isShop:isShop,    
+    // isShop:isShop,    
+     productsShop: state.shopState.products,
+    // isShop: state.shopState.shop_id
     //list_product_get_by_name:state.searchState.allProduct,
     //currentUser:state.loginState.currentUser
   };

@@ -1,10 +1,14 @@
 import  axios  from "axios";
+import { functionTypeAnnotation } from "@babel/types";
 
 const GET_PRODUCTS_ONSHOP = 'GET_PRODUCTS_ONSHOP';
 const GET_SHOP_ID = 'GET_SHOP_ID';
 const GET_SHOP = 'GET_SHOP';
 const UPDATE_SHOP = 'UPDATE_SHOP';
 const DELETE_PRODUCT ='DELETE_PRODUCT';
+const GET_ORDERS_SHOP = 'GET_ORDERS_SHOP';
+const DELETE_ORDER = 'DELETE_ORDER';
+const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID';
 //lay products tra ve form
 export function getProductsShop(shop_id)
 {
@@ -173,14 +177,18 @@ export function callUpdateShop(shop_id,name,address,callback)
                   }
             }).then(response1=>{
                 if(response1.data != null)
-                {
-                    
-                    localStorage.setItem('Shop',JSON.stringify(response1.data));      
+                {                    
+                    localStorage.setItem('Shop',JSON.stringify(response1.data));
+                    alert("Update completed!!!!")      
                 }
             })
             return callback(response.data);
         }
-        else return callback(new("can't update"));
+        else
+        {
+            alert("Can't update!! Try again later!!")
+            return callback(null);
+        }
     })
 }
 //delete product of shop
@@ -226,15 +234,120 @@ console.log(id);
 }
 }
 
+//ACTION CREATER GET ORDERS
+export function getOrdersShop(shop_id)
+{
+    return dispath=>{
+        callOrdersShop(shop_id,data =>{
+            dispath(setOrdersShop(data))
+        })
+    }
+}
+
+function setOrdersShop(orders)
+{
+    return {
+        type: GET_ORDERS_SHOP,
+        orders
+    }
+}
+
+export function callOrdersShop(shop_id,callback)
+{
+    axios({
+        method: 'get',
+        url: `https://127.0.0.1:5001/api/Order/shop/${shop_id}`
+    }).then(response => {
+        if(response.data != null) callback(response.data);
+        else callback(null)
+    }
+    );
+}
+
+//DELETE ORDER
+export function DeleteOrder(id)
+{
+    return dispath => {
+        callDeleteOrder(id,data=>{
+            dispath(setDeleteOrder(data))
+        })
+    }
+}
+
+function setDeleteOrder(orders)
+{
+    return {
+        type: DELETE_ORDER,
+        orders
+    }
+}
+
+export function callDeleteOrder(id,callback)
+{
+    axios({
+        method: 'delete',
+        url: `https://127.0.0.1:5001/api/Order/${id}`
+    }).then(response=>{
+        if(response.data != null)
+        {
+            axios({
+                method: 'get',
+                url: `https://127.0.0.1:5001/api/Order/shop/${localStorage.getItem("shop_id")}`
+            }).then(response=>{
+                if(response.data!=null) callback(response.data);
+            })
+        }
+        else alert("Can't delete");
+    })
+}
+
+//LAY 1 ORDER BANG ORDER_ID
+export function getOrderByID(id)
+{
+    return dispath => {
+        console.log("data");
+    
+        callGetOrderByID(id,data=>{
+            console.log(data);
+            dispath(setOrderByID(data))
+        })
+    }
+}
+
+
+function setOrderByID(order)
+{
+    return {
+        type : GET_ORDER_BY_ID,
+        order
+    }
+}
+
+export function callGetOrderByID(id,callback)
+{
+    axios({
+        method: 'get',
+        url: `https://127.0.0.1:5001/api/Order/${id}`
+    }).then(response=>{
+        if(response.data!=null){
+            console.log(response.data)
+            callback(response.data)
+        }
+    })
+}
 
 //initialState
 var data =localStorage.getItem('shop_id');
 var data2 = JSON.parse(localStorage.getItem('productShop'));
 var data3 = JSON.parse(localStorage.getItem('Shop'))
+var data4 = JSON.parse(localStorage.getItem('Orders'));
+var data5 = JSON.parse(localStorage.getItem('orderDetail'));
 var shop_state = {
     shop_id : data?data:null,
     shop: data3?data3:null,
-    products : data2?data2:[]
+    products : data2?data2:[],
+    orders: data4?data4:[],
+    orderDetail: data5?data5:[]
 }
 
 
@@ -261,19 +374,42 @@ export default function shop_reducer(state = shop_state, action)
         localStorage.setItem("Shop",JSON.stringify(newState.shop));
         return newState;
     }
-     if(action.type == 'UPDATE_SHOP')
+     if(action.type === 'UPDATE_SHOP')
     {
         let newState = {...state}
         newState.shop = action.setShop;
         localStorage.setItem("Shop",JSON.stringify(newState.shop));
         return newState;
     }
-    if(action.type=='DELETE_PRODUCT')
+    if(action.type==='DELETE_PRODUCT')
     {
         let newState = {...state}
         newState.products= action.payload;
         if(newState.products.length>0) alert("xoa thanh cong");
         localStorage.setItem("productShop",JSON.stringify(newState.products));
+        return newState;
+    }
+    if(action.type==='GET_ORDERS_SHOP')
+    {
+        let newState = {...state};
+        newState.orders = action.orders;
+        localStorage.setItem("Orders",JSON.stringify(newState.orders));
+        return newState;
+    }
+    if(action.type === 'DELETE_ORDER')
+    {
+        let newState = {...state};
+        newState.orders = action.orders;
+        localStorage.setItem("Orders",JSON.stringify(newState.orders));
+        return newState;
+    }
+    if(action.type === 'GET_ORDER_BY_ID')
+    {
+        let newState = {...state};
+        newState.orderDetail = action.order;
+        console.log("dfsdf");
+        console.log(newState.orderDetail);
+        localStorage.setItem("orderDetail",JSON.stringify(newState.orderDetail));
         return newState;
     }
     else return state;
