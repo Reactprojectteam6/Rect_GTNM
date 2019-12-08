@@ -9,6 +9,7 @@ const DELETE_PRODUCT ='DELETE_PRODUCT';
 const GET_ORDERS_SHOP = 'GET_ORDERS_SHOP';
 const DELETE_ORDER = 'DELETE_ORDER';
 const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID';
+const UPDATE_ORDER = 'UPDATE_ORDER'
 //lay products tra ve form
 export function getProductsShop(shop_id)
 {
@@ -336,6 +337,50 @@ export function callGetOrderByID(id,callback)
     })
 }
 
+// DUNG DE HUY HOAC XAC NHAN DON HANG
+export function UpdateOrder(id,status)
+{
+    return dispatch =>{
+        CallUpdateOrder(id,status,data=>{
+            dispatch(setUpdateOrder(data))
+        })
+    }
+}
+
+function setUpdateOrder(order)
+{
+    return{
+        type: UPDATE_ORDER,
+        order
+    }
+}
+export function CallUpdateOrder(id,status,callback)
+{ 
+    var newOrder = {
+        status: status
+    }
+    axios({
+        method: 'put',
+        url: `https://127.0.0.1:5001/api/Order/${id}`,
+        data: newOrder
+    }).then(response=>{
+        if(response.data!=null)
+        {
+            axios({
+                method: 'get',
+                url: `https://127.0.0.1:5001/api/Order/${id}`
+            }).then(response=>{
+                if(response.data!=null)
+                {
+                    alert("Updated!!!");
+                    localStorage.setItem("orderDetail",JSON.stringify(response.data));
+                    callback(response.data);
+                }
+            })
+        }
+    })
+}
+
 //initialState
 var data =localStorage.getItem('shop_id');
 var data2 = JSON.parse(localStorage.getItem('productShop'));
@@ -409,6 +454,13 @@ export default function shop_reducer(state = shop_state, action)
         newState.orderDetail = action.order;
         console.log("dfsdf");
         console.log(newState.orderDetail);
+        localStorage.setItem("orderDetail",JSON.stringify(newState.orderDetail));
+        return newState;
+    }
+    if(action.type === 'UPDATE_ORDER')
+    {
+        let newState = {...state};
+        newState.orderDetail = action.order;
         localStorage.setItem("orderDetail",JSON.stringify(newState.orderDetail));
         return newState;
     }

@@ -1,16 +1,17 @@
 import React from 'react';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
-import {getOrdersShop, DeleteOrder} from '../../redux/shop_reducer';
+import {getOrdersShop, DeleteOrder,UpdateOrder} from '../../redux/shop_reducer';
 
 class OrderDetail extends React.Component
 {
     render()
     {
-        let {orderDetail=[]} = this.props;
+        let {orderDetail=[],products=[]} = this.props;
         console.log("orderdetail")
         console.log(orderDetail)
         return(
+            <div>
             <div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                     <Dashboard/>
@@ -51,8 +52,15 @@ class OrderDetail extends React.Component
                     {
                         orderDetail[0].status == "1" &&
                         <div>
-                            <button type="button" class="btn btn-primary" style={{float:"right"}}>Xác nhận</button>
-                            <button type="button" class="btn btn-warning">Hủy</button>
+                            <button type="button" class="btn btn-primary"
+                            onClick={e=>this.props.UpdateOrder(orderDetail[0].id,"2")}
+                            style={{float:"right"}}>
+                                Xác nhận
+                            </button>
+                            <button type="button" class="btn btn-warning"
+                            onClick={e=>this.props.UpdateOrder(orderDetail[0].id,"3")}
+                            style={{width:"85px"}}
+                            >Hủy</button>
                         </div>
                     }
                     
@@ -60,7 +68,7 @@ class OrderDetail extends React.Component
 
                 </div>
     }
-                
+                {orderDetail.length>0 &&
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style={{marginTop:"10px"}}>
                     <h4>Danh sách sản phẩm</h4>
                     <hr/>
@@ -75,16 +83,52 @@ class OrderDetail extends React.Component
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                </tr>
+                                {
+                                    orderDetail[0].order_Details.map((item,index)=>{
+                                        return(
+                                            <tr>
+                                                <td>{index+1}</td>
+                                                {
+                                                    products.length>0 &&
+                                                    products.map((k,index1)=>{
+                                                        if(item.product_id == k.id)
+                                                        
+                                                           return(
+                                                           <td>{k.product_name}</td>
+                                                           )
+                                                        
+                                                    }
+                                                    
+                                                )
+                                                }
+                                                {
+                                                    products.length>0 &&
+                                                    products.map((k,index1)=>{
+                                                        if(item.product_id == k.id)
+                                                        
+                                                           return(
+                                                           <td>{k.price}</td>
+                                                           )
+                                                        
+                                                    }
+                                                    
+                                                )
+                                                }
+                                            <td>{item.quantity}</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+    
                             </tbody>
                         </table>
                     </div>
                     
                 </div>
-            </div>
+    }                        
             
+            </div>
+          </div>  
         )
     }
 }
@@ -93,7 +137,8 @@ const mapStateToProps = (state) =>
 {  console.log("hdfjdfh");
 console.log( state.shopState.orderDetail)
     return{
-        orderDetail: state.shopState.orderDetail
+        orderDetail: state.shopState.orderDetail,
+        products: state.shopState.products
     }
 }
 
@@ -102,6 +147,7 @@ const mapDispatchToProps = (dispath) =>
     return{
         getOrdersShop: (shop_id)=>dispath(getOrdersShop(shop_id)),
         DeleteOrder: (id)=>dispath(DeleteOrder(id)),
+        UpdateOrder: (id,status)=>dispath(UpdateOrder(id,status))
     }   
 }
 
