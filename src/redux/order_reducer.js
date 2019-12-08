@@ -3,6 +3,7 @@ const SET_ORDER='SET_ORDER';
 const GET_ORDER_HISTORY_OF_USER='GET_ORDER_HISTORY_OF_USER';
 const GET_ORDER='GET_ORDER';
 const GET_ORDER_DETAIL='GET_ORDER_DETAIL';
+const CANCEL_ORDER='CANCEL_ORDER';
 export function   setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname)
 { return dispatch => {
     callApi(order,user_id,state,address,email,phone,total_payment,payment_method,fullname,error=> {
@@ -186,7 +187,8 @@ export function   setOrder(order,user_id,state,address,email,phone,total_payment
       }
     ).then(response=>{
       if(response.status=="200")
-      { 
+      { console.log("listorder");
+        console.log(response.data);
       dispatch({type:GET_ORDER_HISTORY_OF_USER,payload:response.data});
       }
      
@@ -247,6 +249,41 @@ export function   setOrder(order,user_id,state,address,email,phone,total_payment
   
     };
   }
+ export function cancelOrder(id) 
+ {  return dispatch=>{
+    axios({
+    method:'put',
+    url: `https://127.0.0.1:5001/api/Order/${id}/Cancel`,
+     headers:{
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'Authorization':'Bearer '+localStorage.getItem('token')
+    }
+   }).then(res=>{
+    if(res.status=="200"){alert("Huy don hang thanh cong");
+       axios(
+      {  method:'get',
+         url: `https://127.0.0.1:5001/api/Order/user/${JSON.parse(localStorage.getItem('currentUser')).id}`,
+         headers:{
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Authorization':'Bearer '+localStorage.getItem('token')
+        }
+          
+      }
+    ).then(response=>{
+      if(response.status=="200")
+      { console.log("listorder");
+        console.log(response.data);
+        dispatch({type:CANCEL_ORDER,payload:response.data});
+      }
+     
+    })
+  }
+   })
+
+  }
+ }
 var order=JSON.parse(localStorage.getItem('order'));
 var listOrderDetail=JSON.parse(localStorage.getItem('listOrderDetail'))
 var order_state={
@@ -287,6 +324,11 @@ export default function order_reducer(state =order_state, action) {
     localStorage.setItem('listOrderDetail',JSON.stringify(newState.listOrderDetail));
     return newState;
 
+  }
+  if(action.type=='CANCEL_ORDER')
+  {  let newState={...state};
+    newState.ordersUser=action.payload;
+    return newState;
   }
       return state;
   

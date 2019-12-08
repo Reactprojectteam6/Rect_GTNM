@@ -30,6 +30,12 @@ class Detailoforder extends Component {
          <label>Người nhận</label>
          <input type="text" className="form-control" value={order[0].fullname} />
       <br/>
+      <label>Địa chỉ</label>
+         <input type="text" className="form-control" value={order[0].address} />
+      <br/>
+      <label>Số ĐT</label>
+      <input type="text" className="form-control" value={order[0].phone} />
+      <br/>  
        <label>Phương thức thanh toán</label>
        <input type="text" className="form-control" value={order[0].name} />
       <br/>

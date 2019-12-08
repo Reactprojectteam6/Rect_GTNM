@@ -11,6 +11,7 @@ import recent_reducer from './recent_reducer';
 import product_reducer from './product_reducer';
 import user_reducer from './user_reducer';
 import order_reducer from './order_reducer';
+import admin_reducer from './admin_reducer';
 const  reducer=combineReducers(
   {
     loginState: login_reducer ,
@@ -23,6 +24,8 @@ const  reducer=combineReducers(
     productState:product_reducer,
     userState: user_reducer,
     orderState:order_reducer,
+    adminState: admin_reducer,
+   
   }
 )
 export default reducer;

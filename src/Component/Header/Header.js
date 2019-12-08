@@ -92,7 +92,7 @@ class Header extends Component {
                     <li>
                     {currentUser.role==3 &&
                      <Link to="/admin" >
-                       Admin
+                      Quản trị viên
                        <span class="glyphicon glyphicon-user pull-right"></span>
                      </Link>
 
