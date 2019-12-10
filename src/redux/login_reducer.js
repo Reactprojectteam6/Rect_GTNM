@@ -10,9 +10,8 @@ export function login(email, password) {
   return async dispatch => {
    
   axios.get(`https://127.0.0.1:5001/api/Token/${email}/${password}`).then(response => {
-      console.log(response);
       var token="";
-        if(response.status=="400") dispatch ({type:SET_LOGIN, payload:false});
+        if(response.data==""){ alert("khong") ;dispatch({type:SET_LOGIN, payload:false});}
         else { //localStorage.setItem("token",response.data);
         localStorage.setItem("token",response.data)
         token='Bearer '+localStorage.getItem("token");
@@ -80,7 +79,7 @@ export function checkLogin() { //reducer thuc hien action login xu ly du lieu la
     var a=localStorage.getItem('token');
     if(a!=null)
     dispatch ({type:CHECK_LOGIN, payload:true});
-    else   dispatch ({type:CHECK_LOGIN, payload:false});
+    else   { alert("vui long dang nhap de mua hang");dispatch ({type:CHECK_LOGIN, payload:false});}
 }
 }
 var a=false;
@@ -100,7 +99,9 @@ export default function login_reducer(state =login_state, action) {
       console.log(action.payload);
      newState.isLoginSuccess=action.payload;
      newState.currentUser=action.user;
-     if(newState.isLoginSuccess==true) alert("login successfully");
+     console.log(newState.isLoginSuccess);
+    if(newState.isLoginSuccess==true) alert("dang nhap thanh cong");
+    else if(newState.isLoginSuccess==false) alert("ban khong dang nhap duoc,vui long kiem tra lai")
      return newState;
    }
    if(action.type=='CHECK_LOGIN')

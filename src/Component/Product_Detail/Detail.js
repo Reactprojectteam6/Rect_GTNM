@@ -85,6 +85,7 @@ render()
         </div>
         <div className="details col-md-6">
           <h3 className="product-title">{product[0].product_name}</h3>
+          <h6 className="product-title" style={{color:"brown"}}>{product[0].shop_name}</h6>
           <strong>Rate:{this.props.rate}</strong>
                         <StarRatings
                           rating={this.state.rating}
@@ -130,12 +131,16 @@ render()
           <p className="product-description">
             {product[0].description}
           </p>
+          <div className="row">
          <div className="pi-price">
-                           Price:{product[0].price} Đ
+                           Giá:{product[0].price}
                            <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product[0]);
                             this.props.setComment(currentUser.id,product[0].id,this.state.rating);
-                             }}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+                             }}style={{width:"40px"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
                           </div>
+               
+          </div>               
+                                
          
           <br/>              
          

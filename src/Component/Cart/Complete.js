@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setOrder } from '../../redux/cart_reducer';
+import { paymentByPaypal } from '../../redux/paypal_reducer';
+import PaypalButton from '../Paypal/PaypalButton';
 import Login from '../Login/Login';
 import './Complete.css';
 class Complete extends Component {
@@ -19,10 +21,8 @@ class Complete extends Component {
         this.setState({address:this.props.currentUser.address,email:this.props.currentUser.email,phone:this.props.currentUser.phone})
     }
     render() {
-    let {currentUser,cart=[],isloginSuccess=true}=this.props;
-     let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state;
-     console.log(this.state);
-     console.log(currentUser.id);
+    let {currentUser,cart=[],isloginSuccess=true,list_order=[]}=this.props;
+     let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state
         return (
           <div>
            {isloginSuccess==true &&
@@ -67,6 +67,7 @@ class Complete extends Component {
                             <th>Giá</th>
                             <th>Số Lượng</th>
                             <th>Màu</th>
+                            <th>Shop</th>
                             <th>Tổng Cộng</th>
                             <th></th>
                         </tr>
@@ -74,13 +75,14 @@ class Complete extends Component {
                    
            { cart.length>0 &&
            cart.map((item,index) => {
+             
                 return (
                     <tr>
-                    <th scope="row">
-                    <img  style={{width:"40%"}}src={require('../../assets/'+item.product.image)}
+                    <td >
+                    <img  style={{width:"50px"}}src={require('../../assets/'+item.product.image)}
                             alt={item.product_name} className="img-fluid z-depth-0" />
                    
-                    </th>
+                    </td>
                     <td style={{paddingLeft:"10px"}}>
                         <h5>
                             <strong>{item.product.product_name}</strong>
@@ -90,8 +92,9 @@ class Complete extends Component {
                     <td style={{paddingLeft:"10px"}}>
                     <span className="qty">{item.quantity}</span>
                     </td>
-                <td>{item.name}</td>
-                    <td>{this.showSubTotal(item.product.price, item.quantity)}Đ</td>
+                   <td>{item.product.name}</td>
+                   <td>{item.product.shop_name}</td>
+                   <td>{this.showSubTotal(item.product.price, item.quantity)}Đ</td>
                     
                    </tr>
                  
@@ -125,10 +128,66 @@ class Complete extends Component {
     }
          <h3>Phương thức thanh toán</h3><br/>
          
-         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
-         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px"}} onClick={e=>{this.setState({payment_method:"2"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></span></button>
-         
-       
+         <button type="button" class="btn btn-default" onClick={e=>{this.props.paymentByPaypal(cart);this.setState({payment_method:"2"})}}><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
+         <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></span></button>
+         <table className="table">
+         <caption>Thanh toán sử dụng paypal</caption>
+                    <thead>
+                        <tr>
+                           
+                            <th>Shop</th>
+                            <th>Tiền</th>
+                            <th>Thanh Toán</th>
+                           
+                        </tr>
+                    </thead>  
+
+         {list_order.length>0 &&
+             list_order.map((item1,i)=>{
+                const CLIENT = {
+                  sandbox:item1.paypal.sandbox,
+                  production:item1.paypal.production,
+                  };
+                  const ENV = process.env.NODE_ENV === 'production'
+                    ? 'production'
+                    : 'sandbox'; 
+                    const onSuccess = (payment) =>
+                    { alert("giao dich thanh cong!!!");
+                      console.log('Successful payment!', payment);
+                    }
+                    const onError = (error) =>
+                      console.log('Erroneous payment OR failed to load script!', error);
+                    const onCancel = (data) =>
+                      console.log('Cancelled payment!', data);  
+                    
+                 return(
+                <tr>
+             <td>A</td>      
+             <td>{item1.sum}</td>
+              <td>  
+                <PaypalButton
+                client={CLIENT}
+                env={ENV}
+                commit={true}
+                currency={'USD'}
+                total={item1.sum}
+                onSuccess={onSuccess}
+                onError={onError}
+                onCancel={onCancel}/>
+            </td>
+                </tr>
+                 )  
+
+
+           }
+           
+           
+           )
+           
+
+        
+         }
+        </table>
          
          </div>
          </div>
@@ -157,6 +216,8 @@ class Complete extends Component {
         
         return total;
     }
+    
+
     Order(e)
     {
         let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname}=this.state;
@@ -168,12 +229,15 @@ class Complete extends Component {
 const mapStateToProps = state => {
 return { cart:state.productState.productInCart,
         currentUser:state.loginState.currentUser,
-        isloginSuccess:state.loginState.checkLogin
+        isloginSuccess:state.loginState.checkLogin,
+        list_order:state.paypalState.paypal
+
     }
 }
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     return {
     setOrder: (order,user_id,state,address,email,phone,total_payment,payment_method,fullname) => dispatch(setOrder(order,user_id,state,address,email,phone,total_payment,payment_method,fullname)),
+    paymentByPaypal:(cart)=>dispatch(paymentByPaypal(cart))
     //deleteAllProductInCart:()=>dispatch(deleteAllProductInCart())
     //action la login voi 2 tham so la email va password
     };

@@ -71,6 +71,7 @@ class Detailoforder extends Component {
                             <th>Giá</th>
                             <th>Số Lượng</th>
                              <th>Màu</th>
+                             <th>Shop</th>
                             <th>Tổng Cộng</th>
                             
                         </tr>
@@ -96,6 +97,7 @@ class Detailoforder extends Component {
                     <span className="qty">{item.quantity}</span>
                     </td>
                     <td>{item.name}</td>
+                    <td>{item.shop_name}</td>
                     <td>{item.price*item.quantity}Đ</td>
                     
                    </tr>

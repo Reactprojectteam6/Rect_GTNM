@@ -21,6 +21,8 @@ import AdminUser from '../Admin/AdminUser.js';
 import User from '../Admin/User.js';
 import AddUser from '../Admin/AddUser.js';
 import AdminStore from '../Admin/AdminStore.js';
+import PaidShop from '../Admin/PaidShop.js';
+import Paypal from '../Cart/Paypal.js';
 class RouterURL extends Component {
     render() {
         return (
@@ -47,6 +49,8 @@ class RouterURL extends Component {
                     <Route exact path="/admin/user/:id" component={User}/>
                      <Route exact path="/admin/new/user" component={AddUser}/>
                      <Route exact path="/admin/shops" component={AdminStore}/>
+                     <Route exact path="/admin/store/:id" component={PaidShop}/>
+                     <Route exact path="/paypal" component={Paypal}/>
                     <Route component={Home}/>
                 </Switch>
             </div>

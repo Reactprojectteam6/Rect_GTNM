@@ -77,7 +77,7 @@ class Home extends Component{
               {item1.product_name}
               </h3>
               <div className="pi-price">
-               Price:{item1.price}
+               Giá:{item1.price}
                            
               </div>
              

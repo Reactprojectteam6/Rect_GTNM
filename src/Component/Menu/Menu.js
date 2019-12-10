@@ -68,7 +68,8 @@ class Menu extends React.Component{
       Mức độ phổ biến
       </span>
       <select className="form-control" onChange={event=>this.setState({value: event.target.value,by:"Rating"})} >
-        <option selected>1-3</option>
+      <option selected>None</option>
+        <option>1-3</option>
        <option >4-5</option>
         </select>
       <span>
@@ -80,7 +81,8 @@ class Menu extends React.Component{
        Giá
       </span>
       <select className="form-control" onChange={event=>this.setState({value: event.target.value,by:"Price"})} >
-        <option selected>1-300000</option>
+      <option selected>None</option>
+        <option>1-300000</option>
        <option >300000-500000</option>
         <option>500000-1000000</option>
         </select>
@@ -94,7 +96,8 @@ class Menu extends React.Component{
        Sắp xếp theo
       </span>
       <select className="form-control" onChange={event=>this.setState({value: event.target.value,by:"Sort"})}>
-       <option selected >Tên sản phẩm</option>
+        <option selected>None</option>
+       <option  >Tên sản phẩm</option>
         <option >Giá</option>
         </select>
       <span>

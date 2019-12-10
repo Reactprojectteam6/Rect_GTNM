@@ -6,6 +6,7 @@ const GET_ALL_USER='GET_ALL_USER';
 const GET_USER_BY_NAME='GET_USER_BY_NAME';
 const GET_ALL_SHOP='GET_ALL_SHOP';
 const GET_SHOP_BY_NAME='GET_SHOP_BY_NAME';
+const GET_BILL='GET_BILL';
 export function getUser(user)
 {
 return  dispatch=>{
@@ -173,13 +174,34 @@ export function getShopByName(key)
     if(res.status=="200") dispatch({type:GET_SHOP_BY_NAME,payload:res.data});
    }) 
  }
-
+}
+ //get bill
+ 
+export function getBill(item,id)
+{
+  return dispatch=>{
+    var data=item.check_Paid_Shops;
+   const check_Paid_Shops=data.filter(data =>data.id==id);
+   var Bill={
+    name:item.name,
+    user_name:item.user_name,
+    email:item.email,
+    phone:item.phone,
+    check_Paid_Shops:check_Paid_Shops,
+    address:item.address
+   }
+ console.log(Bill);
+ 
+  dispatch({type:GET_BILL,payload:Bill});
+ }
 }
 var dt=JSON.parse(localStorage.getItem('User'));
+var dt1=JSON.parse(localStorage.getItem('Bill'));
 var initialState={
    user:dt?dt:null,
    users:[],
    shops:[],
+   bill:dt1?dt1:null,
   }
   export default function admin_reducer(state =initialState, action) {
     if(action.type=='GET_USER')
@@ -223,6 +245,14 @@ var initialState={
     if(action.type=='GET_SHOP_BY_NAME')
     {  let newState={...state};
        newState.shops=action.payload;
+
+       return newState;
+
+    }
+    if(action.type=='GET_BILL')
+    {  let newState={...state};
+       newState.bill=action.payload;
+      localStorage.setItem('Bill',JSON.stringify(newState.bill));
        return newState;
 
     }

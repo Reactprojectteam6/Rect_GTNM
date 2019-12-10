@@ -8,9 +8,9 @@ class AdminDashboard extends React.Component  {
                 <div className="panel panel-default">
                    
                     <div className="panel-heading">
-                        <div className="row" style={{marginLeft:"70px",fontSize:"30px",color:"black"}}>
+                        <div className="row" style={{fontSize:"30px",color:"black"}}>
                             
-                            <strong style={{fontFamily:"'Times New Roman', Times, serif",marginLeft:"30px"}}>Quản trị viên</strong>
+                            <strong style={{fontFamily:"'Times New Roman', Times, serif"}}>Quản trị viên</strong>
                         </div>   
                     </div>
                         <table className="table">

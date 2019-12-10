@@ -73,7 +73,7 @@ class MenuResult extends Component {
           {item2.product_name}
           </h3>
           <div className="pi-price">
-           Price:{item2.price}
+           Giá:{item2.price}
         
           </div>
         

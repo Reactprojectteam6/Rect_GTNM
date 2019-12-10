@@ -73,7 +73,7 @@ class Recent extends Component {
           {item2.product_name}
           </h3>
           <div className="pi-price">
-           Price:{item2.product.price}
+           Giá:{item2.product.price}
             
           </div>
          

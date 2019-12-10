@@ -6,7 +6,11 @@ import {connect} from "react-redux";
 class Login extends React.Component  {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+          user: '',
+          password:'',
+          rememberMe: false
+        };
         this.onSubmit = this.onSubmit.bind(this);
       }
   render(){

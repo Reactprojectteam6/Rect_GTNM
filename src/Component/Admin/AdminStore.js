@@ -2,13 +2,23 @@ import React from 'react';
 import AdminDashboard from './AdminDashboard';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import {getAllShop,getShopByName} from '../../redux/admin_reducer';
+import {getAllShop,getShopByName,getBill,getCheckPaidShop} from '../../redux/admin_reducer';
 import Moment from 'react-moment';
 class AdminStore extends React.Component  {
     constructor(props)
-    { super(props);
-      this.state={};
-   }
+    {
+        super(props);
+        this.state = {
+          showMore: false,
+          finish:4
+        }
+  }
+    handleClick() {
+      this.setState({showMore: true})
+      this.setState((prevState) => ({
+      finish: prevState.finish + 4
+      }));
+    }
    componentWillMount()
    {
        this.props.getAllShop();
@@ -16,6 +26,7 @@ class AdminStore extends React.Component  {
   render(){
       let{shops=[]}=this.props;
       let{key}=this.props;
+      const numberOfItems = this.state.showMore ? this.state.finish : 4
       return (
           <div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -26,7 +37,7 @@ class AdminStore extends React.Component  {
                  
                         <div >
                             <div >
-                                <h2 style={{fontFamily:"'Times New Roman', Times, serif",marginLeft:"10px"}}>Admin>Cửa hàng </h2>
+                                <h2 style={{fontFamily:"'Times New Roman', Times, serif"}}>Admin>Cửa hàng </h2>
                                 <hr style={{width:"800px",marginLeft:"7px",marginTop:"5px",backgroundColor:"#000000"}}></hr>
                             </div >
                             
@@ -51,47 +62,40 @@ class AdminStore extends React.Component  {
                             </thead>
                             <tbody>
                             {shops.length>0&&
-                             shops.map((item,i)=>
+                               shops.slice(0, numberOfItems).map((item,i)=>
+                             item.check_Paid_Shops.map((item1,j)=>
                              {
-       
-                            
-                            
                              return(
-                               <tr>
-                                 <td>{i}</td>
-                                 <td>{item.name}</td>
-                                  <td>{item.user_name}</td>
-                                 <td> <Moment format="DD/MM/YYYY">
-                                  {item.date_paid}
-                                  </Moment>
-                                  </td>
+                                <tr>
+                                  <td>{i}</td>
+                                  <td>{item.shop_name}</td>
+                                   <td>{item.user_name}</td>
                                   <td> <Moment format="DD/MM/YYYY">
-                                  {item.date_expired}
-                                  </Moment>
-                                  </td>
-                                 <td>{item.money}</td>
-                                 
-                                 <td>
-                                 <button className="btn" onClick={e =>{
-                             //this.props.detailUserAdmin(item);
-                             
-                            }
-                            }><Link to={`/admin/user/${item.id}`}><span><i class="fas fa-info-circle"></i></span> </Link></button>
+                                   {item1.date_paid}
+                                   </Moment>
+                                   </td>
+                                   <td> <Moment format="DD/MM/YYYY">
+                                   {item1.date_expired}
+                                   </Moment>
+                                   </td>
+                                  <td>{item1.money}</td>
+                                  
+                                  <td>
+                                  <button className="btn" onClick={e =>{
+                              this.props.getBill(item,item1.id);
                               
-                         &ensp;
-                        <button className="btn" onClick={e =>{
-                             //this.props.deleteUser(item.id);
-                             //this.props.getAllUser();
-                             
-                         } }><span><i class="far fa-trash-alt"></i></span></button>
-
-
-                                 </td>
-                               </tr>
-
-
-                             )
                              }
+                             }><Link to={`/admin/store/${item.id}`}><span><i class="fas fa-info-circle"></i></span> </Link></button>
+ 
+ 
+                                  </td>
+                                </tr>
+ 
+ 
+                             
+                             )
+                        })
+
                              
                              )
 
@@ -104,7 +108,9 @@ class AdminStore extends React.Component  {
                                 </div>
                             </div>
                             
-                            
+                            <div className="button" style={{marginLeft:"300px"}}>
+        <button onClick={()=> this.handleClick()}  type="button" className="btn btn-default" style={{color:"black",backgroundColor:"brown"}}>Xem thêm</button>
+        </div>                
                         </div>
                     </div>
               
@@ -121,7 +127,8 @@ const mapStateToProps = state => {
     const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
         return {
          getAllShop:()=>dispatch(getAllShop()),
-         getShopByName:(key)=>dispatch(getShopByName(key))
+         getShopByName:(key)=>dispatch(getShopByName(key)),
+         getBill:(item,id)=>dispatch(getBill(item,id)),
         };
         }
     

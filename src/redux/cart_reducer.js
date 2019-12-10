@@ -19,6 +19,13 @@ export function   setOrder(order,user_id,state,address,email,phone,total_payment
       type: SET_ORDER,
     };
   }
+ function checkExist(a,b)
+  {  for(var i=0;i<b.length;i++)
+     {
+       if(a==b[i]) return true;
+     }
+    return false;
+  }
   async function callApi(cart,user_id,state,address,email,phone,total_payment,payment_method,fullname,callback) {
     console.log(order);
     console.log(user_id);
@@ -37,12 +44,15 @@ export function   setOrder(order,user_id,state,address,email,phone,total_payment
   var check=false;
    list_shop_id[0]=cart[0].product.shop_id;
     for (var i = 1; i < cart.length; i++) {
-     if(cart[i].product.shop_id) list_shop_id.push(cart[i].product.shop_id);
+        if(checkExist(cart[i].product.shop_id,list_shop_id)==false) list_shop_id.push(cart[i].product.shop_id);
 
       }    
       console.log("list_shop_id")
       console.log(list_shop_id); 
       console.log("ket thuc shop id");   
+
+
+      
     for(var i=0;i<list_shop_id.length;i++)
     {  
     
