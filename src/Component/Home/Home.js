@@ -197,8 +197,8 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
     const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
         return {
          
-          getAllProduct:()=>dispatch(getAllProduct()), 
-           show:(product)=>dispatch(show(product)),
+         getAllProduct:()=>dispatch(getAllProduct()), 
+         show:(product)=>dispatch(show(product)),
          addToRecentlyViewed:(product)=>dispatch(addToRecentlyViewed(product)),
          getRating:(id)=>dispatch(getRating(id)),
          getColors:(product_name)=>dispatch(getColors(product_name)),

@@ -9,7 +9,11 @@ class Complete extends Component {
     constructor(props)
     {
         super(props);
-        this.state = {};
+        this.state = {
+
+             isPaypal:false
+                    
+        };
         this.Order=this.Order.bind(this);
     }
     componentDidMount()
@@ -18,11 +22,17 @@ class Complete extends Component {
         this.setState({user_id:this.props.currentUser.id});
         this.setState({order:this.props.cart});
         this.setState({total_payment:this.showTotalAmount(this.props.cart)});
-        this.setState({address:this.props.currentUser.address,email:this.props.currentUser.email,phone:this.props.currentUser.phone})
+        this.setState({address:this.props.currentUser.address,email:this.props.currentUser.email,phone:this.props.currentUser.phone});
+       
     }
+    componentWillMount()
+    {
+        //this.props.paymentByPaypal(this.props.cart);
+    }
+   
     render() {
     let {currentUser,cart=[],isloginSuccess=true,list_order=[]}=this.props;
-     let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state
+     let {order,user_id,state,address,email,phone,total_payment,payment_method,fullname} = this.state;
         return (
           <div>
            {isloginSuccess==true &&
@@ -30,29 +40,29 @@ class Complete extends Component {
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
          <h1 onLoad={e=> this.setState({order:cart})}>Hoàn thành đơn đặt hàng</h1>
          <form style={{marginLeft:"20px"}}>
-         <label>UserName</label>
+         <label>Khách hàng</label>
           <label className="form-control" >{currentUser.user_name} </label>  
            <br/>
-           <label>Reicever</label>
+           <label>Người nhận</label>
          <input type="text" className="form-control"  onChange={e => this.setState({fullname: e.target.value})} />
       <br/>
-         <label>receiving_address</label>
+         <label>Địa chỉ nhận hàng</label>
          <input type="text" className="form-control" value={address} onChange={e => this.setState({address: e.target.value})} />
       <br/>
        <label>email</label>
        <input type="text" className="form-control" value={email}onChange={e => this.setState({email: e.target.value})} />
       <br/>
 
-     <label>phone</label>
+     <label>Điện thoại</label>
      <input type="text" className="form-control" value={phone} onChange={e => this.setState({phone: e.target.value})} />
       <br/>
-    <label>TotalPayment</label>
+    <label>Tổng cộng</label>
      <input type="text" value={this.showTotalAmount(cart)}  className="form-control" readonly="true"  />
      <br/>
-     <label>Status</label>
+     <label>Trạng thái</label>
      <input type="text" value="processing"   className="form-control" />
     
-     <button type="button" className="btn btn-lg btn-primary" onClick={this.Order} style={{marginTop:"30px",backgroundColor:"#A52A2A"}} >Order</button>
+     <button type="button" className="btn btn-lg btn-primary" onClick={this.Order} style={{marginTop:"30px",backgroundColor:"#A52A2A"}} >Đặt hàng</button>
          </form>    
          </div>
          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"> 
@@ -128,10 +138,10 @@ class Complete extends Component {
     }
          <h3>Phương thức thanh toán</h3><br/>
          
-         <button type="button" class="btn btn-default" onClick={e=>{this.props.paymentByPaypal(cart);this.setState({payment_method:"2"})}}><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
+         <button type="button" class="btn btn-default" onClick={e=>{this.props.paymentByPaypal(cart);this.setState({payment_method:"2",isPaypal:true})}}><span><img className="img-responsive" style={{width:"100px",height:"60px",float:"left",marginRight:"10px"}} src={require('../../assets/paypal.jpg')}alt=""/></span></button>&nbsp;
          <button type="button" class="btn btn-default"><span><img className="img-responsive" style={{width:"100px",height:"60px"}} onClick={e=>{this.setState({payment_method:"1"})}}  src={require('../../assets/vnpost.jpg')}alt=""/></span></button>
          <table className="table">
-         <caption>Thanh toán sử dụng paypal</caption>
+         <caption>Sau khi đặt hàng,nếu quý khách chọn thanh toán bằng paypal thì vui lòng bấm thanh toán ở bảng này!!!</caption>
                     <thead>
                         <tr>
                            
@@ -142,8 +152,10 @@ class Complete extends Component {
                         </tr>
                     </thead>  
 
-         {list_order.length>0 &&
-             list_order.map((item1,i)=>{
+         {this.state.isPaypal==true&&
+         list_order.length>0 &&
+            list_order
+            .map((item1,i)=>{
                 const CLIENT = {
                   sandbox:item1.paypal.sandbox,
                   production:item1.paypal.production,
@@ -162,7 +174,7 @@ class Complete extends Component {
                     
                  return(
                 <tr>
-             <td>A</td>      
+             <td>{item1.list_product[0].product.shop_name}</td>      
              <td>{item1.sum}</td>
               <td>  
                 <PaypalButton

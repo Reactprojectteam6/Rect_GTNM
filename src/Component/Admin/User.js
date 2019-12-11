@@ -12,7 +12,7 @@ class User extends React.Component  {
 
   }
   componentDidMount()
-    { 
+    {   console.log(this.props.currentUser);
         this.setState({user_name:this.props.currentUser.user_name,email:this.props.currentUser.email,address:this.props.currentUser.address,phone:this.props.currentUser.phone})
         this.setState({id:this.props.currentUser.id,role:this.props.currentUser.role});
     }
@@ -102,6 +102,7 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   };
   }     
 const mapStateToProps = state => {
+  console.log(state.adminState.user);
 return {
   currentUser:state.adminState.user
   }

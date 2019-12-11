@@ -142,7 +142,7 @@ class Header extends Component {
             <Link to='/recently_viewed'>Sản phẩm xem gần đây</Link>
             </li>
             <li>
-            <Link to='/about'>Giới thiệu</Link>
+            <Link to='/Webinfor'>Giới thiệu</Link>
              
             </li>
          
@@ -157,7 +157,7 @@ class Header extends Component {
           <ul className="nav navbar-right link-cart" style={{marginRight:"100px",marginTop:"20px"}}>
             <li className="cart-text"> 
             <button type="button" className="btn btn-default btn-sm">
-             <span className="glyphicon glyphicon-shopping-cart"></span> <Link to="/cart" >Cart</Link></button></li>
+             <span className="glyphicon glyphicon-shopping-cart"></span> <Link to="/cart" style={{color:"brown"}} >Cart</Link></button></li>
           </ul>
         </div>
       </nav>

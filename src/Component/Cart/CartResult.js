@@ -29,7 +29,7 @@ class CartResult extends Component {
                 <td colSpan="3">
                     
                   <button type="button"
-                    className="btn btn-primary waves-effect waves-light" style={{backgroundColor:"#A52A2A"}}
+                    className="btn btn-default" style={{backgroundColor:"#A52A2A"}}
                     onClick={ e=>{
                           this.props.checkLogin();
                           this.props.getProductOnCart(cart);
@@ -37,10 +37,7 @@ class CartResult extends Component {
                     }    
                     }
                     
-                    >
-                        
-                      
-                       <Link to="/order">Order</Link> 
+                    > <Link to="/order" style={{color:"white"}}>Đặt hàng</Link> 
                          </button>
                 </td>
             </tr>

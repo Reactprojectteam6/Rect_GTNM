@@ -4,8 +4,8 @@ import Login from '../Login/Login.js';
 import Signup from '../Signup/Signup.js';
 import Home from '../Home/Home.js';
 import Search from '../Search/Search.js';
-import MenuResult from '../Menu/MenuResult';
-import Detail from '../Product_Detail/Detail';
+import MenuResult from '../Menu/MenuResult.js';
+import Detail from '../Product_Detail/Detail.js';
 import Recent from '../Recent/Recent.js';
 import CartContainer from '../Cart/CartContainer.js';
 import About from '../About/About.js';
@@ -22,7 +22,7 @@ import User from '../Admin/User.js';
 import AddUser from '../Admin/AddUser.js';
 import AdminStore from '../Admin/AdminStore.js';
 import PaidShop from '../Admin/PaidShop.js';
-import Paypal from '../Cart/Paypal.js';
+import Webinfor from '../Admin/Webinfor.js';
 class RouterURL extends Component {
     render() {
         return (
@@ -50,8 +50,8 @@ class RouterURL extends Component {
                      <Route exact path="/admin/new/user" component={AddUser}/>
                      <Route exact path="/admin/shops" component={AdminStore}/>
                      <Route exact path="/admin/store/:id" component={PaidShop}/>
-                     <Route exact path="/paypal" component={Paypal}/>
-                    <Route component={Home}/>
+                     <Route exact path="/webinfor" component={Webinfor}/>
+                     <Route component={Home}/>
                 </Switch>
             </div>
         );

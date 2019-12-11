@@ -20,7 +20,7 @@ class AdminUser extends React.Component  {
       }));
     }
     componentWillMount()
-    {
+    { 
        this.props.getAllUser();
     }
   render(){
@@ -88,7 +88,6 @@ class AdminUser extends React.Component  {
                          &ensp;
                         <button className="btn" onClick={e =>{
                              this.props.deleteUser(item.id);
-                             this.props.getAllUser();
                              
                          } }><span><i class="far fa-trash-alt"></i></span></button>
                        </td>

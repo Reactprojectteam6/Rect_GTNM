@@ -3,7 +3,7 @@ const GET_ORDER_HISTORY_OF_USER='GET_ORDER_HISTORY_OF_USER';
 const GET_ORDER='GET_ORDER';
 const GET_ORDER_DETAIL='GET_ORDER_DETAIL';
 const CANCEL_ORDER='CANCEL_ORDER';
-
+const GET_ALL_PRODUCT='GET_ALL_PRODUCT';
  export function getOrderOfUser()
  { 
   return dispatch => {
@@ -117,13 +117,57 @@ const CANCEL_ORDER='CANCEL_ORDER';
 
   }
  }
+
+ 
+export function getAllProduct() {
+  return dispatch => {
+     callAPI(data => {
+         dispatch(set(data));//tra ve cho form
+        
+    });
+  }
+}
+
+
+function set(products) {
+  console.log(products);
+  return {
+    type:GET_ALL_PRODUCT,
+    products
+  };
+}
+
+function callAPI(callback) {
+   var token='Bearer '+localStorage.getItem("token");
+    console.log(token);
+    axios({
+      method: 'get',
+      url: `https://127.0.0.1:5001/api/Order/Products`,
+      //headers:{
+         //'Content-Type': 'application/json',
+      //   Accept: 'application/json',
+      //   'Authorization':token
+      // }
+     
+    }).then(response => {
+   if(response.data!=null) 
+   {  console.log(response.data);
+      callback(response.data);
+    }
+    else callback(new Error("can't get data"));
+ 
+}).catch(err => console.log(err));
+}
+
+
 var order=JSON.parse(localStorage.getItem('order'));
 var listOrderDetail=JSON.parse(localStorage.getItem('listOrderDetail'))
 var order_state={
   isSuccess:false,
   ordersUser:[],
   order:order?order:[],
-  listOrderDetail:listOrderDetail?listOrderDetail:[]
+  listOrderDetail:listOrderDetail?listOrderDetail:[],
+  products:[],
   //order_user?order_user:[]
 }
 export default function order_reducer(state =order_state, action) {
@@ -162,6 +206,12 @@ export default function order_reducer(state =order_state, action) {
   {  let newState={...state};
     newState.ordersUser=action.payload;
     return newState;
+  }
+  if(action.type=='GET_ALL_PRODUCT')
+  { let newState={...state};
+    newState.products=action.products;
+    return newState;
+
   }
       return state;
   

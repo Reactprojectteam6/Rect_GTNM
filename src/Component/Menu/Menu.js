@@ -106,7 +106,7 @@ class Menu extends React.Component{
     </div>
  
     
-     <button style={{marginLeft:"50px",marginTop:"20px",backgroundColor:"#A52A2A"}} type="submit" className="btn btn-primary" onClick={e=>{this.props.sort(this.state.by,this.state.value)}}><Link to={`/filter/by=${this.state.by}/value=${this.state.value}`}>Filter</Link></button>
+     <button style={{marginLeft:"50px",marginTop:"20px",backgroundColor:"#A52A2A"}} type="submit" className="btn btn-default" onClick={e=>{this.props.sort(this.state.by,this.state.value)}}><Link to={`/filter/by=${this.state.by}/value=${this.state.value}`} style={{color:"white"}}>Filter</Link></button>
      
       
    </div>

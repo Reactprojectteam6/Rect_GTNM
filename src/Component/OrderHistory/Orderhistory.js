@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import { getOrderOfUser,getOrder,getOrderDetail,cancelOrder} from '../../redux/order_reducer';
-import {getAllProduct} from '../../redux/product_reducer';
+import {getAllProduct} from '../../redux/order_reducer';
 import Moment from 'react-moment';
 //import {getOrderById} from '../../redux/order_reducer';
 class Orderhistory extends Component {
@@ -135,7 +135,7 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
       return {
           list_order:state.orderState.ordersUser,
           currentUser:state.loginState.currentUser,
-          products:state.productState.products,
+          products:state.orderState.products,
       };
     }
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)

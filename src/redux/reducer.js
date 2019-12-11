@@ -1,7 +1,6 @@
 
 import login_reducer from './login_reducer';
 import {combineReducers} from 'redux';
-
 import cart_reducer from './cart_reducer';
 import signup_reducer from './signup_reducer';
 import home_reducer from './home_reducer';

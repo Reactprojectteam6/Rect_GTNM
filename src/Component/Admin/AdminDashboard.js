@@ -34,7 +34,7 @@ class AdminDashboard extends React.Component  {
                                 <tr>
                                     <td>
                                     <ul className="nav nav-pills nav-stacked">
-                                        <li ><a href="#section3"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}><i className="fas fa-phone-square-alt"></i>&nbsp;Thông Tin Liên Hệ</a></li>
+                                        <li ><Link to="/Webinfor"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}><i className="fas fa-phone-square-alt"></i>&nbsp;Thông Tin Liên Hệ</Link></li>
                                     </ul>
                                     </td>
                                 </tr>

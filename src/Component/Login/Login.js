@@ -43,13 +43,6 @@ class Login extends React.Component  {
                         </div>
                         
                         <button type="button" class="btn btn-default btnlogin" onClick={this.onSubmit} >ĐĂNG NHẬP</button>
-                        <h6 >
-                            <a href="#" className="href" >Quên mật khẩu ?</a>
-                        </h6>
-                        
-                        <div class="row">
-                            <h4 style={{float:"left",fontFamily:"'Times New Roman', Times, serif",color:" aliceblue",marginLeft:"220px",marginTop:"10px"}}>Đăng ký khác</h4>
-                        </div>
                         <h5 style={{marginLeft:"200px",marginTop:"10px",paddingBottom:"10px",color:" aliceblue",fontFamily:"cursive"}}>
                             Bạn có tài khoản chưa? &nbsp;
                             <Link to="./signup" style={{fontFamily:"'Times New Roman', Times, serif",color:"aliceblue",fontSize:"20px"}}>Đăng ký ngay !</Link>

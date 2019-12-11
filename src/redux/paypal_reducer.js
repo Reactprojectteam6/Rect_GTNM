@@ -77,16 +77,14 @@ async function API(cart,callback)
     if(list_order.length>0) callback(list_order);
 
 }
-var data=JSON.parse(localStorage.getItem('paypal'));
 var initialState =
-{ paypal:data?data:[]
+{ paypal:[]
 }
 export default function paypal_reducer(state =initialState, action) {
   if(action.type=='PAYMENT_BY_PAYPAL')
   { let newState={...state};
     newState.paypal=action.payload
     console.log(newState.paypal);
-    localStorage.setItem('paypal', JSON.stringify(newState.paypal));
     return newState;
   }
 

@@ -136,8 +136,13 @@ render()
                            Giá:{product[0].price}
                            <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product[0]);
                             this.props.setComment(currentUser.id,product[0].id,this.state.rating);
-                             }}style={{width:"40px"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+                             }}style={{width:"40px"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span> 
+
+                            <span> <button type="button" onClick={e=>{this.props.onAddToCart(product[0]);
+                            this.props.setComment(currentUser.id,product[0].id,this.state.rating);
+                             }}><Link to="/cart" style={{color:"brown"}} >Mua Ngay</Link></button></span>               
                           </div>
+
                
           </div>               
                                 

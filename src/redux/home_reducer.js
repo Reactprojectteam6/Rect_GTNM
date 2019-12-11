@@ -151,7 +151,7 @@ return dispatch=>{
 }
 
 var category_state={
-  parents:[],
+   parents:[],
    products:[],
    subcategories:[],
    hotproduct:[],
