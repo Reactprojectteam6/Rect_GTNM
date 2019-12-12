@@ -20,11 +20,10 @@ class Dashboard extends React.Component  {
                                      <td>
                                         <ul className="nav nav-pills nav-stacked">
                                             <li >
-                                                <a href="#section2"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}>
+                                                <Link to="/shop"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}>
                                                      <i className="fas fa-store"></i>
-                                                     <Link to="/shop">&nbsp;Danh Mục Shop</Link>
-                                                
-                                                </a>
+                                                     &nbsp;Danh Mục Shop                                                
+                                                </Link>
                                             </li>
                                         </ul>
                                         </td>
@@ -33,7 +32,10 @@ class Dashboard extends React.Component  {
                                     <td>
                                     <ul className="nav nav-pills nav-stacked">
                                         <li >
-                                            <a href="#section2"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}><i className="fas fa-check-circle"></i>&nbsp;Sản Phẩm</a>
+                                            <Link to="/shop/products"  style={{color:"black",fontSize:"20px",fontFamily:"'Times New Roman', Times, serif"}}>
+                                                <i className="fas fa-check-circle"></i>
+                                                &nbsp;Sản Phẩm
+                                            </Link>
                                         </li>
                                     </ul>
                                     </td>

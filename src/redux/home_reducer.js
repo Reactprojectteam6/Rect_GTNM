@@ -132,8 +132,8 @@ function callSubAPI(callback) {
 
 var category_state={
   parents:[],
-   products:[],
-   subcategories:[],
+  products:[],
+  subcategories:[],
 }
 export default function home_reducer(state =category_state, action) {
   if(action.type=='GET_ALL_CATEGORY')

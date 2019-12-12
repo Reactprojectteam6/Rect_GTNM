@@ -13,7 +13,7 @@ class ProfileShop extends React.Component  {
     componentWillMount()
     {
         var shop = JSON.parse(localStorage.getItem('Shop'));
-        this.setState({name: shop.name, address: shop.address,id: shop.id});
+        this.setState({name: shop.shop_name, address: shop.address,id: shop.id});
 
     }
     

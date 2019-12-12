@@ -1,18 +1,21 @@
 import  axios  from "axios";
-import { functionTypeAnnotation } from "@babel/types";
 
 const GET_PRODUCTS_ONSHOP = 'GET_PRODUCTS_ONSHOP';
 const GET_SHOP_ID = 'GET_SHOP_ID';
 const GET_SHOP = 'GET_SHOP';
 const UPDATE_SHOP = 'UPDATE_SHOP';
-const DELETE_PRODUCT ='DELETE_PRODUCT';
 const GET_ORDERS_SHOP = 'GET_ORDERS_SHOP';
 const DELETE_ORDER = 'DELETE_ORDER';
 const GET_ORDER_BY_ID = 'GET_ORDER_BY_ID';
-const UPDATE_ORDER = 'UPDATE_ORDER'
+const UPDATE_ORDER = 'UPDATE_ORDER';
+const SET_PERMISSION_PRODUCT = 'SET_PERMISSION_PRODUCT';
+const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
+const ADD_PRODUCT = 'ADD_PRODUCT';
+const ADD_EXCEL = 'ADD_EXCEL';
 //lay products tra ve form
 export function getProductsShop(shop_id)
 {
+    //alert(shop_id);
     return dispath => {
         CallApi(shop_id,data=>{
             dispath(setProductsShop(data))
@@ -150,9 +153,9 @@ function setUpdateShop(shop)
 }
 export function callUpdateShop(shop_id,name,address,callback)
 {
-    var oldShop = JSON.parse(localStorage.getItem('Shop'));
+    //var oldShop = JSON.parse(localStorage.getItem('Shop'));
     var newShop = {
-        name: name,
+        shop_name: name,
         address: address
     };
     console.log(newShop);
@@ -191,48 +194,6 @@ export function callUpdateShop(shop_id,name,address,callback)
             return callback(null);
         }
     })
-}
-//delete product of shop
-export function deleteProduct(id)
-{   console.log("id la:");
-console.log(id);
-  return dispatch => {
-    axios({
-      method:'delete',
-      url: `https://127.0.0.1:5001/api/Product/${id}`,
-          
-     headers:{
-    'Content-Type': 'application/json',
-     Accept: 'application/json',
-    'Authorization':'Bearer '+localStorage.getItem('token')
-          }
-    }).then(res=>{
-     if(res.status=="200") 
-     {  axios({
-        method: 'get',
-        url : `https://127.0.0.1:5001/api/Product/Shop/${localStorage.getItem('shop_id')}`,
-        headers:{
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            'Authorization':'Bearer '+localStorage.getItem("token")
-          }
-    }).then(response=>{
-        if(response.data != null)
-        {
-            dispatch({type:DELETE_PRODUCT,payload:response.data})
-        }
-        
-    })
-
-    }
-  
-     if(res.status=="400") dispatch({type:DELETE_PRODUCT,payload:JSON.parse(localStorage.getItem('productShop'))})
-    })
-   
-    //dispatch({type:GET_PRODUCT_DETAIL,Product:product});//tra ve cho form
-
-
-}
 }
 
 //ACTION CREATER GET ORDERS
@@ -380,6 +341,234 @@ export function CallUpdateOrder(id,status,callback)
         }
     })
 }
+//update permission
+export function UpdatePermission(id,permission)
+{
+    return dispatch => {
+        callUpdatePermission(id,permission,data=>{
+            dispatch(setPermissionProduct(data))
+        })
+    }
+}
+
+function setPermissionProduct(products)
+{
+    return{
+        type: SET_PERMISSION_PRODUCT,
+        products
+    }
+}
+
+export function callUpdatePermission(id,permission,callback)
+{
+    var newProduct = {
+        permission: permission
+    }
+    axios({
+        method: 'put',
+        url: `https://127.0.0.1:5001/api/Product/${id}/permission`,
+        data: newProduct
+    }).then(response=>{
+        if(response.data!=null)
+        {
+            var shop_id = localStorage.getItem('shop_id');
+            axios({
+                method: 'get',
+                url: `https://127.0.0.1:5001/api/Product/Shop/${shop_id}`,
+                headers:{
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization':'Bearer '+localStorage.getItem("token")
+                  }
+            }).then(res =>{
+                if(res.data != null){
+                    console.log("call shop");
+                    console.log(res.data);
+                    callback(res.data);
+                }
+            })
+        }
+    })
+}
+
+//GET PRODUCT BY ID
+export function getProduct(productDetail)
+{  
+    //alert("get produtc by id");
+    return dispatch => {
+        dispatch({type: GET_PRODUCT_DETAIL,payload: productDetail})
+    }
+}
+
+//UPDATE PRODUCT
+export function UpdateProduct(id,product_name,description,cat_id,price,quantity,permission)
+{
+    return dispatch => {
+        callUpdateProduct(id,product_name,description,cat_id,price,quantity,permission,data=>{
+            dispatch(setUpdateProduct(data))
+        })
+    }
+}
+
+function setUpdateProduct(productDetail)
+{
+    return {
+        type: 'UPDATE_PRODUCT',
+        productDetail
+    }
+}
+export function callUpdateProduct(id,product_name,description,cat_id,price,quantity,permission,callback)
+{    
+    console.log("state")
+    console.log(cat_id,price,quantity);
+    var product = {
+        product_name: product_name,
+        description: description,
+        cat_id: cat_id,
+        price: price,
+        quantity: quantity,
+        permission: permission
+    }
+    axios({
+        method: 'put',
+        url: `https://127.0.0.1:5001/api/Product/${id}/shop`,
+        data: product
+    }).then(response=>{
+        if(response.data!=null){
+            alert("Updated!!")
+            axios({
+                method: 'get',
+                url: `https://127.0.0.1:5001/api/Product/${id}/detail`
+            }).then(res=>{
+                if(res.data!=null) {
+                    //alert("dafgahsdf");
+                    callback(res.data[0])
+                }
+            })
+        }
+    })
+}
+// get all color 
+export function GetColors()
+{
+    return dispatch => {
+        callGetColors(data=>{
+            dispatch(setColors(data))
+        })
+    }
+}
+
+function setColors(colors)
+{
+    return {
+        type: 'GET_COLORS',
+        colors
+    }
+}
+
+export function callGetColors(callback)
+{
+    axios({
+        method: 'get',
+        url: `https://127.0.0.1:5001/api/Color`
+    }).then(response=>{
+        if(response.data != null) callback(response.data);
+    })
+}
+// Add product
+export function addProduct(product_name,description,cat_id,price,quantity,shop_id,image,permission,color_id)
+{
+    return dispatch => {
+        callAddProduct(product_name,description,cat_id,price,quantity,shop_id,image,permission,color_id,data=>{
+            dispatch(setAddProduct(data));
+        })
+    }
+}
+
+function setAddProduct(products)
+{
+    return {
+        type: ADD_PRODUCT,
+        products
+    }
+}
+export function callAddProduct(product_name,description,cat_id,price,quantity,shop_id,image,permission,color_id,callback)
+{
+    var product = {
+        product_name: product_name,
+        description: description,
+        cat_id: cat_id,
+        price: price,
+        quantity: quantity,
+        shop_id: shop_id,
+        image: image,
+        permission: permission,
+        color_id: color_id
+    }
+    axios({
+        method: 'post',
+        url: `https://127.0.0.1:5001/api/Product`,
+        data: product
+    }).then(response=>{
+        if(response.data!=null)
+        {
+            alert("updated!!")
+            var shop_id = localStorage.getItem('shop_id');
+            console.log(shop_id);
+            axios({
+                method: 'get',
+                url: `https://127.0.0.1:5001/api/Product/Shop/${shop_id}`,
+                headers:{
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Authorization':'Bearer '+localStorage.getItem("token")
+                  }
+            }).then(res=>{
+                if(res.data!=null) callback(res.data);
+            })
+        }
+    })
+}
+//ADD EXCEL
+export function  addExcel(products) {
+    return dispatch =>{
+        callAddExcel(products,data=>{
+            dispatch(setAddExcel(data));
+        })
+    }
+}
+
+function setAddExcel(products) {
+    return {
+        type:ADD_EXCEL,
+        products
+    }
+}
+
+async function callAddExcel(products,callback) {
+    for(var i = 0; i < products.length; i++)
+    {
+       await axios({
+            method: 'post',
+            url: `https://127.0.0.1:5001/api/Product`,
+            data: products[i]
+        }).then(response=>{
+            if(response.data!=null) alert("Updated");
+        })
+    }
+    var shop_id = localStorage.getItem('shop_id');
+    axios({
+        method: 'get',
+        url: `https://127.0.0.1:5001/api/Product/Shop/${shop_id}`,
+        headers:{
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization':'Bearer '+localStorage.getItem("token")
+          }
+    }).then(res=>{
+        if(res.data!=null) callback(res.data);
+    })
+}
 
 //initialState
 var data =localStorage.getItem('shop_id');
@@ -387,16 +576,16 @@ var data2 = JSON.parse(localStorage.getItem('productShop'));
 var data3 = JSON.parse(localStorage.getItem('Shop'))
 var data4 = JSON.parse(localStorage.getItem('Orders'));
 var data5 = JSON.parse(localStorage.getItem('orderDetail'));
+var data6 = JSON.parse(localStorage.getItem('productDetail'))
 var shop_state = {
     shop_id : data?data:null,
     shop: data3?data3:null,
     products : data2?data2:[],
     orders: data4?data4:[],
-    orderDetail: data5?data5:[]
+    orderDetail: data5?data5:[],
+    productDetail:data6?data6:null,
+    colors:[]
 }
-
-
-//REDUCER
 export default function shop_reducer(state = shop_state, action)
 {
     if(action.type === 'GET_PRODUCTS_ONSHOP'){
@@ -424,14 +613,6 @@ export default function shop_reducer(state = shop_state, action)
         let newState = {...state}
         newState.shop = action.setShop;
         localStorage.setItem("Shop",JSON.stringify(newState.shop));
-        return newState;
-    }
-    if(action.type==='DELETE_PRODUCT')
-    {
-        let newState = {...state}
-        newState.products= action.payload;
-        if(newState.products.length>0) alert("xoa thanh cong");
-        localStorage.setItem("productShop",JSON.stringify(newState.products));
         return newState;
     }
     if(action.type==='GET_ORDERS_SHOP')
@@ -462,6 +643,50 @@ export default function shop_reducer(state = shop_state, action)
         let newState = {...state};
         newState.orderDetail = action.order;
         localStorage.setItem("orderDetail",JSON.stringify(newState.orderDetail));
+        return newState;
+    }
+    if(action.type == 'SET_PERMISSION_PRODUCT')
+    {
+        let newState = {...state};
+        newState.products = action.products;
+        console.log("set permission");
+        console.log(newState.products);
+        localStorage.setItem("productShop",JSON.stringify(newState.products));
+        return newState;
+    }
+    if(action.type === 'GET_PRODUCT_DETAIL')
+    {   
+        let newState = {...state};
+        newState.productDetail = action.payload;
+        localStorage.setItem("productDetail",JSON.stringify(newState.productDetail));
+        return newState;
+    }
+    if(action.type == 'UPDATE_PRODUCT')
+    {
+        let newState = {...state};
+        newState.productDetail = action.productDetail;
+        localStorage.setItem("productDetail",JSON.stringify(newState.productDetail));
+        return newState;
+    }
+    if(action.type === 'GET_COLORS')
+    {
+        let newState = {...state};
+        newState.colors = action.colors;
+        return newState;
+    }
+    if(action.type === 'ADD_PRODUCT')
+    {
+        let newState = {...state};
+        newState.products = action.products;
+        localStorage.setItem("productShop",JSON.stringify(newState.products));
+        return newState;
+    }
+    if(action.type === 'ADD_EXCEL')
+    {
+        let newState = {...state};
+        newState.products = action.products
+        newState.products = action.products;
+        localStorage.setItem("productShop",JSON.stringify(newState.products));
         return newState;
     }
     else return state;

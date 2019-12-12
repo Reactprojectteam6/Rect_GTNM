@@ -3,7 +3,6 @@ import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
 import {getOrdersShop, DeleteOrder, getOrderByID} from '../../redux/shop_reducer';
 import './OrderManage.css';
-import OrderDetail from './OrderDetail.js';
 import { Link ,Redirect} from "react-router-dom";
 
 

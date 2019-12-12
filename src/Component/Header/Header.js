@@ -176,8 +176,7 @@ clickShop(e)
 {
   var shop_id=localStorage.getItem('shop_id');
   e.preventDefault();
-  //this.props.getShopID();
-  this.props.getProductsShop(shop_id);
+  //this.props.getProductsShop(shop_id);
 }
 onLogout(e)
 {
@@ -204,7 +203,7 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     logout:()=> dispatch( logout()),
     //action la login voi 2 tham so la email va password
     //getShopID: ()=> dispatch(getShopID()),
-    getProductsShop: (shop_id)=>dispatch(getProductsShop(shop_id))
+    //getProductsShop: (shop_id)=>dispatch(getProductsShop(shop_id))
   };
   }
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
@@ -215,7 +214,7 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
      isLoginSuccess:state.loginState.isLoginSuccess,
      currentUser:state.loginState.currentUser,
     // isShop:isShop,    
-     productsShop: state.shopState.products,
+    
     // isShop: state.shopState.shop_id
     //list_product_get_by_name:state.searchState.allProduct,
     //currentUser:state.loginState.currentUser

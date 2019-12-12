@@ -2,7 +2,6 @@ import React from 'react';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
 import {getProductsShop,getShop,getOrdersShop} from '../../redux/shop_reducer';
-import {deleteProduct} from '../../redux/shop_reducer';
 import './Shop.css'
 
 class Shop extends React.Component
@@ -12,7 +11,7 @@ class Shop extends React.Component
         super(props);
         this.state = {
             showMore: false,
-            quantity: 1
+            quantity: 8
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -23,22 +22,21 @@ class Shop extends React.Component
             
         })
         this.setState((prevState) => ({
-            quantity: prevState.quantity + 1
+            quantity: prevState.quantity + 8
             }))
     }
     componentWillMount()
     {
         var shop_id = localStorage.getItem('shop_id');
-        //this.props.getProductsShop(shop_id);
         this.props.getShop(shop_id);
-        //this.props.getOrdersShop(shop_id);
+        this.props.getProductsShop(shop_id);
     }
     render()
     {  
         console.log("shop")
         console.log(this.props);
         let{products=[],isShop}=this.props
-        const numberOfItems = this.state.showMore ? this.state.quantity : 1
+        const numberOfItems = this.state.showMore ? this.state.quantity : 8
         return(
             <div>
                 { isShop!=null &&
@@ -49,28 +47,46 @@ class Shop extends React.Component
                 </div>
                 
                 <div className="col-xs-9 col-sm-9 col-md-9 col-lg-9 bg-right">
-                    <div class="row">
+                    <h3 style={{marginTop:"15px"}}><span><i class="fas fa-eye-slash"></i></span> Sản phẩm đã ẩn</h3>                    
+                    <div class="row" style={{marginTop:"10px"}}>
+                        {
+                            products.length>0 &&
+                            products.map((item)=>{
+                                if(item.permission == false)
+                                return(
+                                    <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div className="thumbnail bg-thumnail abc">
+                                                    <img src={require('../../assets/'+item.image)} style={{width:"250px",height:"250px"}} alt=""></img> 
+                                                    
+                                                <h5>{item.product_name}</h5>
+                                                <br/>
+                                                <p>Số lượng : <i>{item.quantity}</i></p>
+                                            </div>
+                                        </div>
+                                )
+                            })
+                        }
+                    </div>
+                    
+                    <h3 style={{marginTop:"15px"}}><span><i class="fas fa-eye"></i></span> Sản phẩm đang hiển thị</h3>
+                    <div class="row" style={{marginTop:"10px"}}>
                         {products.length>0 &&
                         products.slice(0,numberOfItems).map((item)=>{
+                            if(item.permission == true)
                             return(
                                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                             <div className="thumbnail bg-thumnail abc">
                                                     <img src={require('../../assets/'+item.image)} style={{width:"250px",height:"250px"}} alt=""></img> 
-                                                    <button class="overlay" onClick={e=>{this.props.deleteProduct(item.id);
-                                                    //this.props.getProductsShop(localStorage.getItem('shop_id'));
-                                                    }}><p style={{marginTop:"-10px",color:"#B22222",marginLeft:"-5px"}}>X</p></button>
+                                                    
                                                 <h5>{item.product_name}</h5>
                                                 <br/>
                                                 <p>Số lượng : <i>{item.quantity}</i></p>
                                             </div>
                                         </div>
                             )
-                        })}
-                        
-                        
-                        
+                        })}                     
                     </div>  
-                    <button type="button" class="btn btn-default" style={{marginLeft:"500px",marginTop:"50px",marginBottom:"20px"}} onClick={this.handleClick}>Show More</button>
+                    <button type="button" class="btn btn-default" style={{marginLeft:"400px",marginTop:"50px",marginBottom:"20px"}} onClick={this.handleClick}>Show More</button>
                 </div>
                 </div>
     }
@@ -115,11 +131,9 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps = (dispath) =>
 {
     return{
-        //getProductsShop: (shop_id)=>dispath(getProductsShop(shop_id)),
+        getProductsShop: (shop_id)=>dispath(getProductsShop(shop_id)),
         getShop: (shop_id) => dispath(getShop(shop_id)),
-        deleteProduct:(id)=>dispath(deleteProduct(id)),
-       // getOrdersShop: (shop_id)=>dispath(getOrdersShop(shop_id))
-
+        
     }
 }
 

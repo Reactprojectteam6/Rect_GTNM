@@ -63,9 +63,6 @@ class OrderDetail extends React.Component
                             >Hủy</button>
                         </div>
                     }
-                    
-                    
-
                 </div>
     }
                 {orderDetail.length>0 &&

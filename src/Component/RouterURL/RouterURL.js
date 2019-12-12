@@ -11,6 +11,10 @@ import Shop from '../Shop/Shop.js';
 import ProfileShop from '../Shop/ProfileShop.js';
 import OrderManage from '../Shop/OrderManage.js';
 import OrderDetail from '../Shop/OrderDetail.js';
+import ProductManage from '../Shop/ProductManage.js';
+import ProductDetail from '../Shop/ProductDetail.js';
+import AddProduct from '../Shop/AddProduct';
+import AddByExcel from '../Shop/AddByExecl.js';
 
 class RouterURL extends Component {
     render() {
@@ -27,6 +31,10 @@ class RouterURL extends Component {
                     <Route exact path="/shop/profile" component={ProfileShop}/>
                     <Route exact path="/shop/order" component={OrderManage}/>
                     <Route exact path="/shop/order/detail" component={OrderDetail}/>
+                    <Route exact path="/shop/products" component={ProductManage}/>
+                    <Route exact path="/shop/products/detail" component={ProductDetail}/>
+                    <Route exact path="/shop/products/new" component={AddProduct}/>
+                    <Route exact path="/shop/products/excel" component={AddByExcel}/>
                     <Route component={Home}/>
                     
                 </Switch>
