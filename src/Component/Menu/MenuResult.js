@@ -59,7 +59,7 @@ class MenuResult extends Component {
           <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={require('../../assets/'+item2.image)}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
-                 this.props.show(item2);
+                 this.props.show(item2.id);
                  this.props.addToRecentlyViewed(item2);
                   }
                   }><Link to="./product">Xem chi tiết</Link></button>
@@ -71,8 +71,8 @@ class MenuResult extends Component {
           {item2.product_name}
           </h3>
           <div className="pi-price">
-           Price:{item2.price}
-           <span> <button type="submit" className="shoe-cart pshoe-cart"onClick={e=>{this.props.onAddToCart(item2)}} style={{width:"22%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+           Giá:{item2.price}
+        
           </div>
           {
               

@@ -2,7 +2,7 @@ import React from 'react';
 import './Menu.css';
 import {getSubCategory,getAllCategory} from '../../redux/home_reducer';
 import {getCategoryName,getProductByCategory} from '../../redux/menu_reducer';
-// import {sort} from '../../redux/filter_reducer';
+import {sort} from '../../redux/product_reducer';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 class Menu extends React.Component{
@@ -60,6 +60,56 @@ class Menu extends React.Component{
               </ul>
               </div>
             </div>
+
+
+ <div className="filter">
+ <div className="input-group">
+      <span className="input-group-addon">
+      Mức độ phổ biến
+      </span>
+      <select className="form-control" onChange={event=>this.setState({value: event.target.value,by:"Rating"})} >
+      <option selected>None</option>
+        <option>1-3</option>
+       <option >4-5</option>
+        </select>
+      <span>
+       
+      </span>
+    </div>
+    <div className="input-group">
+      <span className="input-group-addon">
+       Giá
+      </span>
+      <select className="form-control" onChange={event=>this.setState({value: event.target.value,by:"Price"})} >
+      <option selected>None</option>
+        <option>1-300000</option>
+       <option >300000-500000</option>
+        <option>500000-1000000</option>
+        </select>
+      <span>
+       
+      </span>
+    </div>
+   
+    <div className="input-group">
+      <span className="input-group-addon">
+       Sắp xếp theo
+      </span>
+      <select className="form-control" onChange={event=>this.setState({value: event.target.value,by:"Sort"})}>
+        <option selected>None</option>
+       <option  >Tên sản phẩm</option>
+        <option >Giá</option>
+        </select>
+      <span>
+     
+      </span>
+    </div>
+ 
+    
+     <button style={{marginLeft:"50px",marginTop:"20px",backgroundColor:"#A52A2A"}} type="submit" className="btn btn-default" onClick={e=>{this.props.sort(this.state.by,this.state.value)}}><Link to={`/filter/by=${this.state.by}/value=${this.state.value}`} style={{color:"white"}}>Filter</Link></button>
+     
+      
+   </div>
             </div>
   
         )
@@ -74,7 +124,8 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
     getSubCategory:()=>dispatch(getSubCategory()),
     getAllCategory:()=>dispatch(getAllCategory()),
     getCategoryName:(name)=>dispatch(getCategoryName(name)),
-    getProductByCategory:(id)=>dispatch(getProductByCategory(id))
+    getProductByCategory:(id)=>dispatch(getProductByCategory(id)),
+    sort:(by,value)=>dispatch(sort(by,value))
   };
   }     
   const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop

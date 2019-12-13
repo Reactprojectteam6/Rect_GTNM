@@ -20,7 +20,9 @@ class Header extends Component {
       console.log("header");
       console.log(this.props);
       let {product_name} = this.state;
-      let { isLoginSuccess} = this.props;
+      let { isLoginSuccess,list_product_get_by_name,currentUser} = this.props;
+      console.log("currentuser");
+      console.log(currentUser);
         return ( 
         
   <header className="header-layout">
@@ -115,10 +117,11 @@ class Header extends Component {
               </ul>
             </div>
         
-     
+                    }
         
          
-         }
+         
+         
      <div className="header-bottom">
       <nav className="nav navbar-custom navbar-static">
         <div className="navbar-header">
@@ -140,7 +143,7 @@ class Header extends Component {
             <Link to='/recently_viewed'>Sản phẩm xem gần đây</Link>
             </li>
             <li>
-            <Link to='/about'>Giới thiệu</Link>
+            <Link to='/Webinfor'>Giới thiệu</Link>
              
             </li>
          
@@ -155,7 +158,7 @@ class Header extends Component {
           <ul className="nav navbar-right link-cart" style={{marginRight:"100px",marginTop:"20px"}}>
             <li className="cart-text"> 
             <button type="button" className="btn btn-default btn-sm">
-             <span className="glyphicon glyphicon-shopping-cart"></span> <Link to="/cart" >Cart</Link></button></li>
+             <span className="glyphicon glyphicon-shopping-cart"></span> <Link to="/cart" style={{color:"brown"}} >Cart</Link></button></li>
           </ul>
         </div>
       </nav>
@@ -207,17 +210,12 @@ const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   };
   }
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
-  //console.log("isshop");
-  //console.log(isShop);
-  //if(isShop!=null) 
-  return { 
+  console.log("set");
+  console.log(state.loginState.currentUser);
+  return {
+ 
      isLoginSuccess:state.loginState.isLoginSuccess,
-     currentUser:state.loginState.currentUser,
-    // isShop:isShop,    
-    
-    // isShop: state.shopState.shop_id
-    //list_product_get_by_name:state.searchState.allProduct,
-    //currentUser:state.loginState.currentUser
+     currentUser:state.loginState.currentUser
   };
   }
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

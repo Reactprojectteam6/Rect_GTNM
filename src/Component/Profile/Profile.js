@@ -16,6 +16,7 @@ class Profile extends React.Component  {
     }
   render(){
     let {currentUser}=this.props;
+    
     let {id,user_name,email,phone,address,password,newpassword}=this.state;
       return (
      <div >

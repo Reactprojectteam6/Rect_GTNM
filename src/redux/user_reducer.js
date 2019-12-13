@@ -82,10 +82,11 @@ function setSuccess(user) {
 
 
   }
+ 
 var user=JSON.parse(localStorage.getItem('currentUser'));
 var initialState={
 
-    user:user?user:null
+    user:user?user:null,
 }
 export default function user_reducer(state =initialState, action) {
  

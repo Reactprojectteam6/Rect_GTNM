@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link ,Redirect} from "react-router-dom";
 import { connect } from 'react-redux';
+import { checkLogin} from '../../redux/login_reducer';
+import { getProductOnCart} from '../../redux/product_reducer';
 class CartResult extends Component {
     constructor(props)
     {
@@ -25,9 +27,17 @@ class CartResult extends Component {
                 </td>
                 <td colSpan="3">
                     
-                    <button type="button" onClick={this.Orders} className="btn btn-primary waves-effect waves-light" style={{backgroundColor:"#A52A2A"}}><Link to='./order'>Order</Link>
-                          
-                    </button>
+                  <button type="button"
+                    className="btn btn-default" style={{backgroundColor:"#A52A2A"}}
+                    onClick={ e=>{
+                          this.props.checkLogin();
+                          this.props.getProductOnCart(cart);
+  
+                    }    
+                    }
+                    
+                    > <Link to="/order" style={{color:"white"}}>Đặt hàng</Link> 
+                         </button>
                 </td>
             </tr>
         );
@@ -45,5 +55,16 @@ class CartResult extends Component {
    
 
 }
-
-export default CartResult;
+const mapStateToProps = (state) => {
+    return {
+        
+        isLogingSuccess:state.loginState.checkLogin
+    }
+}
+const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
+    return {
+     checkLogin:()=>dispatch(checkLogin()),
+     getProductOnCart:(cart)=>dispatch(getProductOnCart(cart))
+    };
+    }
+export default connect(mapStateToProps,mapDispatchToProps)(CartResult);

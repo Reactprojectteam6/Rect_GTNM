@@ -13,14 +13,15 @@ class Detail extends Component {
       }
    
 render()
-{  let {product} =this.props;
-  let {isLogingSuccess,addProduct,quantity}=this.state;   
+{  let {product=[],sizes=[],colors=[],rate=0,currentUser} =this.props;
+  let {isLogingSuccess,addProduct,quantity}=this.state;
+  console.log(currentUser);
   console.log("hdjsd");
   console.log(this.props);
     return (
         <div style={{marginLeft:"100px"}}>
          
-          {
+          {product.length>0 &&
            <div>
                
               <div className="row product-details">
@@ -35,48 +36,101 @@ render()
         <div className="preview col-md-6">
           <div className="preview-pic tab-content">
             <div className="tab-pane active" id="pic-1">
-            <img className="img-responsive" onLoad={e => this.setState({addProduct:product})}  src={require('../../assets/'+product.image)} alt=""/>
+            <img className="img-responsive"   src={require('../../assets/'+product[0].image)} alt=""/>
             </div>
           </div>
           <ul className="preview-thumbnail nav nav-tabs">
             <li className="active">
               <a data-target="#pic-1" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-2" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-3" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-4" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-4" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product.image)} alt=""/>
+              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
               </a>
             </li>
           </ul>
         </div>
         <div className="details col-md-6">
-          <h3 className="product-title">{product.product_name}</h3>
+          <h3 className="product-title">{product[0].product_name}</h3>
+          <h6 className="product-title" style={{color:"brown"}}>{product[0].shop_name}</h6>
+          <strong>Rate:{this.props.rate}</strong>
+                        <StarRatings
+                          rating={this.state.rating}
+                          starRatedColor="yellow"
+                          changeRating={this.changeRating}
+                          numberOfStars={5}
+                          name='rating'
+                        />
+          <h3>Màu sắc</h3>
+          <h>{product[0].id}</h>
+          <div className="row" style={{marginTop:"20px",marginBottom:"20px"}}>
+            {
+             this.props.colors.length>0 &&
+             this.props.colors.map((item,i)=>{
+               var color;
+               if(item.name=="Đỏ") color="red";
+               if(item.name=="Hồng") color="pink";
+               if(item.name=="Trắng") color="white";
+               if(item.name=="Đen") color="black";
+               console.log(color);
+               return(
+
+               <button value={item.name} style={{backgroundColor:color,fontsize:"1000px",float:"left",marginRight:"20px"}}
+
+               onClick={e=>{this.props.getProductByNameAndColor(product[0],product[0].product_name,item.name,product[0].shop_id)
+              this.setState({color:item.name});
+              //this.props.getRating(product.id);
+              
+              }}
+               
+               
+               >
+                 {item.name}
+            </button>
+            
+            
+               )
+             }
+             )
+           }
+         </div>
          
           
           <p className="product-description">
-            {product.description}
+            {product[0].description}
           </p>
+          <div className="row">
          <div className="pi-price">
-                           Price:{product.price} Đ
-                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={this.onAddToCart}style={{width:"10%"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span>               
+                           Giá:{product[0].price}
+                           <span> <button type="submit" className="shoe-cart pshoe-cart" onClick={e=>{this.props.onAddToCart(product[0]);
+                            this.props.setComment(currentUser.id,product[0].id,this.state.rating);
+                             }}style={{width:"40px"}}><i className="fa fa-cart-plus" aria-hidden="true" /></button></span> 
+
+                            <span> <button type="button" onClick={e=>{this.props.onAddToCart(product[0]);
+                            this.props.setComment(currentUser.id,product[0].id,this.state.rating);
+                             }}><Link to="/cart" style={{color:"brown"}} >Mua Ngay</Link></button></span>               
                           </div>
+
+               
+          </div>               
+                                
          
           <br/>              
           {
@@ -117,7 +171,9 @@ render()
 } 
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {
-       //onAddToCart:(addProduct) =>dispatch(actAddToCart(addProduct,1))
+       onAddToCart:(addProduct) =>dispatch(actAddToCart(addProduct,1)),
+       getProductByNameAndColor:(product,name,color,shop_id)=>dispatch(getProductByNameAndColor(product,name,color,shop_id)),
+       setComment:(user_id,product_id,rate)=>dispatch(setComment(user_id,product_id,rate))
 };
   }      
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop

@@ -6,12 +6,16 @@ import {connect} from "react-redux";
 class Login extends React.Component  {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+          user: '',
+          password:'',
+          rememberMe: false
+        };
         this.onSubmit = this.onSubmit.bind(this);
       }
   render(){
     let {email, password} = this.state;//state co 2 trang thai la email va password
-    let {isLoginPending, isLoginSuccess, loginError} = this.props;
+    let {isLoginPending, isLoginSuccess, loginError,currentUser} = this.props;
       return (
           <div>
              
@@ -41,13 +45,6 @@ class Login extends React.Component  {
                         </div>
                         
                         <button type="button" class="btn btn-default btnlogin" onClick={this.onSubmit} >ĐĂNG NHẬP</button>
-                        <h6 >
-                            <a href="#" className="href" >Quên mật khẩu ?</a>
-                        </h6>
-                        
-                        <div class="row">
-                            <h4 style={{float:"left",fontFamily:"'Times New Roman', Times, serif",color:" aliceblue",marginLeft:"220px",marginTop:"10px"}}>Đăng ký khác</h4>
-                        </div>
                         <h5 style={{marginLeft:"200px",marginTop:"10px",paddingBottom:"10px",color:" aliceblue",fontFamily:"cursive"}}>
                             Bạn có tài khoản chưa? &nbsp;
                             <Link to="./signup" style={{fontFamily:"'Times New Roman', Times, serif",color:"aliceblue",fontSize:"20px"}}>Đăng ký ngay !</Link>
@@ -57,7 +54,17 @@ class Login extends React.Component  {
                  </div>
                  
              </div>
-             
+            {isLoginSuccess==true &&
+            <div>
+            <Redirect to="/home"></Redirect>
+           </div>
+            } 
+              {isLoginSuccess==true&&currentUser.role==3 &&
+            <div>
+            <Redirect to="/admin"></Redirect>
+           </div>
+            } 
+            
           </div>
     
   );
@@ -77,6 +84,7 @@ onSubmit(e) {
    
   return {
     isLoginSuccess: state.loginState.isLoginSuccess,
+    currentUser:state.loginState.currentUser,
   };
   }
   

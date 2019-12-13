@@ -43,7 +43,7 @@ function callSignupApi(user_name,email,phone,password,password_confirm,address,c
         console.log(res);
         console.log(res.data);
         if(res.status=="200")
-        {
+        {  alert("Tao tai khoan thanh cong");
             return callback(null);
         }
         else return callback(new Error("can't create user"));
@@ -53,6 +53,7 @@ function callSignupApi(user_name,email,phone,password,password_confirm,address,c
 
 }
 else {
+  alert("password va password confirm khong khop,vui long nhap lai!!")
   return callback(new Error("Password and password confirm is not similar please enter again to signup!!!"))
 }
 
@@ -66,7 +67,7 @@ export default function signup_reducer(state =signup_state, action) {
   if(action.type=='SET_SIGNUP_SUCCESS')
   {  let newState={...state};
     newState.isSignupSuccess=action.isSignupSuccess;
-    if(newState.isSignupSuccess==true)alert("singup successfully");
+    //if(newState.isSignupSuccess==true)alert("singup successfully");
     return newState;
 
   }

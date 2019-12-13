@@ -6,14 +6,15 @@ class CartItem extends Component {
         var { item } = this.props;
         var { quantity } = item;
         return (
-            <tr>
-                <th scope="row">
-                <img  style={{width:"40%"}}src={require('../../assets/'+item.product.product_image)}
-                        alt={item.product.name} className="img-fluid z-depth-0" />
-               
-            
-                </th>
-                <td>
+           
+            <tr >
+                <td style={{width:"400px"}}>
+                    <img  style={{width:"40%", marginLeft:"50px"}}src={require('../../assets/'+item.product.image)}
+                            alt={item.product.name} className="img-fluid z-depth-0" />
+                
+                
+                    </td>
+                <td style={{width:"400px"}}>
                     <h5>
                         <strong>{item.product.product_name}</strong>
                     </h5>
@@ -38,6 +39,7 @@ class CartItem extends Component {
                         </label>
                     </div>
                 </td>
+                <td>{item.product.name}</td>
                 <td>{this.showSubTotal(item.product.price, item.quantity)}Đ</td>
                 <td>
                     <button

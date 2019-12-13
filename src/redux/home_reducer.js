@@ -3,6 +3,7 @@ import axios from 'axios';
 const GET_ALL_CATEGORY = 'GET_ALL_CATEGORY';
 const GET_ALL_PRODUCT='GET_ALL_PRODUCT';
 const GET_SUB_CATEGORY='GET_SUB_CATEGORY';
+const GET_HOT_PRODUCT='GET_HOT_PRODUCT';
 export function getAllCategory() {
   return dispatch => {
      callCategoryApi(data => {
@@ -112,12 +113,13 @@ function callSubAPI(callback) {
     console.log(token);
     axios({
       method: 'get',
-      url: `https://127.0.0.1:5001/api/Category/Subcategory`,
-      //headers:{
-         //'Content-Type': 'application/json',
-      //   Accept: 'application/json',
+      url: `https://127.0.0.1:5001/api/Category/subcategory`,
+    headers:{
+         'Content-Type': 'application/json',
+         
+       Accept: 'application/json',
       //   'Authorization':token
-      // }
+       }
      
     }).then(response => {
    if(response.data!=null) 
@@ -128,12 +130,31 @@ function callSubAPI(callback) {
  
 }).catch(err => console.log(err));
 }
+//get hot product
+export function getHotProduct()
+{
+return dispatch=>{
+  axios(
 
+    {  method:'get',
+       url: `https://127.0.0.1:5001/api/Product/Hot`,
+        
+    }
+  ).then(response=>{
+    if(response.status=="200")
+    dispatch({type:GET_HOT_PRODUCT,payload:response.data});
+   
+  }
+
+  )
+}
+}
 
 var category_state={
-  parents:[],
-  products:[],
-  subcategories:[],
+   parents:[],
+   products:[],
+   subcategories:[],
+   hotproduct:[],
 }
 export default function home_reducer(state =category_state, action) {
   if(action.type=='GET_ALL_CATEGORY')
@@ -152,6 +173,12 @@ export default function home_reducer(state =category_state, action) {
   {
     let newState={...state};
     newState.subcategories=action.subcategories
+    return newState;
+  }
+  if(action.type=='GET_HOT_PRODUCT')
+  {
+    let newState={...state};
+    newState.hotproduct=action.payload
     return newState;
   }
   else return state;

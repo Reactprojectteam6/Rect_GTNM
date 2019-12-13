@@ -1,0 +1,25 @@
+.avatar
+{
+    vertical-align: middle;
+  width: 80px;
+  height: 80px;
+  border-radius: 70%;
+}
+.UpdateImage
+{
+  background-image: url("./cute2.jpg");
+  width: 70%;
+  margin-left: 200px;
+}
+.imageUpdate
+{
+  vertical-align: middle;
+  width: 150px;
+  height: 150px;
+  border-radius: 70%;
+}
+h2  span {
+  padding: 6px 10px;
+  background: #444242;
+  font-weight: 700;
+}
