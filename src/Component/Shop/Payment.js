@@ -109,7 +109,6 @@ class Payment extends React.Component
                                     <th>Ngày thanh toán</th>
                                     <th>Ngày hết hạn</th>
                                     <th>Phí thanh toán</th>
-                                    <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,11 +129,6 @@ class Payment extends React.Component
                                    </Moment>
                                    </td>
                                   <td>{item.money}</td>
-                                  
-                                  <td>
-                                   
- 
-                                  </td>
                                 </tr>
  
  

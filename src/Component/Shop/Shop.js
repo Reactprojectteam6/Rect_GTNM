@@ -56,7 +56,7 @@ class Shop extends React.Component
                                 return(
                                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                             <div className="thumbnail bg-thumnail abc">
-                                                    <img src={"https://127.0.0.1:5001/api/Image/"+item.image} style={{width:"250px",height:"250px"}} alt=""></img> 
+                                                    <img src={item.image} style={{width:"250px",height:"250px"}} alt=""></img> 
                                                     
                                                 <h5>{item.product_name}</h5>
                                                 <br/>
@@ -76,7 +76,7 @@ class Shop extends React.Component
                             return(
                                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                             <div className="thumbnail bg-thumnail abc">
-                                                    <img src={"https://127.0.0.1:5001/api/Image/"+item.image}style={{width:"250px",height:"250px"}} alt=""></img> 
+                                                    <img src={item.image}style={{width:"250px",height:"250px"}} alt=""></img> 
                                                     
                                                 <h5>{item.product_name}</h5>
                                                 <br/>

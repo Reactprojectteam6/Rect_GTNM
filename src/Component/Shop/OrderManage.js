@@ -80,7 +80,7 @@ class OrderManage extends React.Component
                                                                     if(i.product_id == k.id)
                                                                     
                                                                        return(
-                                                                           <img src={require('../../assets/'+k.image)}
+                                                                           <img src={k.image}
                                                                             alt={k.product_name} 
                                                                             style={{width:"50px",height:"50px"}}
                                                                             />
@@ -156,7 +156,7 @@ class OrderManage extends React.Component
                                                                         if(i.product_id == k.id)
                                                                         
                                                                         return(
-                                                                            <img src={require('../../assets/'+k.image)}
+                                                                            <img src={k.image}
                                                                                 alt={k.product_name} 
                                                                                 style={{width:"50px",height:"50px"}}
                                                                                 />
@@ -223,7 +223,7 @@ class OrderManage extends React.Component
                                                                         if(i.product_id == k.id)
                                                                         
                                                                         return(
-                                                                            <img src={require('../../assets/'+k.image)}
+                                                                            <img src={k.image}
                                                                                 alt={k.product_name} 
                                                                                 style={{width:"50px",height:"50px"}}
                                                                                 />
@@ -290,7 +290,7 @@ class OrderManage extends React.Component
                                                                         if(i.product_id == k.id)
                                                                         
                                                                         return(
-                                                                            <img src={require('../../assets/'+k.image)}
+                                                                            <img src={k.image}
                                                                                 alt={k.product_name} 
                                                                                 style={{width:"50px",height:"50px"}}
                                                                                 />

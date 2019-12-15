@@ -56,7 +56,7 @@ class Recent extends Component {
         <div className="product-item">
           <div className="pi-img-wrapper"style={{width:"300px",height:"300px"}} >
 
-          <img className="img-responsive" style={{width:"300px",height:"300px"}} src={"https://127.0.0.1:5001/api/Image/"+item2.product.image}alt=""/>
+          <img className="img-responsive" style={{width:"300px",height:"300px"}} src={item2.product.image}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
                  this.props.show(item2.product.id);
@@ -93,7 +93,7 @@ class Recent extends Component {
                </div>
                  }
                     </div> 
-                <div className="button" style={{marginLeft:"700px"}}>
+                <div className="button" style={{marginLeft:"450px"}}>
         <button onClick={()=> this.handleClick()}  type="button" className="btn btn-default" style={{color:"black",backgroundColor:"brown"}}>Xem thêm</button>
         </div>
                  </div>

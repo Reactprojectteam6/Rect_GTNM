@@ -35,7 +35,7 @@ class Header extends Component {
            </div>
             <div className="col-md-4">
             <button style={{width:"80px",height:"35px",color:"black",borderRadius:"10px",borderColor:"brown",marginTop:"20px"}}  onClick={this.clickShop} >
-              <Link to="/shop">Shop</Link></button>
+              <Link to="/shop" style={{color:"brown"}}>Shop</Link></button>
             </div>
               
           </div>

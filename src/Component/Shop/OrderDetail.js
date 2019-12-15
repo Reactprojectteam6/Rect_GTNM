@@ -12,6 +12,7 @@ class OrderDetail extends React.Component
         console.log(orderDetail)
         return(
             <div>
+             {orderDetail.length>0&&   
             <div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                     <Dashboard/>
@@ -80,7 +81,7 @@ class OrderDetail extends React.Component
                                 </tr>
                             </thead>
                             <tbody>
-                                {
+                                { orderDetail[0].order_Details!=null&&
                                     orderDetail[0].order_Details.map((item,index)=>{
                                         return(
                                             <tr>
@@ -125,13 +126,14 @@ class OrderDetail extends React.Component
     }                        
             
             </div>
+    }
           </div>  
         )
     }
 }
 
 const mapStateToProps = (state) =>
-{  console.log("hdfjdfh");
+{  
 console.log( state.shopState.orderDetail)
     return{
         orderDetail: state.shopState.orderDetail,

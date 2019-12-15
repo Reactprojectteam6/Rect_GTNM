@@ -8,7 +8,7 @@ function check(a,b)
   return false;
 }
 export function paymentByPaypal(cart) {
-    console.log("do cho dien");
+  
     console.log(cart);
     return dispatch => {
        API(cart,data => {

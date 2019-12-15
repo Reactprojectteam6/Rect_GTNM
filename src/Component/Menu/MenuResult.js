@@ -56,7 +56,7 @@ class MenuResult extends Component {
         <div className="product-item">
           <div className="pi-img-wrapper"style={{width:"300px",height:"300px"}} >
 
-          <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={"https://127.0.0.1:5001/api/Image/"+item2.image}alt=""/>
+          <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={item2.image}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
                  this.props.show(item2.id);

@@ -251,7 +251,14 @@ export function callDeleteOrder(id,callback)
 {
     axios({
         method: 'delete',
-        url: `https://127.0.0.1:5001/api/Order/${id}`
+        url: `https://127.0.0.1:5001/api/Order/${id}`,
+        headers:{
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization':'Bearer '+localStorage.getItem('token')
+          }
+            
+
     }).then(response=>{
         if(response.data != null)
         {
@@ -505,7 +512,7 @@ export function callAddProduct(product_name,description,cat_id,price,quantity,sh
         price: price,
         quantity: quantity,
         shop_id: shop_id,
-        image: image,
+        image: (`https://127.0.0.1:5001/api/Image/`).toString()+image,
         permission: permission,
         color_id: color_id
     }
@@ -514,8 +521,8 @@ export function callAddProduct(product_name,description,cat_id,price,quantity,sh
         url: `https://127.0.0.1:5001/api/Product`,
         data: product
     }).then(response=>{
-        if(response.data!=null)
-        {
+        if(response.status=="200")
+        {   
             alert("updated!!")
             var shop_id = localStorage.getItem('shop_id');
             console.log(shop_id);

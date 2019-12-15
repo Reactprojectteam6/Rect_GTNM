@@ -68,7 +68,7 @@ class Orderhistory extends Component {
                      return (
                     
                   
-                      <img  style={{width:"50px",height:"50px"}}src={require('../../assets/'+item2.image)}
+                      <img  style={{width:"50px",height:"50px"}}src={item2.image}
                               alt={item2.product_name} />
                      )
 

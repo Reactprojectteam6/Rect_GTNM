@@ -46,7 +46,7 @@ class ProductDetail extends React.Component
                 </div >
                 
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style={{marginLeft:"20px"}}>
-                        <img src={"https://127.0.0.1:5001/api/Image/"+image}style={{width:"50%",marginLeft:"50px"}}/>
+                        <img src={image}style={{width:"50%",marginLeft:"50px"}}/>
                         
                     </div>
                     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style={{marginTop:"20px"}}>
