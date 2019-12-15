@@ -9,17 +9,22 @@ class Profile extends React.Component  {
     this.state={};
 
   }
-  componentDidMount()
-    { 
-        this.setState({user_name:this.props.currentUser.user_name,email:this.props.currentUser.email,address:this.props.currentUser.address,phone:this.props.currentUser.phone})
-        this.setState({id:this.props.currentUser.id});
+
+    componentWillMount()
+    { alert('componentwillmount');
+      if(this.props.currentUser!=null)
+      {
+      this.setState({user_name:this.props.currentUser.user_name,email:this.props.currentUser.email,address:this.props.currentUser.address,phone:this.props.currentUser.phone})
+      this.setState({id:this.props.currentUser.id});
+      }
     }
   render(){
-    let {currentUser}=this.props;
+    let {currentUser=null}=this.props;
     
     let {id,user_name,email,phone,address,password,newpassword}=this.state;
       return (
      <div >
+       {currentUser!=null&&
        <div className="UpdateImage">
         <div style={{paddingTop:"10px"}}>
           
@@ -82,6 +87,7 @@ class Profile extends React.Component  {
            </div>
           </div>
        </div>
+      }
      </div>
         
        
@@ -91,11 +97,12 @@ class Profile extends React.Component  {
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {
   
-    updateUser:(id,user_name,email,phone,address,password,newpassword)=>dispatch(updateUser(id,user_name,email,phone,address,password,newpassword))
+    updateUser:(id,user_name,email,phone,address,password,newpassword)=>dispatch(updateUser(id,user_name,email,phone,address,password,newpassword)),
     //action la login voi 2 tham so la email va password
   };
   }     
 const mapStateToProps = state => {
+  console.log(state.userState.user);
 return {
   currentUser:state.userState.user
   }

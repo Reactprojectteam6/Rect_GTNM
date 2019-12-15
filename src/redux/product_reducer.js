@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';   
-const GET_COLORS='GET_COLORS';
+const GET_COLOR='GET_COLOR';
 const GET_RATING='GET_RATING';
 const GET_PRODUCT_BY_NAME_AND_COLOR='GET_PRODUCT_BY_NAME_AND_COLOR';
 const SET_COMMENT='SET_COMMENT';
@@ -37,7 +37,7 @@ export function getColors(name)
      
     }).then(response => {
       if(response.status=="200")
-    dispatch({type:GET_COLORS,Colors:response.data});//tra ve cho form
+    dispatch({type:GET_COLOR,Colors:response.data});//tra ve cho form
     
     })
 }
@@ -293,7 +293,7 @@ export default function product_reducer(state =initialState, action) {
     return newState;
   }
 
-  if(action.type=='GET_COLORS')
+  if(action.type=='GET_COLOR')
   { let newState={...state};
     newState.Colors=action.Colors;
     console.log(newState.Colors);

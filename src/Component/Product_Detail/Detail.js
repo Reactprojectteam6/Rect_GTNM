@@ -52,33 +52,33 @@ render()
         <div className="preview col-md-6">
           <div className="preview-pic tab-content">
             <div className="tab-pane active" id="pic-1">
-            <img className="img-responsive"   src={require('../../assets/'+product[0].image)} alt=""/>
+            <img className="img-responsive"   src={"https://127.0.0.1:5001/api/Image/"+product[0].image} alt=""/>
             </div>
           </div>
           <ul className="preview-thumbnail nav nav-tabs">
             <li className="active">
               <a data-target="#pic-1" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
+              <img className="img-responsive"  src={"https://127.0.0.1:5001/api/Image/"+product[0].image} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-2" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
+              <img className="img-responsive" src={"https://127.0.0.1:5001/api/Image/"+product[0].image} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-3" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
+              <img className="img-responsive"  src={"https://127.0.0.1:5001/api/Image/"+product[0].image} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-4" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
+              <img className="img-responsive" src={"https://127.0.0.1:5001/api/Image/"+product[0].image} alt=""/>
               </a>
             </li>
             <li className="active">
               <a data-target="#pic-4" data-toggle="tab">
-              <img className="img-responsive"  src={require('../../assets/'+product[0].image)} alt=""/>
+              <img className="img-responsive"  src={"https://127.0.0.1:5001/api/Image/"+product[0].image} alt=""/>
               </a>
             </li>
           </ul>

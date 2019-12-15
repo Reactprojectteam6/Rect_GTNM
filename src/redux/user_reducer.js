@@ -1,5 +1,7 @@
 import axios from "axios";
+import User from "../Component/Admin/User";
 const UPDATE_USER='UPDATE_USER';
+const USER='USER';
 export function  updateUser(id,user_name,email,phone,address,password,newpassword)
 {  
     return dispatch => {
@@ -82,11 +84,15 @@ function setSuccess(user) {
 
 
   }
- 
+ export function setUser(user)
+ {
+   return dispatch=>{
+     dispatch({type:USER,payload:user})
+   }
+ }
 var user=JSON.parse(localStorage.getItem('currentUser'));
 var initialState={
-
-    user:user?user:null,
+user:user?user:null,
 }
 export default function user_reducer(state =initialState, action) {
  
@@ -94,7 +100,12 @@ export default function user_reducer(state =initialState, action) {
     {  let newState={...state};
       newState.user=action.user;
       return newState;
-  
+    }
+    if(action.type=='USER')
+    { let newState={...state};
+      newState.user=action.payload;
+      console.log(newState.user);
+      return newState;
     }
   
         return state;

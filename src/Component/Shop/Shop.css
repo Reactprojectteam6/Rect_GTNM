@@ -1,0 +1,38 @@
+.bg-right{
+    background-color: aliceblue;
+}
+
+.bg-thumnail{
+    background-color:#FFFFF0;
+    border: 1px;
+    margin: 7px;
+    height: 400px;
+    text-align: center;
+    color: black;
+}
+.label
+{
+    font-family:cursive;
+    color:white;
+    font-size: 17px;
+}
+.overlay {
+    position: absolute; 
+    bottom: 0; 
+    color: #ca1111; 
+    width: 5%;
+    height: 5%;
+    transition: .5s ease;
+    opacity:0;
+    color: white;
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    margin-left: 235px;
+    margin-top: 10px;
+    
+   
+  }
+  .abc:hover .overlay {
+    opacity: 1;
+  }

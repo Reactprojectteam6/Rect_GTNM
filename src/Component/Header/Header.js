@@ -4,6 +4,7 @@ import './Header.css';
 import { connect } from 'react-redux';
 import {logout} from '../../redux/login_reducer';
 import { getProductByName} from '../../redux/search_reducer';
+import {setUser} from '../../redux/user_reducer';
 class Header extends Component {
   constructor(props)
   {
@@ -33,7 +34,8 @@ class Header extends Component {
             </div>
            </div>
             <div className="col-md-4">
-            <button style={{width:"80px",height:"35px",color:"black",borderRadius:"10px",borderColor:"brown",marginTop:"20px"}}>Shop</button>
+            <button style={{width:"80px",height:"35px",color:"black",borderRadius:"10px",borderColor:"brown",marginTop:"20px"}}  onClick={this.clickShop} >
+              <Link to="/shop">Shop</Link></button>
             </div>
               
           </div>
@@ -67,7 +69,7 @@ class Header extends Component {
          { isLoginSuccess &&
               <div class="col-md-3 col-sm-2 col-xs-2 btn-sign-group">
               <div class="nav navbar-right">
-              <img src={require('../../assets/chonglee.jpg')} alt="Avatar" class="avatar" style={{marginRight:"20px"}}/>
+         
               <ul class="nav navbar-right" style={{marginRight:"50px"}}>
                 <li class="dropdown">
                   <button class="btn dropdown-toggle btn-account"
@@ -77,7 +79,7 @@ class Header extends Component {
                   </button>
                   <ul class="dropdown-menu">
                   <li>
-                     <Link to={`/profile/${currentUser.id}`} >Cá nhân
+                     <Link to={`/profile/${currentUser.id}`} onClick={e=>{this.props.setUser(currentUser)}} >Cá nhân
                         <span class="glyphicon glyphicon-stats pull-right">
                         </span>
                      </Link>
@@ -188,19 +190,17 @@ onSubmit(e)
     product_name: '',
    
   });
- // {this.props.list_product_get_by_name!=[] && <Redirect to="search"></Redirect> } 
 }
 }
-
 const mapDispatchToProps = (dispatch) => {//store.dispatch(action)
   return {
     getProductByName: (product_name) => dispatch( getProductByName(product_name)),
     logout:()=> dispatch( logout()),
+    setUser:(currentUser)=>dispatch(setUser(currentUser))
     //action la login voi 2 tham so la email va password
   };
   }
 const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh prop
-  console.log("set");
   console.log(state.loginState.currentUser);
   return {
  
@@ -209,4 +209,3 @@ const mapStateToProps = (state) => {//tra state return ve tu reducer ve thanh pr
   };
   }
 export default connect(mapStateToProps,mapDispatchToProps)(Header);
-

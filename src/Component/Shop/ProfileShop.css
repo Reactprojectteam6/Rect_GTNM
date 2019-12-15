@@ -1,0 +1,32 @@
+.image
+{
+   width: 650px;
+   height: 340px;
+}
+.picture
+{
+   width: 125px;
+   height: 125px;
+   margin-top: 15px;
+   margin-left: 10px;
+}
+.picture2
+{
+    width: 125px;
+    height: 125px;
+    margin-top: 15px;
+}
+.avatar {
+   vertical-align: middle;
+   width: 150px;
+   height: 150px;
+   border-radius: 50%;
+   position: relative;
+   bottom: 55px;
+   left: 20px;
+  
+ }
+
+ .anhbia{
+    z-index: 80px;
+ }

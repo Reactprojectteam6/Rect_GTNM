@@ -89,7 +89,7 @@ class Complete extends Component {
                 return (
                     <tr>
                     <td >
-                    <img  style={{width:"50px"}}src={require('../../assets/'+item.product.image)}
+                    <img  style={{width:"50px"}}src={"https://127.0.0.1:5001/api/Image/"+item.product.image}
                             alt={item.product_name} className="img-fluid z-depth-0" />
                    
                     </td>

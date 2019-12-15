@@ -12,7 +12,7 @@ export function getProductByCategory(id) {
 }
 export function getCategoryName(name) {
     return dispatch => {
-           dispatch({type:"GET_CATEGORY_NAME",categoryName:name});//tra ve cho form
+           dispatch({type:GET_CATEGORY_NAME,categoryName:name});//tra ve cho form
           
     
     }

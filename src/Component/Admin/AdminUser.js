@@ -2,7 +2,7 @@ import React from 'react';
 import AdminDashboard from './AdminDashboard';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
-import {getAllUser} from '../../redux/admin_reducer';
+import {getAllUser,filter} from '../../redux/admin_reducer';
 import {getUser,deleteUser,getUserByName} from '../../redux/admin_reducer';
 class AdminUser extends React.Component  {
     constructor(props)
@@ -10,7 +10,7 @@ class AdminUser extends React.Component  {
         super(props);
         this.state = {
           showMore: false,
-          finish:4
+          finish:4,
         }
   }
     handleClick() {
@@ -45,7 +45,15 @@ class AdminUser extends React.Component  {
                             <div className="row">
                             <input className="form-control" type="text" placeholder="Tìm kiếm" style={{width:"170px",marginTop:"20px",float:"left"}} onChange={e=>{this.setState({key:e.target.value})}}></input>
                             <button style={{width:"10%",marginTop:"20px",float:"left",marginRight:"50px",color:"black"}} onClick={e=>{this.props.getUserByName(this.state.key)}} className="form-control">Tìm</button>
-                            <button style={{width:"10%",marginTop:"20px"}} className="form-control"><Link to="/admin/new/user" style={{color:"black"}}>Thêm user</Link></button>
+                            <button style={{width:"10%",marginTop:"20px",float:"left"}} className="form-control"><Link to="/admin/new/user" style={{color:"black"}}>Thêm user</Link></button>
+                            <select className="form-control" onChange={event=>{this.props.filter(event.target.value)}} style={{width:"100px",marginTop:"20px"}}>
+                            <option selected style={{display:"none"}}>None</option>
+                            <option>Tất cả</option>
+                            <option>Shop</option>
+                           <option >User</option>
+                           <option>Admin</option>
+                           </select>
+
                             </div>
                             <div className="row" style={{marginTop:"20px"}}>
                             
@@ -62,7 +70,9 @@ class AdminUser extends React.Component  {
                             <tbody>
                              {users.length>0 &&
                               users.slice(0, numberOfItems).map((item,i)=>
-                              {if( item.id!=currentUser.id)
+                              {
+                            if( item.id!=currentUser.id)
+                                
                               return(
                                <tr>
                                 <td>{i} </td>
@@ -92,7 +102,9 @@ class AdminUser extends React.Component  {
                          } }><span><i class="far fa-trash-alt"></i></span></button>
                        </td>
                        </tr>)
-                        })
+                        }
+                       
+                        )
 
                              }   
                             </tbody>
@@ -122,7 +134,7 @@ const mapStateToProps = state => {
             detailUserAdmin:(item)=>dispatch(getUser(item)),
             deleteUser:(id)=>dispatch(deleteUser(id)),
             getUserByName:(key)=>dispatch(getUserByName(key)),
-            
+            filter:(key)=>dispatch(filter(key))
         };
         }
     

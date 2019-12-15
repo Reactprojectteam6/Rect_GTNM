@@ -7,6 +7,7 @@ const GET_USER_BY_NAME='GET_USER_BY_NAME';
 const GET_ALL_SHOP='GET_ALL_SHOP';
 const GET_SHOP_BY_NAME='GET_SHOP_BY_NAME';
 const GET_BILL='GET_BILL';
+const FILTER_BY='FILTER_BY';
 export function getUser(user)
 {
 return  dispatch=>{
@@ -123,7 +124,7 @@ export function getAllUser()
      }) 
    }
  } 
-
+//search user
 export function getUserByName(key)
 {return dispatch=>{
   axios({
@@ -158,7 +159,7 @@ export function getAllShop()
 }
  
 
-//get shop by name
+//search shop by name
 
 export function getShopByName(key)
 {return dispatch=>{
@@ -195,6 +196,115 @@ export function getBill(item,id)
   dispatch({type:GET_BILL,payload:Bill});
  }
 }
+//filter user
+export function filter(value)
+{
+  console.log("value");
+  console.log(value);
+return dispatch => {
+  
+  if(value=="Tất cả")
+    {
+  axios({
+      method:'get',
+      url: `https://127.0.0.1:5001/api/User`,
+      headers:{
+     'Content-Type': 'application/json',
+     Accept: 'application/json',
+     'Authorization':'Bearer '+localStorage.getItem('token')
+  }
+
+
+})
+.then(res => {
+     if(res.status=="200")
+       dispatch({type:FILTER_BY,payload:res.data});
+     })
+ }
+//shop
+if(value=="Shop"){
+
+  axios({
+    method:'get',
+    url: `https://127.0.0.1:5001/api/User`,
+    headers:{
+   'Content-Type': 'application/json',
+   Accept: 'application/json',
+   'Authorization':'Bearer '+localStorage.getItem('token')
+}
+
+
+})
+.then(res => {
+   if(res.status=="200")
+
+    { const data=res.data;
+     const result=data.filter(data =>data.role==2);
+     console.log("result");
+     dispatch({type:FILTER_BY,payload:result});
+   }}
+   )
+  
+
+}
+//user binh thuong
+
+if(value=="User"){
+
+  axios({
+    method:'get',
+    url: `https://127.0.0.1:5001/api/User`,
+    headers:{
+   'Content-Type': 'application/json',
+   Accept: 'application/json',
+   'Authorization':'Bearer '+localStorage.getItem('token')
+}
+
+
+})
+.then(res => {
+   if(res.status=="200")
+
+    {const data=res.data;
+     const result=data.filter(data =>data.role==1);
+     console.log("result");
+     dispatch({type:FILTER_BY,payload:result});
+   }}
+   )
+  
+
+}
+//quan tri vien
+
+if(value=="Admin"){
+
+  axios({
+    method:'get',
+    url: `https://127.0.0.1:5001/api/User`,
+    headers:{
+   'Content-Type': 'application/json',
+   Accept: 'application/json',
+   'Authorization':'Bearer '+localStorage.getItem('token')
+}
+
+
+})
+.then(res => {
+   if(res.status=="200")
+
+    {const data=res.data;
+     const result=data.filter(data =>data.role==3);
+     console.log("result");
+     dispatch({type:FILTER_BY,payload:result});
+   }}
+   )
+  
+
+}
+
+}
+}
+
 var dt=JSON.parse(localStorage.getItem('User'));
 var dt1=JSON.parse(localStorage.getItem('Bill'));
 var initialState={
@@ -256,6 +366,12 @@ var initialState={
        return newState;
 
     }
+    if(action.type=='FILTER_BY')
+     {
+      let newState={...state};
+      newState.users=action.payload;
+      return newState;
 
+     }
     else return state;
   }

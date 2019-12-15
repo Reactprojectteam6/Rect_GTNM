@@ -12,6 +12,7 @@ import user_reducer from './user_reducer';
 import order_reducer from './order_reducer';
 import admin_reducer from './admin_reducer';
 import paypal_reducer from './paypal_reducer';
+import shop_reducer from './shop_reducer';
 const  reducer=combineReducers(
   {
     loginState: login_reducer ,
@@ -26,6 +27,7 @@ const  reducer=combineReducers(
     orderState:order_reducer,
     adminState: admin_reducer,
     paypalState:paypal_reducer,
+    shopState:shop_reducer
   }
 )
 export default reducer;

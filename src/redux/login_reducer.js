@@ -11,7 +11,7 @@ export function login(email, password) {
    
   axios.get(`https://127.0.0.1:5001/api/Token/${email}/${password}`).then(response => {
       var token="";
-        if(response.data==""){ alert("khong") ;dispatch({type:SET_LOGIN, payload:false});}
+        if(response.data==""){ alert("khong dang nhap duoc!!") ;dispatch({type:SET_LOGIN, payload:false});}
         else { //localStorage.setItem("token",response.data);
         localStorage.setItem("token",response.data)
         token='Bearer '+localStorage.getItem("token");
@@ -38,6 +38,26 @@ export function login(email, password) {
           role:user.role,
           phone:user.phone,
         }
+        if(user.role==2) 
+        { 
+          axios({
+            method: 'get',
+            url: `https://127.0.0.1:5001/api/User/${user.id}/shop`,
+            headers:{
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Authorization':'Bearer '+localStorage.getItem("token")
+              }
+        }).then(response =>{
+           if(response.status=="200"){
+             //console.log("shop")
+             //console.log(response.data)
+            localStorage.setItem('shop_id',response.data)
+           };
+           
+        }).catch(err => console.log(err));
+        }
+
          localStorage.setItem('currentUser',JSON.stringify(currentUser));
          dispatch ({type:SET_LOGIN, payload:true,user:JSON.parse(localStorage.getItem('currentUser'))});
       
@@ -114,8 +134,8 @@ export default function login_reducer(state =login_state, action) {
    { let newState={...state};
     newState.isLoginSuccess=action.payload;
     if(newState.isLoginSuccess==false) alert('da log out');
-    newState.currentUser=[];
-   return newState;
+    newState.currentUser=null;
+    return newState;
 
    }
    return state;

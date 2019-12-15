@@ -60,7 +60,7 @@ class Home extends Component{
             <div className="product-item">
               <div className="pi-img-wrapper"style={{width:"400px",height:"400px"}} >
     
-              <img className="img-responsive" style={{width:"400px",height:"400px"}}   src={require('../../assets/'+item1.image)}alt=""/>
+              <img className="img-responsive" style={{width:"400px",height:"400px"}}   src={"https://127.0.0.1:5001/api/Image/"+item1.image}alt=""/>
                 <div>
                 <button className="btn" onClick={e =>{
                       this.props.show(item1.id);
@@ -127,7 +127,7 @@ class Home extends Component{
         <div className="product-item">
           <div className="pi-img-wrapper"style={{width:"300px",height:"300px"}} >
 
-          <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={require('../../assets/'+item2.image)}alt=""/>
+          <img className="img-responsive" style={{width:"300px",height:"300px"}}   src={"https://127.0.0.1:5001/api/Image/"+item2.image}alt=""/>
             <div>
             <button className="btn" onClick={e =>{
                  this.props.show(item2.id);
