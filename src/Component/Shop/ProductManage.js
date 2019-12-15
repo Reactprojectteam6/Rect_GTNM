@@ -2,21 +2,37 @@ import React from 'react';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
 import { Link ,Redirect} from "react-router-dom";
-import {UpdatePermission, getProduct,getProductsShop} from '../../redux/shop_reducer.js';
+import {UpdatePermission, getProduct,getProductsShop,searchProduct} from '../../redux/shop_reducer.js';
 import {getSubCategory} from '../../redux/home_reducer';
 
 class ProductManage extends React.Component
-{
+{    constructor()
+    {
+        super();
+        this.state = {
+            showMore: false,
+            finish:4,
+          }
+    }
+    handleClick() {
+        this.setState({showMore: true})
+        this.setState((prevState) => ({
+        finish: prevState.finish + 4
+        }));
+      }
     componentWillMount()
     {
         var shop_id = localStorage.getItem('shop_id');
         this.props.getProductsShop(shop_id);
+        this.setState({shop_id:shop_id});
     }
     render()
     {
         let {products=[]} = this.props;
+        let{key,shop_id}=this.state;
         console.log("Product manage")
         console.log(products);
+        const numberOfItems = this.state.showMore ? this.state.finish : 4
         return(
             <div>
                 
@@ -30,13 +46,18 @@ class ProductManage extends React.Component
                     
                     <div class="row" style={{marginTop:"20px"}} >
                         <div class="input-group" style={{width:"250px",height:"35px",marginLeft:"15px"}}>
-                            <input type="text" class="form-control" placeholder="Search for..."/>
+                            <input type="text" class="form-control" placeholder="Search for..." onChange={e=>{this.setState({key:e.target.value})}}/>
                             <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="button" onClick={e=>{this.props.searchProduct(key)}}>
                                 <i class="fas fa-search"></i>
                                 </button>
                             </span>
+                           
+
                         </div>
+                        <button class="btn btn-default" type="button" onClick={e=>{this.props.getProductsShop(shop_id)}} style={{marginLeft:"15px",marginTop:"10px"}}>
+                                Tất cả sản phẩm
+                        </button>
 
 
                         
@@ -79,7 +100,7 @@ class ProductManage extends React.Component
                                <tbody>
                                    {
                                        products.length>0&&
-                                   products.map((item,index)=>{
+                                       products.slice(0, numberOfItems).map((item,index)=>{
                                        return(
                                            <tr>
                                                <td>{index+1}</td>
@@ -117,7 +138,9 @@ class ProductManage extends React.Component
                            
                         </div>
                     </div>
-                    
+                    <div className="button" style={{marginLeft:"300px"}}>
+        <button onClick={()=> this.handleClick()}  type="button" className="btn btn-default" style={{color:"black",backgroundColor:"brown"}}>Xem thêm</button>
+        </div>                    
                     
                 </div>
                 
@@ -135,12 +158,13 @@ const mapStateToProps = (state) =>
     }
 }
 
-const mapDispatchToProps = (dispath) =>
+const mapDispatchToProps = (dispatch) =>
 {
     return{
-        UpdatePermission:(id,permission)=>dispath(UpdatePermission(id,permission)),
-        getProduct: (productDetail)=>dispath(getProduct(productDetail)),
-        getProductsShop: (shop_id)=>dispath(getProductsShop(shop_id))
+        UpdatePermission:(id,permission)=>dispatch(UpdatePermission(id,permission)),
+        getProduct: (productDetail)=>dispatch(getProduct(productDetail)),
+        getProductsShop: (shop_id)=>dispatch(getProductsShop(shop_id)),
+        searchProduct:(key)=>dispatch(searchProduct(key))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProductManage);

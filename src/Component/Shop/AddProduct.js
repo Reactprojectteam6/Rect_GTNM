@@ -21,15 +21,16 @@ class AddProduct extends React.Component
             imagePreviewUrl: null,
         }
         this.onChange=this.onChange.bind(this);
-        this.onSubmit=this.onSubmit.bind(this);
+        // this.onSubmit=this.onSubmit.bind(this);
     }
-    async onSubmit(e){
-        e.preventDefault() 
-        let res = await this.uploadFile(this.state.file);
-        this.setState({image:this.state.file.name});
-    }
+    // async onSubmit(e){
+    //     e.preventDefault() 
+    //     let res = await this.uploadFile(this.state.file);
+    //     this.setState({image:this.state.file.name});
+    // }
     onChange(e) {
         this.setState({file:e.target.files[0]});
+       
         let reader = new FileReader();
      
         reader.onloadend = () => {
@@ -40,26 +41,26 @@ class AddProduct extends React.Component
      
         reader.readAsDataURL(e.target.files[0])
     }
-    async uploadFile(file){
+    // async uploadFile(file){
 
 
-        const formData = new FormData();
+    //     const formData = new FormData();
 
-        formData.append('file',file)
+    //     formData.append('file',file)
       
-        return  await axios.post('https://127.0.0.1:5001/api/Image', formData,{
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }).then(res=>{if(res.status=="200") console.log(res.data); alert("upload thanh cong")});
-      }
+    //     return  await axios.post('https://127.0.0.1:5001/api/Image', formData,{
+    //         headers: {
+    //             'content-type': 'multipart/form-data'
+    //         }
+    //     }).then(res=>{if(res.status=="200") console.log(res.data); alert("upload thanh cong")});
+    //   }
     componentWillMount(){
         this.props.getSubCategory();
         this.props.GetColors();
     }
     render()
     {
-        let {product_name,description,cat_id,price,quantity,color_id,image}=this.state
+        let {product_name,description,cat_id,price,quantity,color_id,file}=this.state
         let {subcategory,colors,shop_id} = this.props
         let $imagePreview = (<div className="previewText image-container">Xin chọn ảnh để xem trước</div>);
         if (this.state.imagePreviewUrl) {
@@ -122,7 +123,6 @@ class AddProduct extends React.Component
                     <form onSubmit={ this.onSubmit }>
             <h1>Ảnh sản phẩm</h1>
             <input type="file" onChange={this.onChange} />
-            <button type="submit">Chọn ảnh</button>
             { $imagePreview }
             
 
@@ -137,11 +137,11 @@ class AddProduct extends React.Component
                     <button type="button" class="btn btn-warning" style={{width:"130px",height:"34px",marginLeft:"200px"}}>Hủy</button>
                     
                     <button type="button" class="btn btn-default" style={{width:"130px",height:"34px",marginLeft:"50px"}}
-                    onClick={e=>{this.props.addProduct(product_name,description,cat_id,price,quantity,shop_id,false,color_id,image)}}
+                    onClick={e=>{this.props.addProduct(product_name,description,cat_id,price,quantity,shop_id,false,color_id,file)}}
                     >Thêm và ẩn</button>
                     
                     <button type="button" class="btn btn-success" style={{width:"130px",height:"34px",marginLeft:"50px"}}
-                    onClick={e=>{this.props.addProduct(product_name,description,cat_id,price,quantity,shop_id,true,color_id,image)}}
+                    onClick={e=>{this.props.addProduct(product_name,description,cat_id,price,quantity,shop_id,true,color_id,file)}}
                     >Thêm và hiển thị</button>
                 </div>
                 
@@ -164,7 +164,7 @@ const mapDispatchToProps = (dispatch) => {
     return{
         getSubCategory:()=> dispatch(getSubCategory()),
         GetColors: ()=>dispatch(GetColors()),
-        addProduct:(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,image)=>dispatch(addProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,image))
+        addProduct:(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,file)=>dispatch(addProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,file))
     }
 }
 

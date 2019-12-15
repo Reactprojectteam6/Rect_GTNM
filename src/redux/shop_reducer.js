@@ -15,6 +15,7 @@ const ADD_EXCEL = 'ADD_EXCEL';
 const GET_LIST_PAYMENT_OF_SHOP='GET_LIST_PAYMENT_OF_SHOP';
 const GET_WEB_PAYPAL_ACCOUNT='GET_WEB_PAYPAL_ACCOUNT';
 const SET_PAYMENT_FOR_WEB='SET_PAYMENT_FOR_WEB';
+const SEARCH_PRODUCT='SEARCH_PRODUCT';
 //lay products tra ve form
 export function getProductsShop(shop_id)
 {
@@ -486,10 +487,10 @@ export function callGetColors(callback)
     })
 }
 // Add product
-export function addProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,image)
+export function addProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,file)
 {
     return dispatch => {
-        callAddProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,image,data=>{
+        callAddProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,file,data=>{
             dispatch(setAddProduct(data));
         })
     }
@@ -502,9 +503,18 @@ function setAddProduct(products)
         products
     }
 }
-export function callAddProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,image,callback)
-{    console.log("image");
-     console.log(image);
+ async function callAddProduct(product_name,description,cat_id,price,quantity,shop_id,permission,color_id,file,callback)
+{    var image=null;
+     const formData = new FormData();
+      image=file.name;
+     formData.append('file',file)
+   
+    await axios.post('https://127.0.0.1:5001/api/Image', formData,{
+         headers: {
+             'content-type': 'multipart/form-data'
+         }
+     }).then(res=>{if(res.status=="200") console.log(res.data); alert("upload thanh cong")});
+
     var product  = {
         product_name: product_name,
         description: description,
@@ -516,28 +526,28 @@ export function callAddProduct(product_name,description,cat_id,price,quantity,sh
         permission: permission,
         color_id: color_id
     }
-    axios({
+   await axios({
         method: 'post',
         url: `https://127.0.0.1:5001/api/Product`,
         data: product
     }).then(response=>{
         if(response.status=="200")
         {   
-            alert("updated!!")
-            var shop_id = localStorage.getItem('shop_id');
-            console.log(shop_id);
-            axios({
-                method: 'get',
-                url: `https://127.0.0.1:5001/api/Product/Shop/${shop_id}`,
-                headers:{
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    'Authorization':'Bearer '+localStorage.getItem("token")
-                  }
-            }).then(res=>{
-                if(res.data!=null) callback(res.data);
-            })
+            alert("updated!!");
         }
+    })
+    var shop_id = localStorage.getItem('shop_id');
+    console.log(shop_id);
+   await axios({
+        method: 'get',
+        url: `https://127.0.0.1:5001/api/Product/Shop/${shop_id}`,
+        headers:{
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization':'Bearer '+localStorage.getItem("token")
+          }
+    }).then(res=>{
+        if(res.data!=null) {alert("them thanh cong");callback(res.data);}
     })
 }
 //ADD EXCEL
@@ -598,6 +608,7 @@ export function getListPayment()
   }
 
 }
+//GET_TAI_KHOAN_PAYPAL
 export function getPaypalAccountOfWeb()
 { return dispatch=>{
     axios({
@@ -614,6 +625,7 @@ export function getPaypalAccountOfWeb()
 }
 
 }
+//NOP TIEN THUE CUA SHOP CHO CHU WEB
 export function setPaymentforweb()
 {  alert("sdfhsdf");
      return dispatch=>{
@@ -652,7 +664,29 @@ export function setPaymentforweb()
 }
 
 }
-
+//SEARCH PRODUCT IN PRODUCT MANAGER
+export function searchProduct(key)
+{ 
+return dispatch=>{
+    var shop_id=localStorage.getItem('shop_id')
+    axios({
+        method: 'get',
+        url : `https://127.0.0.1:5001/api/Product/Shop/${shop_id}/ProductName=${key}`,
+        headers:{
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            'Authorization':'Bearer '+localStorage.getItem("token")
+          }
+    }).then(response=>{
+        if(response.data != null)
+        {
+         dispatch({type:SEARCH_PRODUCT,payload:response.data});
+          
+        }
+        
+    })
+   }
+}
 //initialState
 var data =localStorage.getItem('shop_id');
 var data2 = JSON.parse(localStorage.getItem('productShop'));
@@ -791,6 +825,12 @@ export default function shop_reducer(state = shop_state, action)
     {let newState = {...state};
     newState.list_payments= action.payload;
     if(newState.pay==true) alert("tao hoa don thanh cong");
+    return newState;
+
+    }
+    if(action.type=='SEARCH_PRODUCT')
+    {let newState = {...state};
+    newState.products= action.payload;
     return newState;
 
     }
